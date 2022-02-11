@@ -1,0 +1,23 @@
+# 환경별로 설정 분리하기
+
+# dev, production 공통
+server:
+  port: 8080
+
+# --- 로 설정을 구분하고 spring:config:active:on-profile 옵셥에 사용될 환경(local, dev, prod)를 명시
+---
+spring:
+  h2:
+    console:
+      enabled: true
+  datasource:
+    url: jdbc:h2:mem:testdb
+  config:
+    activate:
+      on-profile: dev
+
+---
+spring:
+  config:
+    activate:
+      on-profile: prod
