@@ -7,6 +7,8 @@
             class="search-bar"
             type="text"
             placeholder="리뷰를 검색해보세요!"
+            v-model="searchVal"
+            @keyup.enter="pressEnter"
           />
         </div>
       </div>
@@ -24,6 +26,16 @@ export default {
   props: {
     show: Boolean,
   },
+  data() {
+    return {
+      searchVal: ''
+    }
+  },
+  methods: {
+    pressEnter(){
+      console.log(this.searchVal)
+    }
+  }
 };
 </script>
 
