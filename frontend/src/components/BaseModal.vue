@@ -12,11 +12,6 @@
 
 <script>
 export default {
-  data() {
-    return {
-      visible: false,
-    };
-  },
   props: {
     show: Boolean,
   },
@@ -33,19 +28,6 @@ export default {
   height: 100%;
   background-color: rgba(255, 255, 255, 0.8);
   transition: opacity 0.3s ease;
-}
-
-.modal-header h3 {
-  margin-top: 0;
-  color: #42b983;
-}
-
-.modal-body {
-  margin: 20px 0;
-}
-
-.modal-default-button {
-  float: right;
 }
 
 .modal-enter-from {

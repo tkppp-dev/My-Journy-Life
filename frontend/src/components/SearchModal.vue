@@ -1,8 +1,8 @@
 <template>
   <base-modal :show="show">
     <template v-slot:modal-content>
-      <div class="container" @click.stop>
-        <div class="content">
+      <div class="content-container">
+        <div class="content" @click.stop>
           <input
             class="search-bar"
             type="text"
@@ -40,23 +40,22 @@ export default {
 </script>
 
 <style>
-.container {
+.content-container {
   display: flex;
   margin-top: 112px;
   justify-content: center;
 }
 
 .content {
-  z-index: 1;
   display: flex;
   justify-content: center;
   align-items: center;
   width: 800px;
   height: 200px;
   border-radius: 12px;
-  background-color: rgba(196, 196, 196, 0.2);
+  background-color: rgba(196, 196, 196, 0.3);
 
-  box-shadow: 0px 3px 5px rgba(0, 0, 0, 0.2);
+  box-shadow: 0px 3px 5px rgba(0, 0, 0, 0.3);
 }
 
 .search-bar-icon {
@@ -64,14 +63,13 @@ export default {
 }
 
 .search-bar {
-  z-index: 2;
   width: 640px;
   height: 50px;
   padding: 12px 12px 12px 56px;
   border: 0px;
   border-radius: 6px;
   font-size: 18px;
-  box-shadow: 0px 2px 3px rgba(0, 0, 0, 0.2);
+  box-shadow: 0px 2px 3px rgba(0, 0, 0, 0.3);
 
   /* search icon */
   background-image: url('../assets/search_icon.png');
