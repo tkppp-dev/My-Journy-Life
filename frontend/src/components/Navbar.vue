@@ -10,7 +10,7 @@
           <notification-icon class="icon" fillColor="#a02525" :size="27" />
         </button>
         <div v-if="!isLogin" class="login-btn-wrapper">
-          <button class="login-btn" @click="mockLogin">
+          <button class="login-btn" @click="openLoginModal">
             로그인
           </button>
         </div>
@@ -22,6 +22,9 @@
     <teleport to="body">
       <search-modal :show="searchModalVisible" @close="closeSearchModal"/>
     </teleport>
+    <teleport to="body">
+      <login-modal :show="loginModalVisible" @close="closeLoginModal"/>
+    </teleport>
   </div>
 </template>
 
@@ -30,6 +33,7 @@ import SearchModal from '@/components/SearchModal'
 import SearchIcon from 'vue-material-design-icons/Magnify.vue';
 import NotificationIcon from 'vue-material-design-icons/BellOutline.vue';
 import UserIcon from 'vue-material-design-icons/AccountCircle.vue'
+import LoginModal from './LoginModal.vue';
 
 export default {
   name: 'Navbar',
@@ -37,11 +41,13 @@ export default {
     SearchModal,
     SearchIcon,
     NotificationIcon,
-    UserIcon
+    UserIcon,
+    LoginModal
   },
   data() {
     return {
       searchModalVisible: false,
+      loginModalVisible: false,
       isLogin: false
     };
   },
@@ -51,6 +57,12 @@ export default {
     },
     closeSearchModal(){
       this.searchModalVisible = false
+    },
+    openLoginModal(){
+      this.loginModalVisible = true
+    },
+    closeLoginModal(){
+      this.loginModalVisible = false
     },
     mockLogin(){
       this.isLogin = !this.isLogin
