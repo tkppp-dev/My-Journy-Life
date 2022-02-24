@@ -79,7 +79,7 @@ export default {
   width: 480px;
   padding: 0 65px;
 
-  box-shadow: 0px 0px 3px rgba(0, 0, 0, 0.3);
+  box-shadow: 0px 0px 2px rgba(0, 0, 0, 0.3);
 }
 
 .title {
@@ -103,7 +103,6 @@ export default {
   font-weight: bold;
 
   box-shadow: 0px 0px 2px rgba(0, 0, 0, 0.3);
-
 }
 
 .login-submit-btn:hover {
@@ -124,8 +123,7 @@ export default {
   margin: 12px 0;
   background-color: #e2d8be;
 
-  box-shadow: 0px 0px 3px rgba(0, 0, 0, 0.2);
-
+  box-shadow: 0px 0px 2px rgba(0, 0, 0, 0.2);
 }
 
 .sns-login-icon {

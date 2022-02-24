@@ -53,9 +53,9 @@ export default {
   width: 800px;
   height: 200px;
   border-radius: 12px;
-  background-color: rgba(196, 196, 196, 0.3);
+  background-color: rgba(226, 216,190,0.6);
 
-  box-shadow: 0px 3px 5px rgba(0, 0, 0, 0.3);
+  box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.3);
 }
 
 .search-bar-icon {
@@ -69,7 +69,7 @@ export default {
   border: 0px;
   border-radius: 6px;
   font-size: 18px;
-  box-shadow: 0px 2px 3px rgba(0, 0, 0, 0.3);
+  box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.3);
 
   /* search icon */
   background-image: url('../assets/search_icon.png');

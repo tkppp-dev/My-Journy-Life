@@ -25,7 +25,7 @@ export default {
 .label {
   color: #a02525;
   font-weight: bold;
-  margin-bottom: 3px;
+  margin-bottom: 4px;
 }
 
 .input {
@@ -36,7 +36,8 @@ export default {
 input { 
   padding: 8px 8px;
   border-width: 1.5em;
-  border: 1.5px solid rgba(0,0,0, 0.25);
+  border: 1px solid rgba(0,0,0, 0.1);
+  box-shadow: 0px 0px 2px rgba(0, 0, 0, 0.3);
 }
 
 input:focus {
