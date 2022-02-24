@@ -1,29 +1,11 @@
-<!--
-Modal component with customizable slots and CSS transitions.
--->
+<template>
+  <router-view />
+</template>
 
 <script>
-import Home from '@/views/Home.vue'
-import Modal from '@/components/SearchModal.vue';
-
 export default {
-  components: {
-    Modal,
-    Home
-  },
-  data() {
-    return {
-      showModal: false,
-    };
-  },
 };
 </script>
-
-<template>
-  <div>
-    <home />
-  </div>
-</template>
 
 <style>
 @font-face {

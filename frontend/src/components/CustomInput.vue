@@ -1,5 +1,5 @@
 <template>
-  <div class="input-container">
+  <div class="input-wrapper">
     <label class="label">{{ label }}</label>
     <br>
     <input class="input" :type="type" v-model="input"/>
@@ -18,23 +18,24 @@ export default {
 </script>
 
 <style>
-.input-container {
+.input-wrapper {
   width: 100%;
 }
 
 .label {
   color: #a02525;
   font-weight: bold;
-  margin-bottom: 4px;
 }
 
 .input {
   width: 100%;
   height: 37px;
+  box-sizing: border-box;
+  margin-top: 4px;
+  padding: 0 8px;
 }
 
 input { 
-  padding: 8px 8px;
   border-width: 1.5em;
   border: 1px solid rgba(0,0,0, 0.1);
   box-shadow: 0px 0px 2px rgba(0, 0, 0, 0.3);

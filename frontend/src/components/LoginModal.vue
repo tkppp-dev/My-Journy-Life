@@ -3,7 +3,7 @@
     <template v-slot:modal-content>
       <div class="login-container">
         <div class="login-wrapper" @click.stop>
-          <div class="title">로그인</div>
+          <div class="login-title">로그인</div>
           <div class="input-box">
             <custom-input type="text" label="이메일" :input="emailAddress" />
           </div>
@@ -15,7 +15,7 @@
               @keyup:enter="console.log(password)"
             />
           </div>
-          <button class="login-submit-btn">로그인</button>
+          <custom-button class="login-submit-btn" label="로그인"></custom-button>
           <div class="sns-login-comment">소셜 계정으로 로그인</div>
           <div class="sns-login-wrapper">
             <button>
@@ -39,7 +39,9 @@
           </div>
           <div class="register-comment">
             아직 회원이 아니신가요?
-            <button class="register-anker">회원가입 하기</button>
+            <router-link class="register-anker" to="/register">
+              회원가입 하기
+            </router-link>
           </div>
         </div>
       </div>
@@ -49,10 +51,11 @@
 
 <script>
 import BaseModal from './BaseModal.vue';
-import CustomInput from './Input.vue';
+import CustomInput from './CustomInput.vue';
+import CustomButton from './CustomButton.vue'
 
 export default {
-  components: { BaseModal, CustomInput },
+  components: { BaseModal, CustomInput, CustomButton },
   props: {
     show: Boolean,
   },
@@ -76,13 +79,13 @@ export default {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  width: 480px;
+  width: 350px;
   padding: 0 65px;
 
   box-shadow: 0px 0px 2px rgba(0, 0, 0, 0.3);
 }
 
-.title {
+.login-title {
   text-align: center;
   font-size: 24px;
   font-weight: bold;
@@ -129,10 +132,10 @@ export default {
 .sns-login-icon {
   width: 40px;
 }
-  button {
-    margin: 0;
-    padding: 0;
-  }
+button {
+  margin: 0;
+  padding: 0;
+}
 
 .register-comment {
   font-weight: bold;
@@ -143,5 +146,15 @@ export default {
 .register-anker {
   font-weight: bold;
   color: #a02525;
+  text-decoration: none;
 }
+
+.register-anker:hover {
+  color: #a02525;
+}
+
+.register-anker:visited {
+  color: #a02525;
+}
+
 </style>

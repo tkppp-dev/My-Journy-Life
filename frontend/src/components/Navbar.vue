@@ -1,8 +1,10 @@
 <template>
   <div class="nav-container">
     <div class="nav-content-container">
-      <div class="title">My Journy Life</div>
-      <div class="right-side-container">
+      <router-link class="title-anker" to="/"
+        ><div class="title">My Journy Life</div></router-link
+      >
+      <div class="right-side-container" v-if="$route.path != '/register'">
         <button class="icon-wrapper" @click="openSearchModal">
           <search-icon class="icon" fillColor="#a02525" :size="27" />
         </button>
@@ -10,29 +12,27 @@
           <notification-icon class="icon" fillColor="#a02525" :size="27" />
         </button>
         <div v-if="!isLogin" class="login-btn-wrapper">
-          <button class="login-btn" @click="openLoginModal">
-            로그인
-          </button>
+          <button class="login-btn" @click="openLoginModal">로그인</button>
         </div>
         <button v-if="isLogin" class="user-icon" @click="mockLogin">
-          <user-icon fillColor="#a02525" :size="29"/> 
+          <user-icon fillColor="#a02525" :size="29" />
         </button>
       </div>
     </div>
     <teleport to="body">
-      <search-modal :show="searchModalVisible" @close="closeSearchModal"/>
+      <search-modal :show="searchModalVisible" @close="closeSearchModal" />
     </teleport>
     <teleport to="body">
-      <login-modal :show="loginModalVisible" @close="closeLoginModal"/>
+      <login-modal :show="loginModalVisible" @close="closeLoginModal" />
     </teleport>
   </div>
 </template>
 
 <script>
-import SearchModal from '@/components/SearchModal'
+import SearchModal from '@/components/SearchModal';
 import SearchIcon from 'vue-material-design-icons/Magnify.vue';
 import NotificationIcon from 'vue-material-design-icons/BellOutline.vue';
-import UserIcon from 'vue-material-design-icons/AccountCircle.vue'
+import UserIcon from 'vue-material-design-icons/AccountCircle.vue';
 import LoginModal from './LoginModal.vue';
 
 export default {
@@ -42,32 +42,32 @@ export default {
     SearchIcon,
     NotificationIcon,
     UserIcon,
-    LoginModal
+    LoginModal,
   },
   data() {
     return {
       searchModalVisible: false,
       loginModalVisible: false,
-      isLogin: false
+      isLogin: false,
     };
   },
   methods: {
-    openSearchModal(){
-      this.searchModalVisible = true
+    openSearchModal() {
+      this.searchModalVisible = true;
     },
-    closeSearchModal(){
-      this.searchModalVisible = false
+    closeSearchModal() {
+      this.searchModalVisible = false;
     },
-    openLoginModal(){
-      this.loginModalVisible = true
+    openLoginModal() {
+      this.loginModalVisible = true;
     },
-    closeLoginModal(){
-      this.loginModalVisible = false
+    closeLoginModal() {
+      this.loginModalVisible = false;
     },
-    mockLogin(){
-      this.isLogin = !this.isLogin
-    }
-  }
+    mockLogin() {
+      this.isLogin = !this.isLogin;
+    },
+  },
 };
 </script>
 
@@ -86,6 +86,11 @@ export default {
   align-items: center;
   width: 1200px;
   height: 100%;
+  padding: 0 8px;
+}
+
+.title-anker {
+  text-decoration: none;
 }
 
 .title {
@@ -95,12 +100,13 @@ export default {
 }
 
 .right-side-container {
-  display: flex;  
+  display: flex;
 }
 
 button {
   border: none;
   background-color: transparent;
+  cursor: pointer;
 }
 
 .icon-wrapper {
@@ -110,10 +116,10 @@ button {
   border-radius: 50%;
 }
 .icon-wrapper:hover {
-  background-color: rgba(255,255,255, 0.3);
+  background-color: rgba(255, 255, 255, 0.3);
 }
 .icon-wrapper:active {
-  opacity: .5;
+  opacity: 0.5;
 }
 
 .login-btn-wrapper {
@@ -124,8 +130,9 @@ button {
 
 .login-btn {
   width: 72px;
+  height: 30px;
   padding: 2px 0;
-  background-color: rgba(255,255,255, 0.6);
+  background-color: rgba(255, 255, 255, 0.6);
   border: none;
   border-radius: 50px;
   font-size: 16px;
