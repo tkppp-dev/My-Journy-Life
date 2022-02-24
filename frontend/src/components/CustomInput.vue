@@ -2,7 +2,7 @@
   <div class="input-wrapper">
     <label class="label">{{ label }}</label>
     <br>
-    <input class="input" :type="type" v-model="input"/>
+    <input class="input" :type="type" v-model="inputData" :maxlength="maxlength" @input="onChangeInput"/>
   </div>
 </template>
 
@@ -11,9 +11,19 @@ export default {
   name: 'Input',
   props: {
     label: String,
-    input: String,
     type: String,
+    maxlength: String,
   },
+  data() {
+    return {
+      inputData: ''
+    }
+  },
+  methods: {
+    onChangeInput(){
+      this.$emit('onChangeText', this.inputData)
+    }
+  }
 };
 </script>
 
@@ -33,15 +43,13 @@ export default {
   box-sizing: border-box;
   margin-top: 4px;
   padding: 0 8px;
-}
 
-input { 
   border-width: 1.5em;
   border: 1px solid rgba(0,0,0, 0.1);
   box-shadow: 0px 0px 2px rgba(0, 0, 0, 0.3);
 }
 
-input:focus {
+.input:focus {
   outline: none;
 }
 </style>

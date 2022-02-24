@@ -12,7 +12,6 @@
               type="password"
               label="비밀번호"
               :input="password"
-              @keyup:enter="console.log(password)"
             />
           </div>
           <custom-button class="login-submit-btn" label="로그인"></custom-button>
