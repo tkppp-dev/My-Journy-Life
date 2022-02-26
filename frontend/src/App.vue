@@ -15,4 +15,10 @@ export default {
     font-weight: normal;
     font-style: normal;
 }
+
+button {
+  border: none;
+  background-color: transparent;
+  cursor: pointer;
+}
 </style>

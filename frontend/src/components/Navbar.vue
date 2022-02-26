@@ -103,12 +103,6 @@ export default {
   display: flex;
 }
 
-button {
-  border: none;
-  background-color: transparent;
-  cursor: pointer;
-}
-
 .icon-wrapper {
   text-decoration: none;
   padding: 5px;
