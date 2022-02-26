@@ -1,13 +1,13 @@
 <template>
-  <button class="button">{{ label }}</button>
+  <button class="button" type="button">{{ label }}</button>
 </template>
 
 <script>
 export default {
   name: 'CustomButton',
   props: {
-    label: String
-  }
+    label: String,
+  },
 }
 </script>
 

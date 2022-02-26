@@ -39,22 +39,17 @@
             class="register-input"
             label="별명"
             type="text"
-            @onChangeText="setPasswordCheck"
+            placeholder="별명을 설정하지 않는 경우 익명으로 설정됩니다"
+            @onChangeText="setNickname"
           />
-          <div class="input-comment">
-            별명을 설정하지 않는 경우 익명으로 설정됩니다
-          </div>
-          <div
-            v-if="validation.nickname.message.length !== 0"
-            class="input-notification"
-          >
+          <div class="input-notification">
             {{ validation.nickname.message }}
           </div>
-          <custom-input class="register-input" label="이름 *" type="text" />
           <custom-input
             class="register-input"
             label="휴대폰 번호 *"
             type="text"
+            placeholder="'-' 포함한 휴대폰 번호 입력"
           />
           <custom-button class="phone-auth-button" label="사용자 인증" />
           <custom-button class="register-button" label="회원가입 완료" />
@@ -77,7 +72,6 @@ export default {
       password: '',
       passwordCheck: '',
       nickname: '',
-      username: '',
       phoneNumber: '',
       validation: {
         emailAddress: {
@@ -96,6 +90,9 @@ export default {
           isValid: false,
           message: '',
         },
+        phoneNumber: {
+          isValid: false,
+        },
       },
     };
   },
@@ -105,17 +102,15 @@ export default {
 
       // validation check
       const validPattern = /^([\w.\-]+@\w+\.[a-zA-Z]+$)/;
-
-      this.validation.emailAddress.isValid = validPattern.test(
-        this.emailAddress
-      );
+      const isValid = validPattern.test(this.emailAddress);
+      this.validation.emailAddress.isValid = isValid;
 
       if (this.emailAddress.length === 0) {
         this.validation.emailAddress.message = '';
         return;
       }
 
-      if (this.validation.emailAddress.isValid === true) {
+      if (isValid) {
         this.validation.emailAddress.message = '';
       } else {
         this.validation.emailAddress.message =
@@ -159,7 +154,6 @@ export default {
               '비밀번호는 영문, 숫자, 특수문자 중 2가지 이상 포함되어야 합니다';
           } else {
             this.validation.password.message = '';
-            
           }
         }
       }
@@ -168,7 +162,49 @@ export default {
       this.passwordCheck = val;
 
       // validation check
+      if (this.passwordCheck === this.password) {
+        this.validation.passwordCheck.isValid = true;
+        this.validation.passwordCheck.message = '';
+      } else {
+        this.validation.passwordCheck.isValid = false;
+        if (this.password.length === 0 || this.passwordCheck.length === 0) {
+          this.validation.passwordCheck.message = '';
+        } else {
+          this.validation.passwordCheck.message =
+            '비밀번호가 일치하지 않습니다';
+        }
+      }
     },
+    setNickname(val) {
+      this.nickname = val;
+
+      // validation check
+      const validPattern = /^[a-zA-Z0-9가-힣]{2,16}$/;
+      const isValid = validPattern.test(this.nickname);
+      this.validation.nickname.isValid = isValid;
+
+      if (isValid) {
+        this.validation.nickname.message = '';
+      } else {
+        if (this.nickname.length === 0) {
+          this.validation.nickname.message = '';
+        } else if (this.nickname.match(/[^a-zA-Z0-9가-힣]/g) !== null) {
+          this.validation.nickname.message = '유효하지 않은 별명입니다';
+        } else {
+          this.validation.nickname.message =
+            '별명은 한글, 영문, 숫자로만 이루어지고 2-16자 사이여야 합니다';
+        }
+      }
+    },
+    setPhoneNumber(val) {
+      this.phoneNumber = val
+
+      // validation check
+      const validPattern = /^01\d-\d{3,4}-\d{4}$/
+      const isValid = validPattern.test(this.phoneNumber)
+      this.validation.phoneNumber.isValid = isValid
+
+    }
   },
 };
 </script>
