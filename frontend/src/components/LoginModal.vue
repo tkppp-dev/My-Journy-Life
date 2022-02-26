@@ -92,7 +92,7 @@ export default {
 }
 
 .input-box {
-  margin-bottom: 24px;
+  margin-bottom: 36px;
 }
 
 .login-submit-btn {
@@ -122,7 +122,7 @@ export default {
   align-items: center;
   width: 100%;
   height: 68px;
-  margin: 12px 0;
+  margin: 12px 0 18px 0;
   background-color: #e2d8be;
 
   box-shadow: 0px 0px 2px rgba(0, 0, 0, 0.2);
