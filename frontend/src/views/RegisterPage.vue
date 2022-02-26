@@ -9,10 +9,11 @@
             class="register-input"
             label="이메일 *"
             type="text"
+            maxlength="255"
             @onChangeText="setEmail"
           />
           <div class="input-notification">
-            {{ validationMessage.emailAddress }}
+            {{ validation.emailAddress.message }}
           </div>
           <custom-input
             class="register-input"
@@ -22,7 +23,7 @@
             @onChangeText="setPassword"
           />
           <div class="input-notification">
-            {{ validationMessage.password }}
+            {{ validation.password.message }}
           </div>
           <custom-input
             class="register-input"
@@ -32,7 +33,7 @@
             @onChangeText="setPasswordCheck"
           />
           <div class="input-notification">
-            {{ validationMessage.passwordCheck }}
+            {{ validation.passwordCheck.message }}
           </div>
           <custom-input
             class="register-input"
@@ -44,10 +45,10 @@
             별명을 설정하지 않는 경우 익명으로 설정됩니다
           </div>
           <div
-            v-if="validationMessage.nickname.length !== 0"
+            v-if="validation.nickname.message.length !== 0"
             class="input-notification"
           >
-            {{ validationMessage.nickname }}
+            {{ validation.nickname.message }}
           </div>
           <custom-input class="register-input" label="이름 *" type="text" />
           <custom-input
@@ -78,49 +79,60 @@ export default {
       nickname: '',
       username: '',
       phoneNumber: '',
-      validationMessage: {
-        emailAddress: '',
-        password: '',
-        passwordCheck: '',
+      validation: {
+        emailAddress: {
+          isValid: false,
+          message: '',
+        },
+        password: {
+          isValid: false,
+          message: '',
+        },
+        passwordCheck: {
+          isValid: false,
+          message: '',
+        },
+        nickname: {
+          isValid: false,
+          message: '',
+        },
       },
     };
   },
   methods: {
     setEmail(val) {
-      this.emailAddress = val;
+      this.emailAddress = val.toLowerCase();
 
       // validation check
-      if (
-        this.emailAddress.length === 0 ||
-        this.emailAddress.split('@').length === 2
-      ) {
-        this.validationMessage.emailAddress = '';
+      const validPattern = /^([\w.\-]+@\w+\.[a-zA-Z]+$)/;
+
+      this.validation.emailAddress.isValid = validPattern.test(
+        this.emailAddress
+      );
+
+      if (this.emailAddress.length === 0) {
+        this.validation.emailAddress.message = '';
+        return;
+      }
+
+      if (this.validation.emailAddress.isValid === true) {
+        this.validation.emailAddress.message = '';
       } else {
-        this.validationMessage.emailAddress = '이메일 형식이 올바르지 않습니다';
+        this.validation.emailAddress.message =
+          '이메일 형식이 올바르지 않습니다';
       }
     },
     setPassword(val) {
       this.password = val;
 
       // validation check
+      const validPattern = /^[\w!@#$%^&*+,.\?\-]{6,15}$/;
+      const isValid = validPattern.test(this.password);
+      this.validation.password.isValid = isValid;
+
       this.setPasswordCheck(this.passwordCheck);
 
       const length = this.password.length;
-
-      if (length > 0 && length < 6) {
-        this.validationMessage.password =
-          '비밀번호는 최소 6자 이상이어야 합니다';
-        return;
-      } else if (
-        this.password.match(/[^a-zA-Z0-9!@#$%^&*\-_=+,.?]/g) !== null
-      ) {
-        this.validationMessage.password =
-          '비밀번호에 허용되지 않는 문자가 존재합니다';
-        return;
-      } else {
-        this.validationMessage.password = '';
-      }
-
       let cnt = 0;
       if (this.password.match(/[a-zA-Z]/g) !== null) {
         cnt++;
@@ -128,33 +140,34 @@ export default {
       if (this.password.match(/[0-9]/g) !== null) {
         cnt++;
       }
-      if (this.password.match(/[!@#$%^&*\-_=+,.?]/g) !== null) {
+      if (this.password.match(/[!@#$%^&*_=+,.?\-]/g) !== null) {
         cnt++;
       }
 
-      if (cnt < 2 && length > 0) {
-        this.validationMessage.password =
-          '비밀번호는 영문, 숫자, 특수문자 중 2가지 이상 포함되어야 합니다';
-        return;
+      if (length === 0) {
+        this.validation.password.message = '';
       } else {
-        this.validationMessage.password = '';
+        if (length < 6) {
+          this.validation.password.message =
+            '비밀번호는 최소 6자 이상이어야 합니다';
+        } else if (!isValid) {
+          this.validation.password.meesage =
+            '비밀번호에 허용되지 않는 특수문자가 존재합니다';
+        } else {
+          if (cnt < 2) {
+            this.validation.password.message =
+              '비밀번호는 영문, 숫자, 특수문자 중 2가지 이상 포함되어야 합니다';
+          } else {
+            this.validation.password.message = '';
+            
+          }
+        }
       }
     },
     setPasswordCheck(val) {
       this.passwordCheck = val;
 
       // validation check
-
-      if (this.password.length === 0 || this.passwordCheck.length === 0) {
-        this.validationMessage.passwordCheck = '';
-        return;
-      }
-
-      if (this.password !== this.passwordCheck) {
-        this.validationMessage.passwordCheck = '비밀번호가 일치하지 않습니다';
-      } else {
-        this.validationMessage.passwordCheck = '';
-      }
     },
   },
 };
