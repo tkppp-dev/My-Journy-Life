@@ -1,5 +1,5 @@
 <template>
-  <button class="button" type="button">{{ label }}</button>
+  <button class="button" type="button" :disabled="disabled">{{ label }}</button>
 </template>
 
 <script>
@@ -7,7 +7,14 @@ export default {
   name: 'CustomButton',
   props: {
     label: String,
+    disabled: {
+      type: Boolean,
+      default: false
+    },
   },
+  mounted() {
+    console.log(this.disabled)
+  }
 }
 </script>
 
@@ -27,5 +34,10 @@ export default {
 
 .button:hover {
   opacity: 0.8;
+}
+
+.button:disabled {
+  cursor: default;
+  opacity: 0.5;
 }
 </style>

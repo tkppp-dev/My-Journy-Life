@@ -6,6 +6,7 @@
         <div class="register-title">회원가입</div>
         <div class="register-form-wrapper">
           <custom-input
+            id="emailAddress"
             class="register-input"
             label="이메일 *"
             type="text"
@@ -13,9 +14,10 @@
             @onChangeText="setEmail"
           />
           <div class="input-notification">
-            {{ validation.emailAddress.message }}
+            {{ form.validation.emailAddress.message }}
           </div>
           <custom-input
+            id="password"
             class="register-input"
             label="비밀번호 *"
             type="password"
@@ -23,9 +25,10 @@
             @onChangeText="setPassword"
           />
           <div class="input-notification">
-            {{ validation.password.message }}
+            {{ form.validation.password.message }}
           </div>
           <custom-input
+            id="passwordCheck"
             class="register-input"
             label="비밀번호 확인 *"
             type="password"
@@ -33,9 +36,10 @@
             @onChangeText="setPasswordCheck"
           />
           <div class="input-notification">
-            {{ validation.passwordCheck.message }}
+            {{ form.validation.passwordCheck.message }}
           </div>
           <custom-input
+            id="nickname"
             class="register-input"
             label="별명"
             type="text"
@@ -43,16 +47,25 @@
             @onChangeText="setNickname"
           />
           <div class="input-notification">
-            {{ validation.nickname.message }}
+            {{ form.validation.nickname.message }}
           </div>
           <custom-input
+            id="phoneNumber"
             class="register-input"
             label="휴대폰 번호 *"
             type="text"
             placeholder="'-' 포함한 휴대폰 번호 입력"
           />
-          <custom-button class="phone-auth-button" label="사용자 인증" />
-          <custom-button class="register-button" label="회원가입 완료" />
+          <custom-button
+            class="phone-auth-button"
+            label="사용자 인증"
+            :disabled="!isMobileAuthComplete"
+          />
+          <custom-button
+            class="register-button"
+            label="회원가입 완료"
+            :disabled="!isAllFormFieldsValid"
+          />
         </div>
       </div>
     </main>
@@ -68,143 +81,150 @@ export default {
   components: { Navbar, CustomButton, CustomInput },
   data() {
     return {
-      emailAddress: '',
-      password: '',
-      passwordCheck: '',
-      nickname: '',
-      phoneNumber: '',
-      validation: {
-        emailAddress: {
-          isValid: false,
-          message: '',
-        },
-        password: {
-          isValid: false,
-          message: '',
-        },
-        passwordCheck: {
-          isValid: false,
-          message: '',
-        },
-        nickname: {
-          isValid: false,
-          message: '',
-        },
-        phoneNumber: {
-          isValid: false,
+      form: {
+        emailAddress: '',
+        password: '',
+        passwordCheck: '',
+        nickname: '',
+        phoneNumber: '',
+        validation: {
+          emailAddress: {
+            isValid: false,
+            message: '',
+          },
+          password: {
+            isValid: false,
+            message: '',
+          },
+          passwordCheck: {
+            isValid: false,
+            message: '',
+          },
+          nickname: {
+            isValid: false,
+            message: '',
+          },
+          phoneNumber: {
+            isValid: false,
+          },
         },
       },
+      isMobileAuthComplete: false,
+      isAllFormFieldsValid: false,
     };
   },
   methods: {
     setEmail(val) {
-      this.emailAddress = val.toLowerCase();
+      this.form.emailAddress = val.toLowerCase();
 
       // validation check
       const validPattern = /^([\w.\-]+@\w+\.[a-zA-Z]+$)/;
-      const isValid = validPattern.test(this.emailAddress);
-      this.validation.emailAddress.isValid = isValid;
+      const isValid = validPattern.test(this.form.emailAddress);
+      const validation = this.form.validation;
+      validation.emailAddress.isValid = isValid;
 
-      if (this.emailAddress.length === 0) {
-        this.validation.emailAddress.message = '';
+      if (this.form.emailAddress.length === 0) {
+        validation.emailAddress.message = '';
         return;
       }
 
       if (isValid) {
-        this.validation.emailAddress.message = '';
+        validation.emailAddress.message = '';
       } else {
-        this.validation.emailAddress.message =
-          '이메일 형식이 올바르지 않습니다';
+        validation.emailAddress.message = '이메일 형식이 올바르지 않습니다';
       }
     },
     setPassword(val) {
-      this.password = val;
+      this.form.password = val;
 
       // validation check
       const validPattern = /^[\w!@#$%^&*+,.\?\-]{6,15}$/;
-      const isValid = validPattern.test(this.password);
-      this.validation.password.isValid = isValid;
+      const isValid = validPattern.test(this.form.password);
+      const validation = this.form.validation;
+      validation.password.isValid = isValid;
 
-      this.setPasswordCheck(this.passwordCheck);
+      this.setPasswordCheck(this.form.passwordCheck);
 
-      const length = this.password.length;
+      const length = this.form.password.length;
       let cnt = 0;
-      if (this.password.match(/[a-zA-Z]/g) !== null) {
+      if (this.form.password.match(/[a-zA-Z]/g) !== null) {
         cnt++;
       }
-      if (this.password.match(/[0-9]/g) !== null) {
+      if (this.form.password.match(/[0-9]/g) !== null) {
         cnt++;
       }
-      if (this.password.match(/[!@#$%^&*_=+,.?\-]/g) !== null) {
+      if (this.form.password.match(/[!@#$%^&*_=+,.?\-]/g) !== null) {
         cnt++;
       }
 
       if (length === 0) {
-        this.validation.password.message = '';
+        validation.password.message = '';
       } else {
         if (length < 6) {
-          this.validation.password.message =
-            '비밀번호는 최소 6자 이상이어야 합니다';
+          validation.password.message = '비밀번호는 최소 6자 이상이어야 합니다';
         } else if (!isValid) {
-          this.validation.password.meesage =
+          validation.password.message =
             '비밀번호에 허용되지 않는 특수문자가 존재합니다';
         } else {
           if (cnt < 2) {
-            this.validation.password.message =
+            validation.password.message =
               '비밀번호는 영문, 숫자, 특수문자 중 2가지 이상 포함되어야 합니다';
           } else {
-            this.validation.password.message = '';
+            validation.password.message = '';
           }
         }
       }
     },
     setPasswordCheck(val) {
-      this.passwordCheck = val;
+      this.form.passwordCheck = val;
 
       // validation check
-      if (this.passwordCheck === this.password) {
-        this.validation.passwordCheck.isValid = true;
-        this.validation.passwordCheck.message = '';
+      const validation = this.form.validation;
+      if (this.form.passwordCheck === this.form.password) {
+        validation.passwordCheck.isValid = true;
+        validation.passwordCheck.message = '';
       } else {
-        this.validation.passwordCheck.isValid = false;
-        if (this.password.length === 0 || this.passwordCheck.length === 0) {
-          this.validation.passwordCheck.message = '';
+        validation.passwordCheck.isValid = false;
+        if (
+          this.form.password.length === 0 ||
+          this.form.passwordCheck.length === 0
+        ) {
+          validation.passwordCheck.message = '';
         } else {
-          this.validation.passwordCheck.message =
-            '비밀번호가 일치하지 않습니다';
+          validation.passwordCheck.message = '비밀번호가 일치하지 않습니다';
         }
       }
     },
     setNickname(val) {
-      this.nickname = val;
+      this.form.nickname = val;
 
       // validation check
       const validPattern = /^[a-zA-Z0-9가-힣]{2,16}$/;
-      const isValid = validPattern.test(this.nickname);
-      this.validation.nickname.isValid = isValid;
+      const isValid = validPattern.test(this.form.nickname);
+      const validation = this.form.validation;
+      validation.nickname.isValid = isValid;
 
       if (isValid) {
-        this.validation.nickname.message = '';
+        validation.nickname.message = '';
       } else {
-        if (this.nickname.length === 0) {
-          this.validation.nickname.message = '';
-        } else if (this.nickname.match(/[^a-zA-Z0-9가-힣]/g) !== null) {
-          this.validation.nickname.message = '유효하지 않은 별명입니다';
+        if (this.form.nickname.length === 0) {
+          validation.nickname.message = '';
+        } else if (this.form.nickname.match(/[^a-zA-Z0-9가-힣]/g) !== null) {
+          validation.nickname.message = '유효하지 않은 별명입니다';
         } else {
-          this.validation.nickname.message =
+          validation.nickname.message =
             '별명은 한글, 영문, 숫자로만 이루어지고 2-16자 사이여야 합니다';
         }
       }
     },
     setPhoneNumber(val) {
-      this.phoneNumber = val
+      this.form.phoneNumber = val;
 
       // validation check
-      const validPattern = /^01\d-\d{3,4}-\d{4}$/
-      const isValid = validPattern.test(this.phoneNumber)
-      this.validation.phoneNumber.isValid = isValid
-
-    }
+      const validPattern = /^01\d-\d{3,4}-\d{4}$/;
+      const isValid = validPattern.test(this.form.phoneNumber);
+      this.form.validation.phoneNumber.isValid = isValid;
+    },
   },
 };
 </script>
@@ -249,7 +269,7 @@ export default {
 }
 
 .register-button {
-  margin-top: 36px;
+  margin-top: 48px;
 }
 
 @media (max-width: 480px) {
