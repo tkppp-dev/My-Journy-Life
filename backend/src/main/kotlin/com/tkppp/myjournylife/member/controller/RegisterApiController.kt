@@ -2,10 +2,7 @@ package com.tkppp.myjournylife.member.controller
 
 import com.tkppp.myjournylife.member.dto.register.*
 import com.tkppp.myjournylife.member.service.RegisterService
-import org.springframework.web.bind.annotation.PostMapping
-import org.springframework.web.bind.annotation.RequestBody
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.bind.annotation.*
 
 @RestController
 @RequestMapping("/register")
@@ -22,9 +19,9 @@ class RegisterApiController(
         }
     }
 
-    @PostMapping("/email")
-    fun emailAddressDuplicationCheck(@RequestBody emailDuplicationCheckRequestDto: EmailDuplicationCheckRequestDto) =
-        EmailDuplicationCheckResponseDto(registerService.emailAddressIsDuplicated(emailDuplicationCheckRequestDto.emailAddress))
+    @GetMapping("/duplication/{emailAddress}")
+    fun emailAddressDuplicationCheck(@PathVariable emailAddress: String) =
+        EmailDuplicationCheckResponseDto(registerService.emailAddressIsDuplicated(emailAddress))
 
 
     @PostMapping("/phone-number")
