@@ -1,9 +1,6 @@
 package com.tkppp.myjournylife.member.controller
 
-import com.tkppp.myjournylife.member.dto.register.EmailDuplicationCheckRequestDto
-import com.tkppp.myjournylife.member.dto.register.EmailDuplicationCheckResponseDto
-import com.tkppp.myjournylife.member.dto.register.LocalRegisterRequestDto
-import com.tkppp.myjournylife.member.dto.register.LocalRegisterResponseDto
+import com.tkppp.myjournylife.member.dto.register.*
 import com.tkppp.myjournylife.member.service.RegisterService
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
@@ -15,18 +12,23 @@ import org.springframework.web.bind.annotation.RestController
 class RegisterApiController(
     private val registerService: RegisterService
 ) {
-    @PostMapping("/email")
-    fun emailDuplicationCheck(@RequestBody emailDuplicationCheckRequestDto: EmailDuplicationCheckRequestDto): EmailDuplicationCheckResponseDto{
-        return EmailDuplicationCheckResponseDto(false)
-    }
-
     @PostMapping("")
-    fun completeRegister(@RequestBody localRegisterRequestDto: LocalRegisterRequestDto): LocalRegisterResponseDto{
+    fun completeRegister(@RequestBody localRegisterRequestDto: LocalRegisterRequestDto): LocalRegisterResponseDto {
         val id = registerService.localRegister(localRegisterRequestDto)
-        return if(id != null){
+        return if (id != null) {
             LocalRegisterResponseDto(true)
         } else {
             LocalRegisterResponseDto(false)
         }
+    }
+
+    @PostMapping("/email")
+    fun emailAddressDuplicationCheck(@RequestBody emailDuplicationCheckRequestDto: EmailDuplicationCheckRequestDto) =
+        EmailDuplicationCheckResponseDto(registerService.emailAddressIsDuplicated(emailDuplicationCheckRequestDto.emailAddress))
+
+
+    @PostMapping("/phone-number")
+    fun requestSendingSms(@RequestBody smsRequestDto: SmsRequestDto) {
+        registerService.sendSmsForMobileAuth(smsRequestDto.phoneNumber)
     }
 }

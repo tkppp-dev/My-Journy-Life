@@ -4,10 +4,14 @@ import com.tkppp.myjournylife.member.MemberRepository
 import com.tkppp.myjournylife.member.dto.register.LocalRegisterRequestDto
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
+import net.nurigo.java_sdk.api.Message
+import net.nurigo.java_sdk.exceptions.CoolsmsException
+import org.springframework.data.redis.core.RedisTemplate
 
 @Service
 class RegisterService(
-    private val memberRepository: MemberRepository
+    private val memberRepository: MemberRepository,
+    private val redisTemplate: RedisTemplate<String, Any>
 ){
 
     @Transactional
@@ -16,7 +20,34 @@ class RegisterService(
     }
 
     @Transactional
-    fun sendSms(){
+    fun emailAddressIsDuplicated(emailAddress: String): Boolean{
+        return when(memberRepository.findByEmailAddress(emailAddress)){
+            null -> false;
+            else -> true;
+        }
+    }
 
+    @Transactional
+    fun sendSmsForMobileAuth(phoneNumber: String){
+        val apiKey = "NCSI2TESYLXCUKOS"
+        val apiSecret = "QGTOWU3PMFD2VPXCIOWC37BGDBVYNTTK"
+        val coolsms = Message(apiKey, apiSecret)
+        val authNum = (1000..9999).random()
+
+        val params = hashMapOf(
+            "to" to phoneNumber,
+            "from" to "010-6778-2283",
+            "type" to "SMS",
+            "text" to "[My Journey Life] 휴대폰 인증번호란에 [$authNum]를 입력하세요."
+        )
+
+        try{
+            coolsms.send(params)
+            val valueOps = redisTemplate.opsForValue()
+            valueOps.set("mobileAuth:$phoneNumber", authNum)
+        }catch (e: CoolsmsException){
+            println(e.message)
+            println(e.code)
+        }
     }
 }
