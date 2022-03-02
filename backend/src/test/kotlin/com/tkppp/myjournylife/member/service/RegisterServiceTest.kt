@@ -83,7 +83,6 @@ class RegisterServiceTest(
         //given
         val phoneNum = "010-1234-1234"
         val notRequestedPhoneNum = "010-1234-1111"
-        Mockito.`when`(smsService.send(Mockito.any())).thenReturn(null)
 
         //when
         mvc.perform(post("/api/register/phone-auth")

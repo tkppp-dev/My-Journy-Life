@@ -20,7 +20,7 @@ class Member(
 
     @Column(length = 16)
     @ColumnDefault("null")
-    val nickname: String? = null,
+    var nickname: String? = null,
 
     @Column(length = 13, nullable = false)
     val phoneNumber: String,
