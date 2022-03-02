@@ -11,8 +11,9 @@ import org.springframework.data.redis.core.RedisTemplate
 @Service
 class RegisterService(
     private val memberRepository: MemberRepository,
-    private val redisTemplate: RedisTemplate<String, Any>
-){
+    private val redisTemplate: RedisTemplate<String, Any>,
+    private val smsService: Message
+    ){
 
     @Transactional
     fun localRegister(localRegisterRequestDto: LocalRegisterRequestDto): Long? {
@@ -29,11 +30,7 @@ class RegisterService(
 
     @Transactional
     fun sendSmsForMobileAuth(phoneNumber: String){
-        val apiKey = "NCSI2TESYLXCUKOS"
-        val apiSecret = "QGTOWU3PMFD2VPXCIOWC37BGDBVYNTTK"
-        val coolsms = Message(apiKey, apiSecret)
         val authNum = (1000..9999).random()
-
         val params = hashMapOf(
             "to" to phoneNumber,
             "from" to "010-6778-2283",
@@ -42,12 +39,11 @@ class RegisterService(
         )
 
         try{
-            coolsms.send(params)
+            smsService.send(params)
             val valueOps = redisTemplate.opsForValue()
             valueOps.set("mobileAuth:$phoneNumber", authNum)
         }catch (e: CoolsmsException){
-            println(e.message)
-            println(e.code)
+            println(e.stackTrace)
         }
     }
 }

@@ -5,10 +5,11 @@ import com.tkppp.myjournylife.member.service.RegisterService
 import org.springframework.web.bind.annotation.*
 
 @RestController
-@RequestMapping("/register")
+@RequestMapping("api/register")
 class RegisterApiController(
     private val registerService: RegisterService
 ) {
+
     @PostMapping("")
     fun completeRegister(@RequestBody localRegisterRequestDto: LocalRegisterRequestDto): LocalRegisterResponseDto {
         val id = registerService.localRegister(localRegisterRequestDto)
@@ -24,7 +25,7 @@ class RegisterApiController(
         EmailDuplicationCheckResponseDto(registerService.emailAddressIsDuplicated(emailAddress))
 
 
-    @PostMapping("/phone-number")
+    @PostMapping("/phone-auth")
     fun requestSendingSms(@RequestBody smsRequestDto: SmsRequestDto) {
         registerService.sendSmsForMobileAuth(smsRequestDto.phoneNumber)
     }
