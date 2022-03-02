@@ -42,7 +42,7 @@
 	 
 	  백엔드
 	  - 이메일 중복 체크
-	   1. RequestBody { emailAddress } 를 받아 이미 회원으로 등록된 이메일인지 체크
+	   1. ~~RequestBody { emailAddress }~~ Get(PathVariable = emailAddress) 를 받아 이미 회원으로 등록된 이메일인지 체크
 	   2. 중복되지 않는다면 ResponseBody { isDuplicated: false }, ResponseBody { isDuplicated: true } 를 클라이언트로 보냄
 	 
 	  - 휴대폰 인증
