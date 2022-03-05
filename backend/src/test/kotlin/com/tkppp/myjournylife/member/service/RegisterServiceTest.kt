@@ -97,7 +97,7 @@ class RegisterServiceTest(
         Mockito.verify(smsService).send(Mockito.any())
 
         assertThat(valueOps.get("mobileAuth:$phoneNum"))
-            .isInstanceOf(Integer::class.java)
+            .isInstanceOf(String::class.java)
 
         assertThat(valueOps.get("mobileAuth:$notRequestedPhoneNum"))
             .isNull()

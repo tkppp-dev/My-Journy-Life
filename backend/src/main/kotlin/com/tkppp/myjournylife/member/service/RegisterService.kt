@@ -7,11 +7,12 @@ import org.springframework.transaction.annotation.Transactional
 import net.nurigo.java_sdk.api.Message
 import net.nurigo.java_sdk.exceptions.CoolsmsException
 import org.springframework.data.redis.core.RedisTemplate
+import java.util.concurrent.TimeUnit
 
 @Service
 class RegisterService(
     private val memberRepository: MemberRepository,
-    private val redisTemplate: RedisTemplate<String, Any>,
+    private val redisTemplate: RedisTemplate<String, String>,
     private val smsService: Message
     ){
 
@@ -30,6 +31,7 @@ class RegisterService(
 
     @Transactional
     fun sendSmsForMobileAuth(phoneNumber: String){
+        val key = "auth:mobile:$phoneNumber"
         val authNum = (1000..9999).random()
         val params = hashMapOf(
             "to" to phoneNumber,
@@ -41,7 +43,8 @@ class RegisterService(
         try{
             smsService.send(params)
             val valueOps = redisTemplate.opsForValue()
-            valueOps.set("mobileAuth:$phoneNumber", authNum)
+            valueOps.set(key, authNum.toString())
+            redisTemplate.expire(key, 5, TimeUnit.MINUTES)
         }catch (e: CoolsmsException){
             println(e.stackTrace)
         }

@@ -9,7 +9,8 @@ import org.springframework.data.redis.core.RedisTemplate
 import org.springframework.data.redis.serializer.StringRedisSerializer
 
 @Configuration
-class RedisConfig{
+class RedisConfig {
+
     @Value("\${spring.redis.host}")
     lateinit var host: String
 
@@ -22,10 +23,13 @@ class RedisConfig{
     }
 
     @Bean
-    fun redisTemplate(): RedisTemplate<String, Any>{
-        val redisTemplate = RedisTemplate<String, Any>()
+    fun redisTemplate(): RedisTemplate<String, String>{
+        val redisTemplate = RedisTemplate<String, String>()
         redisTemplate.setConnectionFactory(redisConnectionFactory())
+
+        // key, value serializer 설정 안할시 redis-cli 에서 이진데이터로 표시됩
         redisTemplate.keySerializer = StringRedisSerializer()
+        redisTemplate.valueSerializer = StringRedisSerializer()
         return redisTemplate
     }
 }
