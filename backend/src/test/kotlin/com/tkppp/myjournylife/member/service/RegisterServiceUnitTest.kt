@@ -12,6 +12,7 @@ import org.mockito.Mock
 import org.mockito.Mockito
 import org.mockito.junit.jupiter.MockitoExtension
 import org.assertj.core.api.Assertions.assertThat
+import org.junit.jupiter.api.AfterEach
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.data.redis.core.RedisTemplate
 
@@ -21,12 +22,11 @@ class RegisterServiceUnitTest{
     lateinit var memberRepository: MemberRepository
 
     @Mock
-    lateinit var redisTemplate: RedisTemplate<String, Any>
+    lateinit var redisTemplate: RedisTemplate<String, String>
 
     @Mock
     lateinit var smsService: Message
 
-    @Autowired
     @InjectMocks
     lateinit var registerService: RegisterService
 

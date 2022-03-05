@@ -30,9 +30,8 @@ class RegisterService(
     }
 
     @Transactional
-    fun sendSmsForMobileAuth(phoneNumber: String){
+    fun sendSmsForMobileAuth(phoneNumber: String, authNum: Int = (1000..9999).random()){
         val key = "auth:mobile:$phoneNumber"
-        val authNum = (1000..9999).random()
         val params = hashMapOf(
             "to" to phoneNumber,
             "from" to "010-6778-2283",
