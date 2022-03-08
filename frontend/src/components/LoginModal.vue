@@ -4,17 +4,27 @@
       <div class="login-container">
         <div class="login-wrapper" @click.stop>
           <div class="login-title">로그인</div>
-          <div class="input-box">
-            <custom-input type="text" label="이메일" :input="emailAddress" />
-          </div>
-          <div class="input-box">
-            <custom-input
-              type="password"
-              label="비밀번호"
-              :input="password"
-            />
-          </div>
-          <custom-button class="login-submit-btn" label="로그인"></custom-button>
+          <form @submit.prevent="submitForm">
+            <div class="input-box">
+              <custom-input
+                type="text"
+                label="이메일"
+                @onChangeText="setEmailAddress"
+              />
+            </div>
+            <div class="input-box">
+              <custom-input
+                type="password"
+                label="비밀번호"
+                @onChangeText="setPassword"
+              />
+            </div>
+            <custom-button
+              class="login-submit-btn"
+              type="submit"
+              label="로그인"
+            ></custom-button>
+          </form>
           <div class="sns-login-comment">소셜 계정으로 로그인</div>
           <div class="sns-login-wrapper">
             <button>
@@ -42,6 +52,10 @@
               회원가입 하기
             </router-link>
           </div>
+          <form action="https://d3523037-d9ca-42ce-841e-211cc948e1aa.mock.pstmn.io/login" method="POST">
+            <input type="text" name="test-id"/>
+            <input type="submit" />
+          </form>
         </div>
       </div>
     </template>
@@ -51,7 +65,9 @@
 <script>
 import BaseModal from './BaseModal.vue';
 import CustomInput from './CustomInput.vue';
-import CustomButton from './CustomButton.vue'
+import CustomButton from './CustomButton.vue';
+import axios from 'axios'
+import qs from 'qs'
 
 export default {
   components: { BaseModal, CustomInput, CustomButton },
@@ -60,9 +76,35 @@ export default {
   },
   data() {
     return {
-      emailAddress: '',
-      password: '',
+      form: {
+        emailAddress: '',
+        password: '',
+      }
     };
+  },
+  methods: {
+    setEmailAddress(val) {
+      this.form.emailAddress = val;
+    },
+    setPassword(val) {
+      this.form.password = val
+    },
+    async submitForm() {
+      if(!/^([\w.\-]+@\w+\.[a-zA-Z]+$)/.test(this.form.emailAddress)){
+        alert("이메일 형식이 올바르지 않습니다")
+      }
+      else if(!/^[\w!@#$%^&*+,.\?\-]{6,15}$/.test(this.form.password)){
+        alert("비밀번호 형식이 올바르지 않습니다")
+      }
+      else {
+        const res = await axios.post("https://d3523037-d9ca-42ce-841e-211cc948e1aa.mock.pstmn.io/login", qs.stringify(this.form), {
+          headers: {
+            "Content-Type": "application/x-www-form-urlencoded"
+          }
+        })
+        console.log(res)
+      }
+    },
   },
 };
 </script>
@@ -155,5 +197,4 @@ button {
 .register-anker:visited {
   color: #a02525;
 }
-
 </style>

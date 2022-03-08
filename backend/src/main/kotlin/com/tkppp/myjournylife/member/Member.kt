@@ -2,6 +2,8 @@ package com.tkppp.myjournylife.member
 
 import org.hibernate.annotations.ColumnDefault
 import org.hibernate.annotations.DynamicInsert
+import org.springframework.security.core.GrantedAuthority
+import org.springframework.security.core.userdetails.UserDetails
 import javax.persistence.*
 
 @Entity
@@ -14,7 +16,7 @@ class Member(
     @Column(length = 255, nullable = false)
     val emailAddress: String,
 
-    @Column(length = 15)
+    @Column(length = 60)
     @ColumnDefault("null")
     val password: String? = null,
 

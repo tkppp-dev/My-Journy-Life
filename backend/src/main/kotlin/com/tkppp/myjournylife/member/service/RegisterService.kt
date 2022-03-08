@@ -7,18 +7,21 @@ import org.springframework.transaction.annotation.Transactional
 import net.nurigo.java_sdk.api.Message
 import net.nurigo.java_sdk.exceptions.CoolsmsException
 import org.springframework.data.redis.core.RedisTemplate
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import java.util.concurrent.TimeUnit
 
 @Service
 class RegisterService(
     private val memberRepository: MemberRepository,
     private val redisTemplate: RedisTemplate<String, String>,
-    private val smsService: Message
+    private val smsService: Message,
+    private val passwordEncoder: BCryptPasswordEncoder
     ){
 
     @Transactional
     fun localRegister(localRegisterRequestDto: LocalRegisterRequestDto): Long? {
-        return memberRepository.save(localRegisterRequestDto.toEntity()).id
+        val encodedPassword = passwordEncoder.encode(localRegisterRequestDto.password)
+        return memberRepository.save(localRegisterRequestDto.toEntity(encodedPassword)).id
     }
 
     @Transactional
