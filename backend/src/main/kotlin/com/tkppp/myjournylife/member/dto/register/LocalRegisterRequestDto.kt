@@ -1,8 +1,7 @@
 package com.tkppp.myjournylife.member.dto.register
 
-import com.tkppp.myjournylife.member.Member
-import com.tkppp.myjournylife.member.RegisterType
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
+import com.tkppp.myjournylife.member.domain.Member
+import com.tkppp.myjournylife.member.util.RegisterType
 
 data class LocalRegisterRequestDto(
     val emailAddress: String,

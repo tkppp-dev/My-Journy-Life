@@ -1,12 +1,11 @@
 package com.tkppp.myjournylife.member.service
 
-import com.tkppp.myjournylife.member.MemberRepository
+import com.tkppp.myjournylife.member.domain.MemberRepository
 import com.tkppp.myjournylife.member.dto.register.LocalRegisterRequestDto
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import net.nurigo.java_sdk.api.Message
 import net.nurigo.java_sdk.exceptions.CoolsmsException
-import org.hibernate.exception.ConstraintViolationException
 import org.springframework.data.redis.core.RedisTemplate
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import java.util.concurrent.TimeUnit

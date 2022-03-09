@@ -1,5 +1,6 @@
-package com.tkppp.myjournylife.security
+package com.tkppp.myjournylife.auth.exception
 
+import com.tkppp.myjournylife.auth.service.CustomUserDetailsService
 import org.springframework.security.authentication.AuthenticationProvider
 import org.springframework.security.authentication.BadCredentialsException
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken

@@ -1,5 +1,6 @@
-package com.tkppp.myjournylife.security
+package com.tkppp.myjournylife.auth.auth_handler
 
+import com.tkppp.myjournylife.auth.util.JwtTokenProvider
 import org.springframework.security.core.Authentication
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler
 import org.springframework.stereotype.Component

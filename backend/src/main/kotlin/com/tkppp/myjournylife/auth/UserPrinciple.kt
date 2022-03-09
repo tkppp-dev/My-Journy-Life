@@ -1,6 +1,6 @@
-package com.tkppp.myjournylife.security
+package com.tkppp.myjournylife.auth
 
-import com.tkppp.myjournylife.member.Member
+import com.tkppp.myjournylife.member.domain.Member
 import org.springframework.security.core.GrantedAuthority
 import org.springframework.security.core.authority.SimpleGrantedAuthority
 import org.springframework.security.core.userdetails.UserDetails

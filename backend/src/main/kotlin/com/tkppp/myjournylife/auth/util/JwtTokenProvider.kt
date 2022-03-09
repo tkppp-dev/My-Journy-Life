@@ -1,5 +1,7 @@
-package com.tkppp.myjournylife.security
+package com.tkppp.myjournylife.auth.util
 
+import com.tkppp.myjournylife.auth.UserPrinciple
+import com.tkppp.myjournylife.auth.service.CustomUserDetailsService
 import io.jsonwebtoken.Jwts
 import io.jsonwebtoken.SignatureAlgorithm
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken

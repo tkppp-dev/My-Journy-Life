@@ -1,7 +1,7 @@
-package com.tkppp.myjournylife.security
+package com.tkppp.myjournylife.auth.service
 
-import com.tkppp.myjournylife.member.MemberRepository
-import org.springframework.security.core.userdetails.User
+import com.tkppp.myjournylife.auth.UserPrinciple
+import com.tkppp.myjournylife.member.domain.MemberRepository
 import org.springframework.security.core.userdetails.UserDetails
 import org.springframework.security.core.userdetails.UserDetailsService
 import org.springframework.security.core.userdetails.UsernameNotFoundException

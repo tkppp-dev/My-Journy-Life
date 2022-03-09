@@ -1,10 +1,9 @@
-package com.tkppp.myjournylife.member
+package com.tkppp.myjournylife.member.domain
 
-import com.tkppp.myjournylife.security.RoleType
+import com.tkppp.myjournylife.member.util.RegisterType
+import com.tkppp.myjournylife.member.util.RoleType
 import org.hibernate.annotations.ColumnDefault
 import org.hibernate.annotations.DynamicInsert
-import org.springframework.security.core.GrantedAuthority
-import org.springframework.security.core.userdetails.UserDetails
 import javax.persistence.*
 
 @Entity

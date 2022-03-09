@@ -1,8 +1,8 @@
 package com.tkppp.myjournylife.member.service
 
-import com.tkppp.myjournylife.member.Member
-import com.tkppp.myjournylife.member.MemberRepository
-import com.tkppp.myjournylife.member.RegisterType
+import com.tkppp.myjournylife.member.domain.Member
+import com.tkppp.myjournylife.member.domain.MemberRepository
+import com.tkppp.myjournylife.member.util.RegisterType
 import com.tkppp.myjournylife.member.dto.register.LocalRegisterRequestDto
 import net.nurigo.java_sdk.api.Message
 import org.junit.jupiter.api.Test
@@ -12,8 +12,6 @@ import org.mockito.Mock
 import org.mockito.Mockito
 import org.mockito.junit.jupiter.MockitoExtension
 import org.assertj.core.api.Assertions.assertThat
-import org.junit.jupiter.api.AfterEach
-import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.data.redis.core.RedisTemplate
 
 @ExtendWith(MockitoExtension::class)

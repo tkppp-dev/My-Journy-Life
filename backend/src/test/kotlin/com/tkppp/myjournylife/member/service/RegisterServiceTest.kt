@@ -1,11 +1,10 @@
 package com.tkppp.myjournylife.member.service
 
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
-import com.tkppp.myjournylife.member.Member
-import com.tkppp.myjournylife.member.MemberRepository
-import com.tkppp.myjournylife.member.RegisterType
+import com.tkppp.myjournylife.member.domain.Member
+import com.tkppp.myjournylife.member.domain.MemberRepository
+import com.tkppp.myjournylife.member.util.RegisterType
 import com.tkppp.myjournylife.member.dto.register.EmailDuplicationCheckResponseDto
-import com.tkppp.myjournylife.member.dto.register.SmsRequestDto
 import net.nurigo.java_sdk.api.Message
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.Test
@@ -18,13 +17,11 @@ import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.http.MediaType
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.content
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 import org.assertj.core.api.Assertions.assertThat
 import org.springframework.boot.test.mock.mockito.MockBean
 import org.springframework.data.redis.core.RedisTemplate
-import java.util.concurrent.TimeUnit
 
 @SpringBootTest
 @AutoConfigureMockMvc

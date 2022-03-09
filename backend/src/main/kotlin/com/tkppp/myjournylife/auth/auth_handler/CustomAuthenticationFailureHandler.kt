@@ -1,4 +1,4 @@
-package com.tkppp.myjournylife.security
+package com.tkppp.myjournylife.auth.auth_handler
 
 import org.springframework.security.core.AuthenticationException
 import org.springframework.security.web.authentication.AuthenticationFailureHandler

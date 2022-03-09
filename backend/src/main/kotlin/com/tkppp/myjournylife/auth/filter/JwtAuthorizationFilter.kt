@@ -1,12 +1,10 @@
-package com.tkppp.myjournylife.security
+package com.tkppp.myjournylife.auth.filter
 
+import com.tkppp.myjournylife.auth.util.JwtTokenProvider
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.stereotype.Component
-import org.springframework.web.filter.GenericFilterBean
 import org.springframework.web.filter.OncePerRequestFilter
 import javax.servlet.FilterChain
-import javax.servlet.ServletRequest
-import javax.servlet.ServletResponse
 import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.HttpServletResponse
 
