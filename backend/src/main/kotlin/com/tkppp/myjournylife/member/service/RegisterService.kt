@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import net.nurigo.java_sdk.api.Message
 import net.nurigo.java_sdk.exceptions.CoolsmsException
+import org.hibernate.exception.ConstraintViolationException
 import org.springframework.data.redis.core.RedisTemplate
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import java.util.concurrent.TimeUnit
@@ -18,10 +19,14 @@ class RegisterService(
     private val passwordEncoder: BCryptPasswordEncoder
     ){
 
-    @Transactional
     fun localRegister(localRegisterRequestDto: LocalRegisterRequestDto): Long? {
         val encodedPassword = passwordEncoder.encode(localRegisterRequestDto.password)
-        return memberRepository.save(localRegisterRequestDto.toEntity(encodedPassword)).id
+        return try {
+            memberRepository.save(localRegisterRequestDto.toEntity(encodedPassword)).id
+        } catch (ex: Exception){
+            println("이미 등록된 이메일입니다")
+            null
+        }
     }
 
     @Transactional

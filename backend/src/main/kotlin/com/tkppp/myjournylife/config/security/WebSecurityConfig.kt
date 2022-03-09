@@ -10,17 +10,17 @@ import org.springframework.security.config.annotation.web.builders.WebSecurity
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter
 import org.springframework.security.config.http.SessionCreationPolicy
-import org.springframework.security.core.userdetails.UserDetailsService
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter
 
 @Configuration
 @EnableWebSecurity
 class WebSecurityConfig(
     private val customAuthenticationSuccessHandler: CustomAuthenticationSuccessHandler,
     private val customAuthenticationFailureHandler: CustomAuthenticationFailureHandler,
-    private val customAuthenticationProvider: CustomAuthenticationProvider,
     private val passwordEncoder: BCryptPasswordEncoder,
-    private val customUserDetailsService: CustomUserDetailsService
+    private val customUserDetailsService: CustomUserDetailsService,
+    private val jwtAuthenticationFilter: JwtAuthenticationFilter
 ) : WebSecurityConfigurerAdapter() {
 
     @Bean
@@ -48,11 +48,15 @@ class WebSecurityConfig(
         http.exceptionHandling()
             .authenticationEntryPoint(RestAuthenticationEntryPoint())
 
+        http.addFilterAfter(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter::class.java)
+
         http.authorizeRequests()
             .antMatchers(
                 "/h2-console/**"    // 여기!
             ).permitAll()
+            .antMatchers("/api/login/test").hasRole("MEMBER")
             .anyRequest().permitAll()
+
     }
 
     override fun configure(auth: AuthenticationManagerBuilder) {

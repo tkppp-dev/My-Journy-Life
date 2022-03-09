@@ -1,12 +1,14 @@
 package com.tkppp.myjournylife.security
 
 import org.springframework.security.core.context.SecurityContextHolder
+import org.springframework.stereotype.Component
 import org.springframework.web.filter.GenericFilterBean
 import javax.servlet.FilterChain
 import javax.servlet.ServletRequest
 import javax.servlet.ServletResponse
 import javax.servlet.http.HttpServletRequest
 
+@Component
 class JwtAuthenticationFilter(
     private val jwtTokenProvider: JwtTokenProvider
 ) : GenericFilterBean() {
@@ -17,7 +19,6 @@ class JwtAuthenticationFilter(
                 false -> {}
             }
         }
-
         chain!!.doFilter(request, response)
     }
 }

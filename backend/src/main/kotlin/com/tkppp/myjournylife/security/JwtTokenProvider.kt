@@ -17,7 +17,7 @@ class JwtTokenProvider(
     companion object{
         private const val TOKEN_TTL = 30 * 60 * 1000   // ms
     }
-    private var secretKey = "testing-secret-key"
+    var secretKey = "testing-secret-key"
 
     // 비밀키 암호화 - Base64
     @PostConstruct
@@ -30,8 +30,6 @@ class JwtTokenProvider(
         val principle = authentication.principal as UserPrinciple
         val claims = Jwts.claims().setSubject(principle.username)
         claims["roles"] = principle.authorities.first()
-
-        println("create token")
 
         return Jwts.builder()
             .setClaims(claims)
@@ -53,13 +51,14 @@ class JwtTokenProvider(
             .body
             .subject
 
-    fun resolveToken(req: HttpServletRequest) =
-        req.getHeader("X-AUTH-TOKEN").let {
-            when (it.startsWith("Bearer ")) {
-                true -> it.substring("Bearer ".length, it.length)
-                false -> null
-            }
+    fun resolveToken(req: HttpServletRequest): String?{
+        val token = req.getHeader("X-AUTH-TOKEN") ?: ""
+        val prefix = "bearer "
+        return when(token.startsWith(prefix)){
+            true -> token.substring(prefix.length, token.length);
+            false -> null;
         }
+    }
 
     fun validateToken(jwtToken: String): Boolean {
         return try {

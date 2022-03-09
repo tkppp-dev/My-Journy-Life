@@ -13,14 +13,14 @@ class Member(
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     val id: Long? = null,
 
-    @Column(length = 255, nullable = false)
+    @Column(length = 255, nullable = false, unique = true)
     val emailAddress: String,
 
     @Column(length = 60)
     @ColumnDefault("null")
     val password: String? = null,
 
-    @Column(length = 16)
+    @Column(length = 16, unique = true)
     @ColumnDefault("null")
     var nickname: String? = null,
 

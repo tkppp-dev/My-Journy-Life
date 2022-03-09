@@ -19,4 +19,9 @@ class LoginController {
     fun loginFail(): String {
         return "fail"
     }
+
+    @GetMapping("/test")
+    fun test(): String {
+        return "test"
+    }
 }
