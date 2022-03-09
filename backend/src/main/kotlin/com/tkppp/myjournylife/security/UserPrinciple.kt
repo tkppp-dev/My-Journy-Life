@@ -8,7 +8,7 @@ import org.springframework.security.core.userdetails.UserDetails
 class UserPrinciple(member: Member) : UserDetails {
     private val email = member.emailAddress
     private val password = member.password
-    private val authorities = listOf<GrantedAuthority>(SimpleGrantedAuthority(RoleType.ROLE_MEMBER.name))
+    private val authorities = listOf<GrantedAuthority>(SimpleGrantedAuthority(member.role.name))
 
     override fun getAuthorities() = authorities
 

@@ -3,22 +3,28 @@ package com.tkppp.myjournylife.security
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.stereotype.Component
 import org.springframework.web.filter.GenericFilterBean
+import org.springframework.web.filter.OncePerRequestFilter
 import javax.servlet.FilterChain
 import javax.servlet.ServletRequest
 import javax.servlet.ServletResponse
 import javax.servlet.http.HttpServletRequest
+import javax.servlet.http.HttpServletResponse
 
 @Component
-class JwtAuthenticationFilter(
+class JwtAuthorizationFilter(
     private val jwtTokenProvider: JwtTokenProvider
-) : GenericFilterBean() {
-    override fun doFilter(request: ServletRequest?, response: ServletResponse?, chain: FilterChain?) {
-        jwtTokenProvider.resolveToken(request as HttpServletRequest).let {
+) : OncePerRequestFilter() {
+    override fun doFilterInternal(
+        request: HttpServletRequest,
+        response: HttpServletResponse,
+        filterChain: FilterChain
+    ){
+        jwtTokenProvider.resolveToken(request).let {
             when(it != null && jwtTokenProvider.validateToken(it)) {
                 true -> SecurityContextHolder.getContext().authentication = jwtTokenProvider.getAuthentication(it)
                 false -> {}
             }
         }
-        chain!!.doFilter(request, response)
+        filterChain.doFilter(request, response)
     }
 }

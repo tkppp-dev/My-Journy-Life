@@ -20,7 +20,7 @@ class WebSecurityConfig(
     private val customAuthenticationFailureHandler: CustomAuthenticationFailureHandler,
     private val passwordEncoder: BCryptPasswordEncoder,
     private val customUserDetailsService: CustomUserDetailsService,
-    private val jwtAuthenticationFilter: JwtAuthenticationFilter
+    private val jwtAuthorizationFilter: JwtAuthorizationFilter
 ) : WebSecurityConfigurerAdapter() {
 
     @Bean
@@ -48,7 +48,7 @@ class WebSecurityConfig(
         http.exceptionHandling()
             .authenticationEntryPoint(RestAuthenticationEntryPoint())
 
-        http.addFilterAfter(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter::class.java)
+        http.addFilterAfter(jwtAuthorizationFilter, UsernamePasswordAuthenticationFilter::class.java)
 
         http.authorizeRequests()
             .antMatchers(

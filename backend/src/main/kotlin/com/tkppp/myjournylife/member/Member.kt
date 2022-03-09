@@ -1,5 +1,6 @@
 package com.tkppp.myjournylife.member
 
+import com.tkppp.myjournylife.security.RoleType
 import org.hibernate.annotations.ColumnDefault
 import org.hibernate.annotations.DynamicInsert
 import org.springframework.security.core.GrantedAuthority
@@ -26,6 +27,9 @@ class Member(
 
     @Column(length = 13, nullable = false)
     val phoneNumber: String,
+
+    @Column(nullable = false)
+    var role: RoleType = RoleType.ROLE_MEMBER,
 
     @Enumerated(EnumType.STRING)
     val registerType: RegisterType
