@@ -4,7 +4,7 @@ import com.tkppp.myjournylife.auth.auth_handler.CustomAuthenticationFailureHandl
 import com.tkppp.myjournylife.auth.auth_handler.CustomAuthenticationSuccessHandler
 import com.tkppp.myjournylife.auth.filter.JwtAuthorizationFilter
 import com.tkppp.myjournylife.auth.service.CustomUserDetailsService
-import com.tkppp.myjournylife.auth.util.RestAuthenticationEntryPoint
+import com.tkppp.myjournylife.auth.filter.RestAuthenticationEntryPoint
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.security.authentication.AuthenticationManager

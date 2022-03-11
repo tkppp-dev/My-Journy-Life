@@ -1,4 +1,4 @@
-package com.tkppp.myjournylife.auth.util
+package com.tkppp.myjournylife.auth.filter
 
 import org.springframework.security.core.AuthenticationException
 import org.springframework.security.web.AuthenticationEntryPoint

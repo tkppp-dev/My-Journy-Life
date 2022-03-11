@@ -17,9 +17,11 @@ class JwtTokenProvider(
     private val userDetailsService: CustomUserDetailsService
 ) {
     companion object{
-        private const val TOKEN_TTL = 30 * 60 * 1000   // ms
+        private const val ACCESS_TOKEN_TTL = 30 * 60 * 1000   // 30min
+        private const val REFRESH_TOKEN_TTL = 2 * 7 * 24 * 60 * 60 * 1000    // 2 week
     }
-    var secretKey = "testing-secret-key"
+
+    var secretKey = "my-journey-life-token-secret-key"
 
     // 비밀키 암호화 - Base64
     @PostConstruct
@@ -27,19 +29,26 @@ class JwtTokenProvider(
         secretKey = Base64.getEncoder().encodeToString(secretKey.toByteArray())
     }
 
-    fun createToken(authentication: Authentication): String {
+    fun createToken(authentication: Authentication, type: TokenType = TokenType.ACCESS_TOKEN): String {
         val now = Date()
         val principle = authentication.principal as UserPrinciple
+        val ttl = when(type){
+            TokenType.ACCESS_TOKEN -> ACCESS_TOKEN_TTL;
+            TokenType.REFRESH_TOKEN -> REFRESH_TOKEN_TTL;
+        }
+
         val claims = Jwts.claims().setSubject(principle.username)
+        claims["name"] = type.name
         claims["roles"] = principle.authorities.first()
 
         return Jwts.builder()
             .setClaims(claims)
             .setIssuedAt(now)
-            .setExpiration(Date(now.time + TOKEN_TTL))
+            .setExpiration(Date(now.time + ttl))
             .signWith(SignatureAlgorithm.HS256, secretKey)
             .compact()
     }
+
 
     fun getAuthentication(token: String) =
         userDetailsService.loadUserByUsername(getEmailAddress(token)).let {
@@ -54,7 +63,7 @@ class JwtTokenProvider(
             .subject
 
     fun resolveToken(req: HttpServletRequest): String?{
-        val token = req.getHeader("X-AUTH-TOKEN") ?: ""
+        val token = req.getHeader("Authorization") ?: ""
         val prefix = "bearer "
         return when(token.startsWith(prefix)){
             true -> token.substring(prefix.length, token.length);

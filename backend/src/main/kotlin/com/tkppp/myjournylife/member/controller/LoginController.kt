@@ -1,18 +1,15 @@
 package com.tkppp.myjournylife.member.controller
 
 
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.PathVariable
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.bind.annotation.*
 
 @RestController
 @RequestMapping("/api/login")
 class LoginController {
 
-    @GetMapping("/success/{jwt}")
-    fun loginSuccess(@PathVariable jwt: String): String{
-        return jwt
+    @GetMapping("/success")
+    fun loginSuccess(@RequestParam access: String, @RequestParam refresh: String): String{
+        return "accessToken : $access\nrefreshToken: $refresh"
     }
 
     @GetMapping("/fail")
@@ -24,4 +21,5 @@ class LoginController {
     fun test(): String {
         return "test"
     }
+
 }

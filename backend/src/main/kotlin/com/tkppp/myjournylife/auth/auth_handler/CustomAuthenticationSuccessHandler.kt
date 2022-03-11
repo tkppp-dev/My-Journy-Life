@@ -1,6 +1,7 @@
 package com.tkppp.myjournylife.auth.auth_handler
 
 import com.tkppp.myjournylife.auth.util.JwtTokenProvider
+import com.tkppp.myjournylife.auth.util.TokenType
 import org.springframework.security.core.Authentication
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler
 import org.springframework.stereotype.Component
@@ -16,7 +17,9 @@ class CustomAuthenticationSuccessHandler(
         response: HttpServletResponse?,
         authentication: Authentication
     ) {
-        val jwt = jwtTokenProvider.createToken(authentication)
-        response?.sendRedirect("http://localhost:8080/api/login/success/$jwt")
+        val accessToken = jwtTokenProvider.createToken(authentication, TokenType.ACCESS_TOKEN)
+        val refreshToken = jwtTokenProvider.createToken(authentication, TokenType.REFRESH_TOKEN)
+        val redirectUrl = "http://localhost:8080/api/login/success?access=$accessToken&refresh=$refreshToken"
+        response?.sendRedirect(redirectUrl)
     }
 }
