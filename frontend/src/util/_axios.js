@@ -33,7 +33,7 @@ instance.interceptors.response.use(
       console.log("AccessToken Expired.")
 
       try{
-        const resp = await axios.post("/auth/refresh", {
+        const resp = await axios.post("/api/login/auth/reissue", {
           accessToken: getAccessToken(),
           refreshToken: getRefreshToken()
         })

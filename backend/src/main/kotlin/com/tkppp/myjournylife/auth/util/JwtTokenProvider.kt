@@ -33,8 +33,8 @@ class JwtTokenProvider(
         val now = Date()
         val principle = authentication.principal as UserPrinciple
         val ttl = when(type){
-            TokenType.ACCESS_TOKEN -> ACCESS_TOKEN_TTL;
-            TokenType.REFRESH_TOKEN -> REFRESH_TOKEN_TTL;
+            TokenType.ACCESS_TOKEN -> ACCESS_TOKEN_TTL
+            TokenType.REFRESH_TOKEN -> REFRESH_TOKEN_TTL
         }
 
         val claims = Jwts.claims().setSubject(principle.username)
@@ -48,7 +48,6 @@ class JwtTokenProvider(
             .signWith(SignatureAlgorithm.HS256, secretKey)
             .compact()
     }
-
 
     fun getAuthentication(token: String) =
         userDetailsService.loadUserByUsername(getEmailAddress(token)).let {
@@ -66,18 +65,21 @@ class JwtTokenProvider(
         val token = req.getHeader("Authorization") ?: ""
         val prefix = "bearer "
         return when(token.startsWith(prefix)){
-            true -> token.substring(prefix.length, token.length);
-            false -> null;
+            true -> token.substring(prefix.length, token.length)
+            false -> null
         }
     }
 
-    fun validateToken(jwtToken: String): Boolean {
+    fun validateToken(token: String): Boolean {
         return try {
             Jwts.parser()
                 .setSigningKey(secretKey)
-                .parseClaimsJws(jwtToken)
-                .let { !it.body.expiration.before(Date())}
-        } catch (e: Exception){
+                .parseClaimsJws(token)
+                .let {
+                    println(it.body.expiration.before(Date()))
+                    !it.body.expiration.before(Date())
+                }
+        } catch (e: NullPointerException){
             false
         }
     }

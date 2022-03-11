@@ -30,6 +30,10 @@ class RedisConfig {
         // key, value serializer 설정 안할시 redis-cli 에서 이진데이터로 표시됩
         redisTemplate.keySerializer = StringRedisSerializer()
         redisTemplate.valueSerializer = StringRedisSerializer()
+
+        // hashMap 을 저장할때 key, value Serializer 설정
+        redisTemplate.hashKeySerializer = StringRedisSerializer()
+        redisTemplate.hashValueSerializer = StringRedisSerializer()
         return redisTemplate
     }
 }
