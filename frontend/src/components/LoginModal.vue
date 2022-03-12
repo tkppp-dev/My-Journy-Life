@@ -52,10 +52,6 @@
               회원가입 하기
             </router-link>
           </div>
-          <form action="https://d3523037-d9ca-42ce-841e-211cc948e1aa.mock.pstmn.io/login" method="POST">
-            <input type="text" name="test-id"/>
-            <input type="submit" />
-          </form>
         </div>
       </div>
     </template>

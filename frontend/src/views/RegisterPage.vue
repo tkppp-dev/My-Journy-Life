@@ -44,11 +44,13 @@
             label="별명"
             type="text"
             placeholder="별명을 설정하지 않는 경우 익명으로 설정됩니다"
+            maxlength="16"
             @onChangeText="setNickname"
           />
           <div class="input-notification">
             {{ form.validation.nickname.message }}
           </div>
+          <!-- 휴대폰 인증 삭제
           <custom-input
             id="phoneNumber"
             class="register-input"
@@ -61,10 +63,12 @@
             label="사용자 인증"
             :disabled="!isMobileAuthComplete"
           />
+          -->
           <custom-button
             class="register-button"
             label="회원가입 완료"
-            :disabled="!isAllFormFieldsValid"
+            :disabled="!isAllFormDataValid"
+            @onClickButton="register"
           />
         </div>
       </div>
@@ -76,6 +80,8 @@
 import Navbar from '../components/Navbar.vue';
 import CustomButton from '../components/CustomButton.vue';
 import CustomInput from '../components/CustomInput.vue';
+import _axios from '../util/_axios';
+
 export default {
   name: 'RegisterPage',
   components: { Navbar, CustomButton, CustomInput },
@@ -101,19 +107,42 @@ export default {
             message: '',
           },
           nickname: {
-            isValid: false,
+            isValid: true,
             message: '',
-          },
-          phoneNumber: {
-            isValid: false,
           },
         },
       },
-      isMobileAuthComplete: false,
-      isAllFormFieldsValid: false,
     };
   },
   methods: {
+    async register() {
+      try {
+        const email = this.form.emailAddress
+        const password = this.form.password
+        const nickname = this.form.nickname
+        const res = await _axios.post('/api/register', {
+          emailAddress: email,
+          password: password,
+          nickname: nickname === "" ? null : nickname,
+        });
+
+        if(res.data.success){
+          alert('회원 가입 성공')
+          this.$router.push('/')
+        }
+        else {
+          if(res.data.errorCode === 'DUPLICATION_EMAIL'){
+            alert('이미 가입된 이메일 주소입니다')
+          }
+          else if(res.data.errorCode === '') {
+            alert('중복된 별명입니다. 다른 별명을 입력해 주세요')
+          }
+        }
+      } catch (e) {
+        alert('예기치 못한 문제가 발생했습니다. 다시 시도해주세요')
+        console.log(e.message)
+      }
+    },
     setEmail(val) {
       this.form.emailAddress = val.toLowerCase();
 
@@ -200,9 +229,14 @@ export default {
 
       // validation check
       const validPattern = /^[a-zA-Z0-9가-힣]{2,16}$/;
-      const isValid = validPattern.test(this.form.nickname);
+      let isValid = validPattern.test(this.form.nickname);
       const validation = this.form.validation;
-      validation.nickname.isValid = isValid;
+
+      if (this.form.nickname.length === 0) {
+        validation.nickname.isValid = true;
+      } else {
+        validation.nickname.isValid = isValid;
+      }
 
       if (isValid) {
         validation.nickname.message = '';
@@ -217,13 +251,20 @@ export default {
         }
       }
     },
-    setPhoneNumber(val) {
-      this.form.phoneNumber = val;
-
-      // validation check
-      const validPattern = /^01\d-\d{3,4}-\d{4}$/;
-      const isValid = validPattern.test(this.form.phoneNumber);
-      this.form.validation.phoneNumber.isValid = isValid;
+  },
+  computed: {
+    isAllFormDataValid() {
+      const validation = this.form.validation;
+      if (
+        validation.emailAddress.isValid &&
+        validation.password.isValid &&
+        validation.passwordCheck.isValid &&
+        validation.nickname.isValid
+      ) {
+        return true;
+      } else {
+        return false;
+      }
     },
   },
 };
@@ -269,7 +310,7 @@ export default {
 }
 
 .register-button {
-  margin-top: 48px;
+  margin-top: 24px;
 }
 
 @media (max-width: 480px) {

@@ -1,5 +1,5 @@
 <template>
-  <button class="button" type="button" :disabled="disabled">{{ label }}</button>
+  <button class="button" type="button" @click="onClickButton" :disabled="disabled">{{ label }}</button>
 </template>
 
 <script>
@@ -12,8 +12,10 @@ export default {
       default: false
     },
   },
-  mounted() {
-    console.log(this.disabled)
+  methods: {
+    onClickButton(){
+      this.$emit('onClickButton')
+    }
   }
 }
 </script>
