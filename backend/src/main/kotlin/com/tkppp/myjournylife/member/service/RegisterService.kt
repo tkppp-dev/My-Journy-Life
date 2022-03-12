@@ -28,7 +28,7 @@ class RegisterService(
     }
 
     fun localRegister(localRegisterRequestDto: LocalRegisterRequestDto): Long? {
-        if(localRegisterRequestDto.nickname != ""){
+        if(localRegisterRequestDto.nickname != null){
             when(isDuplicateNickname(localRegisterRequestDto.nickname!!)){
                 true -> throw DuplicatedNicknameException()
                 false -> {}

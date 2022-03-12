@@ -10,12 +10,9 @@ data class LocalRegisterRequestDto(
 ){
 
     fun toEntity(password: String): Member {
-        if(nickname == ""){
-            nickname = null
-        }
         return Member(
             emailAddress = this.emailAddress,
-            password = this.password,
+            password = password,
             nickname = this.nickname,
             registerType = RegisterType.LOCAL
         )
