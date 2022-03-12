@@ -24,10 +24,8 @@ class Member(
     @ColumnDefault("null")
     var nickname: String? = null,
 
-    @Column(length = 13, nullable = false)
-    val phoneNumber: String,
-
     @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
     var role: RoleType = RoleType.ROLE_MEMBER,
 
     @Enumerated(EnumType.STRING)

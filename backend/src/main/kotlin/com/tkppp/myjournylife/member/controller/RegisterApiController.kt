@@ -1,6 +1,8 @@
 package com.tkppp.myjournylife.member.controller
 
 import com.tkppp.myjournylife.member.dto.register.*
+import com.tkppp.myjournylife.member.exception.DuplicatedEmailAddressException
+import com.tkppp.myjournylife.member.exception.DuplicatedNicknameException
 import com.tkppp.myjournylife.member.service.RegisterService
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.web.bind.annotation.*
@@ -13,11 +15,13 @@ class RegisterApiController(
 
     @PostMapping("")
     fun completeRegister(@RequestBody localRegisterRequestDto: LocalRegisterRequestDto): LocalRegisterResponseDto {
-        val id = registerService.localRegister(localRegisterRequestDto)
-        return if (id != null) {
+        return try {
+            registerService.localRegister(localRegisterRequestDto)
             LocalRegisterResponseDto(true)
-        } else {
-            LocalRegisterResponseDto(false)
+        } catch(e: DuplicatedEmailAddressException){
+            LocalRegisterResponseDto(false, "DUPLICATED_EMAIL")
+        }   catch (ex: DuplicatedNicknameException){
+            LocalRegisterResponseDto(false, "DUPLICATED_NICKNAME")
         }
     }
 

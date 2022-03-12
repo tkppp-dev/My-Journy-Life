@@ -2,6 +2,8 @@ package com.tkppp.myjournylife.member.service
 
 import com.tkppp.myjournylife.member.domain.MemberRepository
 import com.tkppp.myjournylife.member.dto.register.LocalRegisterRequestDto
+import com.tkppp.myjournylife.member.exception.DuplicatedEmailAddressException
+import com.tkppp.myjournylife.member.exception.DuplicatedNicknameException
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import net.nurigo.java_sdk.api.Message
@@ -18,13 +20,26 @@ class RegisterService(
     private val passwordEncoder: BCryptPasswordEncoder
     ){
 
+    fun isDuplicateNickname(nickname: String): Boolean{
+        return when(memberRepository.findByNickname(nickname)){
+            null -> false
+            else -> true
+        }
+    }
+
     fun localRegister(localRegisterRequestDto: LocalRegisterRequestDto): Long? {
+        if(localRegisterRequestDto.nickname != ""){
+            when(isDuplicateNickname(localRegisterRequestDto.nickname!!)){
+                true -> throw DuplicatedNicknameException()
+                false -> {}
+            }
+        }
+
         val encodedPassword = passwordEncoder.encode(localRegisterRequestDto.password)
         return try {
             memberRepository.save(localRegisterRequestDto.toEntity(encodedPassword)).id
-        } catch (ex: Exception){
-            println("이미 등록된 이메일입니다")
-            null
+        } catch (e: Exception){
+            throw DuplicatedEmailAddressException()
         }
     }
 
