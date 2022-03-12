@@ -23,7 +23,6 @@
               class="login-submit-btn"
               type="submit"
               label="로그인"
-              @onClickButton="submitForm"
             ></custom-button>
           </form>
           <div class="sns-login-comment">소셜 계정으로 로그인</div>
@@ -94,12 +93,22 @@ export default {
         alert("비밀번호 형식이 올바르지 않습니다")
       }
       else {
-        const res = await axios.post("/api/login", qs.stringify(this.form), {
-          headers: {
-            "Content-Type": "application/x-www-form-urlencoded"
+        try{
+          const res = await axios.post("/api/login", qs.stringify(this.form), {
+            headers: {
+              "Content-Type": "application/x-www-form-urlencoded"
+            }
+          })
+
+          if(res.data.success){
+            // vuex에 auth token 저장
+            this.$emit('close')
+          } else {
+            alert('이메일 또는 비밀번호가 일치하지 않습니다')
           }
-        })
-        console.log(res.data)
+        } catch(e){
+          alert('예상치 못한 문제가 발생했습니다. 다시 시도해주세요')
+        }
       }
     },
   },

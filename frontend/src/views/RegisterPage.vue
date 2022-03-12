@@ -127,7 +127,7 @@ export default {
         });
 
         if(res.data.success){
-          alert('회원 가입 성공')
+          alert('회원가입 성공')
           this.$router.push('/')
         }
         else {
