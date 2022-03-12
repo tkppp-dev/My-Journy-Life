@@ -16,6 +16,10 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter
+import org.springframework.web.cors.CorsConfiguration
+import org.springframework.web.cors.CorsConfigurationSource
+import org.springframework.web.cors.CorsUtils
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource
 
 @Configuration
 @EnableWebSecurity
@@ -32,6 +36,19 @@ class WebSecurityConfig(
         return super.authenticationManagerBean()
     }
 
+    @Bean
+    fun corsConfigurationSource(): CorsConfigurationSource {
+        val configuration = CorsConfiguration()
+
+        configuration.addAllowedOrigin("*")
+        configuration.addAllowedHeader("*")
+        configuration.addAllowedMethod("*")
+
+        val source = UrlBasedCorsConfigurationSource()
+        source.registerCorsConfiguration("/**", configuration)
+        return source
+    }
+
     override fun configure(web: WebSecurity) {
         web.ignoring().antMatchers("/h2-console/**");
         super.configure(web)
@@ -39,6 +56,7 @@ class WebSecurityConfig(
 
     override fun configure(http: HttpSecurity) {
         http.httpBasic().disable()
+            .cors().and()
             .csrf().ignoringAntMatchers("/h2-console/**").disable()
             .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
 
@@ -55,6 +73,7 @@ class WebSecurityConfig(
         http.addFilterAfter(jwtAuthorizationFilter, UsernamePasswordAuthenticationFilter::class.java)
 
         http.authorizeRequests()
+            .requestMatchers(CorsUtils::isPreFlightRequest).permitAll()
             .antMatchers(
                 "/h2-console/**"    // 여기!
             ).permitAll()
