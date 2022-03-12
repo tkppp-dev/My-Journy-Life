@@ -1,6 +1,7 @@
 package com.tkppp.myjournylife.member.controller
 
 
+import com.tkppp.myjournylife.member.dto.login.LoginResponseDto
 import com.tkppp.myjournylife.member.dto.login.ReissueAuthTokenReqestDto
 import com.tkppp.myjournylife.member.dto.login.ReissueAuthTokenResponseDto
 import com.tkppp.myjournylife.member.service.LoginService
@@ -13,14 +14,14 @@ class LoginController(
 ) {
 
     @GetMapping("/success")
-    fun loginSuccess(@RequestParam access: String, @RequestParam refresh: String): String{
+    fun loginSuccess(@RequestParam access: String, @RequestParam refresh: String): LoginResponseDto{
         loginService.saveTokenAtCache(access, refresh)
-        return "accessToken : $access\nrefreshToken: $refresh"
+        return LoginResponseDto(true, access, refresh)
     }
 
     @GetMapping("/fail")
-    fun loginFail(): String {
-        return "fail"
+    fun loginFail(): LoginResponseDto {
+        return LoginResponseDto(false)
     }
 
     @PostMapping("/auth/reissue")
