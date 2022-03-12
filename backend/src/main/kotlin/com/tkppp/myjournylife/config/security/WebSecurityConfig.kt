@@ -61,7 +61,7 @@ class WebSecurityConfig(
             .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
 
         http.formLogin()
-            .loginProcessingUrl("/login")
+            .loginProcessingUrl("/api/login")
             .usernameParameter("emailAddress")
             .passwordParameter("password")
             .successHandler(customAuthenticationSuccessHandler)

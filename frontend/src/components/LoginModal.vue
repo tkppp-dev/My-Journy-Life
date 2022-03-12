@@ -23,6 +23,7 @@
               class="login-submit-btn"
               type="submit"
               label="로그인"
+              @onClickButton="submitForm"
             ></custom-button>
           </form>
           <div class="sns-login-comment">소셜 계정으로 로그인</div>
@@ -93,12 +94,12 @@ export default {
         alert("비밀번호 형식이 올바르지 않습니다")
       }
       else {
-        const res = await axios.post("https://d3523037-d9ca-42ce-841e-211cc948e1aa.mock.pstmn.io/login", qs.stringify(this.form), {
+        const res = await axios.post("/api/login", qs.stringify(this.form), {
           headers: {
             "Content-Type": "application/x-www-form-urlencoded"
           }
         })
-        console.log(res)
+        console.log(res.data)
       }
     },
   },
