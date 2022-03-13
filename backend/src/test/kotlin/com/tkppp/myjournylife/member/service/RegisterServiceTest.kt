@@ -64,7 +64,6 @@ class RegisterServiceTest(
             Member(
                 emailAddress = email,
                 password = "123123",
-                phoneNumber = "01012341234",
                 registerType = RegisterType.LOCAL
             )
         )

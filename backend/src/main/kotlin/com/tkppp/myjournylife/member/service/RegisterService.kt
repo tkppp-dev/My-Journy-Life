@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import net.nurigo.java_sdk.api.Message
 import net.nurigo.java_sdk.exceptions.CoolsmsException
+import org.springframework.dao.DataIntegrityViolationException
 import org.springframework.data.redis.core.RedisTemplate
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import java.util.concurrent.TimeUnit
@@ -38,7 +39,7 @@ class RegisterService(
         val encodedPassword = passwordEncoder.encode(localRegisterRequestDto.password)
         return try {
             memberRepository.save(localRegisterRequestDto.toEntity(encodedPassword)).id
-        } catch (e: Exception){
+        } catch (e: DataIntegrityViolationException){
             throw DuplicatedEmailAddressException()
         }
     }

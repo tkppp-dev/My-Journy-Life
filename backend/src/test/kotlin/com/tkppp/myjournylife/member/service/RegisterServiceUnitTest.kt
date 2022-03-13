@@ -34,7 +34,6 @@ class RegisterServiceUnitTest{
             emailAddress = "test@test.com",
             password = "asdfasdfd",
             nickname = null,
-            phoneNumber = "010-1234-1234",
         )
 
         val member = Member(
@@ -42,7 +41,6 @@ class RegisterServiceUnitTest{
             emailAddress = "test@test.com",
             password = "asdfasdfd",
             nickname = null,
-            phoneNumber = "010-1234-1234",
             registerType = RegisterType.LOCAL
         )
 
