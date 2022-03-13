@@ -16,8 +16,6 @@ import java.util.concurrent.TimeUnit
 @Service
 class RegisterService(
     private val memberRepository: MemberRepository,
-    private val redisTemplate: RedisTemplate<String, String>,
-    private val smsService: Message,
     private val passwordEncoder: BCryptPasswordEncoder
     ){
 
