@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.*
 class RegisterApiController(
     private val registerService: RegisterService,
 ) {
-
     @PostMapping("")
     fun completeRegister(@RequestBody localRegisterRequestDto: LocalRegisterRequestDto): LocalRegisterResponseDto {
         return try {
@@ -23,15 +22,5 @@ class RegisterApiController(
         }   catch (ex: DuplicatedNicknameException){
             LocalRegisterResponseDto(false, "DUPLICATED_NICKNAME")
         }
-    }
-
-    @GetMapping("/duplication/{emailAddress}")
-    fun emailAddressDuplicationCheck(@PathVariable emailAddress: String) =
-        EmailDuplicationCheckResponseDto(registerService.emailAddressIsDuplicated(emailAddress))
-
-
-    @PostMapping("/phone-auth")
-    fun requestSendingSms(@RequestBody smsRequestDto: SmsRequestDto) {
-        registerService.sendSmsForMobileAuth(smsRequestDto.phoneNumber)
     }
 }

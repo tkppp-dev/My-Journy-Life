@@ -43,32 +43,4 @@ class RegisterService(
             throw DuplicatedEmailAddressException()
         }
     }
-
-    @Transactional
-    fun emailAddressIsDuplicated(emailAddress: String): Boolean{
-        return when(memberRepository.findByEmailAddress(emailAddress)){
-            null -> false;
-            else -> true;
-        }
-    }
-
-    @Transactional
-    fun sendSmsForMobileAuth(phoneNumber: String, authNum: Int = (1000..9999).random()){
-        val key = "auth:mobile:$phoneNumber"
-        val params = hashMapOf(
-            "to" to phoneNumber,
-            "from" to "010-6778-2283",
-            "type" to "SMS",
-            "text" to "[My Journey Life] 휴대폰 인증번호란에 [$authNum]를 입력하세요."
-        )
-
-        try{
-            smsService.send(params)
-            val valueOps = redisTemplate.opsForValue()
-            valueOps.set(key, authNum.toString())
-            redisTemplate.expire(key, 5, TimeUnit.MINUTES)
-        }catch (e: CoolsmsException){
-            println(e.stackTrace)
-        }
-    }
 }
