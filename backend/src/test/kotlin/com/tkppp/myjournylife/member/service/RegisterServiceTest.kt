@@ -18,15 +18,11 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 
 @ExtendWith(MockitoExtension::class)
 class RegisterServiceTest {
-    @Mock
-    lateinit var memberRepository: MemberRepository
+    val memberRepository: MemberRepository = Mockito.mock(MemberRepository::class.java)
+    val passwordEncoder: BCryptPasswordEncoder = Mockito.mock(BCryptPasswordEncoder::class.java)
+    val registerService = RegisterService(memberRepository, passwordEncoder)
 
-    @Mock
-    lateinit var passwordEncoder: BCryptPasswordEncoder
-
-    @InjectMocks
-    lateinit var registerService: RegisterService
-
+    // given
     private val successEmail = "success@test.com"
     private val existedEmail = "existed@test.com"
     private val successNickname = "success_nickname"
@@ -62,7 +58,6 @@ class RegisterServiceTest {
     )
 
     @Nested
-    @DisplayName("로컬 회원가입 테스트")
     inner class LocalRegisterTest {
 
         @Test
