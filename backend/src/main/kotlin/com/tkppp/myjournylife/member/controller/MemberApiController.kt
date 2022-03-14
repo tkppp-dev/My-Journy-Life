@@ -1,7 +1,7 @@
 package com.tkppp.myjournylife.member.controller
 
 import com.tkppp.myjournylife.member.dto.member.MemberInfoResponseDto
-import com.tkppp.myjournylife.member.exception.EmailAddressNotFoundException
+import com.tkppp.myjournylife.member.exception.MemberNotFoundException
 import com.tkppp.myjournylife.member.service.MemberService
 import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.*
@@ -17,7 +17,7 @@ class MemberApiController(
     fun returnMemberInfo(@PathVariable emailAddress: String): MemberInfoResponseDto? {
         return try {
             memberService.getMemberInfo(emailAddress)
-        } catch (e: EmailAddressNotFoundException){
+        } catch (e: MemberNotFoundException){
             null
         }
     }
