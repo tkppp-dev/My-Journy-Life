@@ -1,9 +1,12 @@
 <template>
-  <navbar />
+  <div>
+    <navbar />
+  </div>
 </template>
 
 <script>
-import Navbar from '@/components/Navbar.vue'
+import Navbar from '@/components/Navbar.vue';
+import _axios from '../util/_axios'
 
 export default {
   name: 'Home',
@@ -12,13 +15,12 @@ export default {
   },
   data() {
     return {
-      input: ''
-    }
+      input: '',
+    };
+  },
+  methods: {
   }
-
-}
+};
 </script>
 
-<style>
-
-</style>
+<style></style>

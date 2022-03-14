@@ -11,12 +11,15 @@
         <button v-if="isLogin" class="icon-wrapper">
           <notification-icon class="icon" fillColor="#a02525" :size="27" />
         </button>
-        <div v-if="!isLogin" class="login-btn-wrapper">
-          <button class="login-btn" @click="openLoginModal">로그인</button>
-        </div>
         <button v-if="isLogin" class="user-icon" @click="mockLogin">
           <user-icon fillColor="#a02525" :size="29" />
         </button>
+        <div v-if="!isLogin" class="login-btn-wrapper">
+          <button class="login-btn" @click="openLoginModal">로그인</button>
+        </div>
+        <div v-if="isLogin" class="login-btn-wrapper">
+          <button class="logout-btn" @click="logout">로그아웃</button>
+        </div>
       </div>
     </div>
     <teleport to="body">
@@ -34,6 +37,7 @@ import SearchIcon from 'vue-material-design-icons/Magnify.vue';
 import NotificationIcon from 'vue-material-design-icons/BellOutline.vue';
 import UserIcon from 'vue-material-design-icons/AccountCircle.vue';
 import LoginModal from './LoginModal.vue';
+import _axios from '../util/_axios'
 
 export default {
   name: 'Navbar',
@@ -48,7 +52,6 @@ export default {
     return {
       searchModalVisible: false,
       loginModalVisible: false,
-      isLogin: false,
     };
   },
   methods: {
@@ -64,10 +67,28 @@ export default {
     closeLoginModal() {
       this.loginModalVisible = false;
     },
-    mockLogin() {
-      this.isLogin = !this.isLogin;
+    async logout(){
+      const res = await _axios.post('/api/logout', {
+        accessToken: this.$store.state.user.accessToken
+      })
+
+      if(res.data.success){
+        this.$store.commit('performLogout')
+        this.$router.push('/')
+      } else {
+        alert('로그아웃에 실패했습니다. 다시 시도해주세요')
+      }
     },
+    logoutForce(){
+      this.$store.commit('performLogout')
+    }
   },
+  computed: {
+    isLogin(){
+      if(this.$store.state.user.isLogin === true) return true
+      else return false
+    }
+  }
 };
 </script>
 
@@ -135,7 +156,21 @@ export default {
   text-align: center;
 }
 
+.logout-btn {
+  width: 80px;
+  height: 30px;
+  padding: 2px 0;
+  background-color: rgba(255, 255, 255, 0.6);
+  border: none;
+  border-radius: 50px;
+  font-size: 16px;
+  color: #a02525;
+  font-weight: bold;
+  text-align: center;
+}
+
 .user-icon {
   padding-top: 3px;
+  margin-right: 10px;
 }
 </style>
