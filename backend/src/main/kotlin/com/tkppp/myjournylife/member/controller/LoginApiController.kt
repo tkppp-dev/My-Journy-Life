@@ -2,7 +2,7 @@ package com.tkppp.myjournylife.member.controller
 
 
 import com.tkppp.myjournylife.member.dto.login.LoginResponseDto
-import com.tkppp.myjournylife.member.dto.login.ReissueAuthTokenReqestDto
+import com.tkppp.myjournylife.member.dto.login.ReissueAuthTokenRequestDto
 import com.tkppp.myjournylife.member.dto.login.ReissueAuthTokenResponseDto
 import com.tkppp.myjournylife.member.service.LoginService
 import org.springframework.web.bind.annotation.*
@@ -26,7 +26,7 @@ class LoginApiController(
 
 
     @PostMapping("/auth/reissue")
-    fun reissueAuthenticationToken(@RequestBody requestBody: ReissueAuthTokenReqestDto): ReissueAuthTokenResponseDto {
+    fun reissueAuthenticationToken(@RequestBody requestBody: ReissueAuthTokenRequestDto): ReissueAuthTokenResponseDto {
         val result = loginService.reissueAccessToken(requestBody.accessToken, requestBody.refreshToken)
         return if(result != null){
             ReissueAuthTokenResponseDto(result)

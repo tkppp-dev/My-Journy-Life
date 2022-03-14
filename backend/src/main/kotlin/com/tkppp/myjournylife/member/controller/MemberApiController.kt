@@ -13,7 +13,6 @@ class MemberApiController(
 ) {
 
     @GetMapping("/{emailAddress}")
-    @ResponseStatus(HttpStatus.NOT_FOUND)
     fun returnMemberInfo(@PathVariable emailAddress: String): MemberInfoResponseDto? {
         return try {
             memberService.getMemberInfo(emailAddress)
