@@ -74,11 +74,10 @@ class WebSecurityConfig(
 
         http.authorizeRequests()
             .requestMatchers(CorsUtils::isPreFlightRequest).permitAll()
-            .antMatchers(
-                "/h2-console/**"    // 여기!
-            ).permitAll()
-            .antMatchers("/api/login/test").hasRole("MEMBER")
-            .anyRequest().permitAll()
+            .antMatchers("/h2-console/**").permitAll()
+            .antMatchers("/api/login/**").permitAll()
+            .antMatchers("/api/register").permitAll()
+            .anyRequest().hasRole("MEMBER")
 
     }
 
