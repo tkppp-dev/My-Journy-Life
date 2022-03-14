@@ -1,22 +1,18 @@
 import axios from 'axios'
+import store from '../store'
 
 const instance = axios.create({
   baseURL: 'http://localhost:8080'
 })
 
-function getAccessToken(){
-  return ""
-}
-
-function getRefreshToken(){
-  return ""
-}
+const prefix = "Bearer "
 
 instance.interceptors.request.use(
   async config => {
-    const token = getAccessToken()
+    const accessToken = store.state.user.accessToken
+
     config.headers = {
-      'Authorization': null
+      'Authorization': accessToken === null ? null : prefix + accessToken
     }
     return config
   },
@@ -34,17 +30,16 @@ instance.interceptors.response.use(
 
       try{
         const resp = await axios.post("/api/login/auth/reissue", {
-          accessToken: getAccessToken(),
-          refreshToken: getRefreshToken()
+          accessToken: store.state.user.accessToken,
+          refreshToken: store.state.user.refreshToken
         })
 
         if(resp.data.success = false){
           return resp.data.message
         }
         
-        // access 토큰 저장 로직 필요
-
-        orignalRequest.headers['Authorization'] = `Bearer ${resp.data.accessToken}`
+        store.commit('setReissuedAccessToken', resp.data.accessToken)
+        orignalRequest.headers['Authorization'] = prefix + resp.data.accessToken
         return axios(orignalRequest)
       } catch(error){
         console.log(error)
