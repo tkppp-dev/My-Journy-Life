@@ -63,6 +63,7 @@ import BaseModal from './BaseModal.vue';
 import CustomInput from './CustomInput.vue';
 import CustomButton from './CustomButton.vue';
 import axios from 'axios'
+import _axios from '../util/_axios'
 import qs from 'qs'
 
 export default {
@@ -102,6 +103,15 @@ export default {
 
           if(res.data.success){
             // vuex에 auth token 저장
+            this.$store.commit('performLogin',{
+              accessToken: res.data.accessToken,
+              refreshToken: res.data.refreshToken
+            })
+
+            // 로그인 사용자 정보 로드
+            const response = await _axios.get(`/api/member/${this.form.emailAddress}`)
+            this.$store.commit('setUserInfo', response.data)
+
             this.$emit('close')
           } else {
             alert('이메일 또는 비밀번호가 일치하지 않습니다')
