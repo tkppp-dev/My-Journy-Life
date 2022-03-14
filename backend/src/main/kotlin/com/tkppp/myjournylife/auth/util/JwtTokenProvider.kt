@@ -63,7 +63,7 @@ class JwtTokenProvider(
 
     fun resolveToken(req: HttpServletRequest): String?{
         val token = req.getHeader("Authorization") ?: ""
-        val prefix = "bearer "
+        val prefix = "Bearer "
         return when(token.startsWith(prefix)){
             true -> token.substring(prefix.length, token.length)
             false -> null
@@ -76,7 +76,6 @@ class JwtTokenProvider(
                 .setSigningKey(secretKey)
                 .parseClaimsJws(token)
                 .let {
-                    println(it.body.expiration.before(Date()))
                     !it.body.expiration.before(Date())
                 }
         } catch (e: NullPointerException){
