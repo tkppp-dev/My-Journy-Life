@@ -42,18 +42,11 @@ class LoginService(
 
     fun reissueAccessToken(accessToken: String, refreshToken: String): String? {
         val key = "auth:login:${jwtTokenProvider.getEmailAddress(accessToken)}"
+        validateAccessToken(accessToken, refreshToken, key)
+        val authentication = jwtTokenProvider.getAuthentication(accessToken)
+        val newAccessToken = jwtTokenProvider.createToken(authentication, TokenType.ACCESS_TOKEN)
 
-        return try {
-            validateAccessToken(accessToken, refreshToken, key)
-            val authentication = jwtTokenProvider.getAuthentication(accessToken)
-            val newAccessToken = jwtTokenProvider.createToken(authentication, TokenType.ACCESS_TOKEN)
-
-            hashOps.put(key, "accessToken", newAccessToken)
-            newAccessToken
-        } catch (e: Exception) {
-            println(e.message)
-            null
-        }
-
+        hashOps.put(key, "accessToken", newAccessToken)
+        return newAccessToken
     }
 }

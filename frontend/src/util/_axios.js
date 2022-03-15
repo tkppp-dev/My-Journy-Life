@@ -25,17 +25,18 @@ instance.interceptors.response.use(
   response => response,
   async (error) => {
     const orignalRequest = error.config
-    if(error.response.status === 401 && !orignalRequest._retry){
+    if(error.response.status === 401 && error.response.data !== 'LOGIN_FAIL' && !orignalRequest._retry){
       console.log("AccessToken Expired.")
-
+      orignalRequest._retry = true
       try{
         const resp = await axios.post("/api/login/auth/reissue", {
           accessToken: store.state.user.accessToken,
           refreshToken: store.state.user.refreshToken
         })
 
-        if(resp.data.success = false){
-          return resp.data.message
+        if(resp.status === 403 || resp.status === 500){
+          store.commit('performLogout')
+          return resp.data
         }
         
         store.commit('setReissuedAccessToken', resp.data.accessToken)

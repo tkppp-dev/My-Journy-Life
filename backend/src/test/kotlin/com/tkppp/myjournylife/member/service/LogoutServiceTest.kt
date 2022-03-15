@@ -1,12 +1,11 @@
 package com.tkppp.myjournylife.member.service
 
 import com.tkppp.myjournylife.auth.util.JwtTokenProvider
-import com.tkppp.myjournylife.member.dto.logout.LogoutRequestDto
+import com.tkppp.myjournylife.dto.member.logout.LogoutRequestDto
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.Test
 
-import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.extension.ExtendWith

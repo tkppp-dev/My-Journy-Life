@@ -134,27 +134,5 @@ class LoginServiceTest(
             assertThat(result).isEqualTo(reissuedAccessToken)
             assertThat(hashOps.get(key, "accessToken")).isEqualTo(reissuedAccessToken)
         }
-
-        @Test
-        @DisplayName("RefreshToken 이 만료되면 재발급이 실패해야 한다.")
-        fun reissueAccessToken_shouldFailWithExpiredRefreshToken(){
-            // stubbing
-            Mockito.`when`(jwtTokenProvider.validateToken(refreshToken)).thenReturn(false)
-
-            // then
-            val result = loginService.reissueAccessToken(accessToken, refreshToken)
-            assertThat(result).isNull()
-        }
-
-        @Test
-        @DisplayName("AccessToken 이 저장된 AccessToken 과 다르면 재발급이 실패해야 한다.")
-        fun reissueAccessToken_shouldFailWithInvalidAccessToken(){
-            // stubbing
-            Mockito.`when`(jwtTokenProvider.validateToken(refreshToken)).thenReturn(true)
-
-            // then
-            val result = loginService.reissueAccessToken(invalidAccessToken, refreshToken)
-            assertThat(result).isNull()
-        }
     }
 }

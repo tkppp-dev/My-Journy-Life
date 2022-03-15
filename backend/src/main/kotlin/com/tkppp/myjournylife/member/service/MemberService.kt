@@ -1,7 +1,7 @@
 package com.tkppp.myjournylife.member.service
 
 import com.tkppp.myjournylife.member.domain.MemberRepository
-import com.tkppp.myjournylife.member.dto.member.MemberInfoResponseDto
+import com.tkppp.myjournylife.dto.member.member.MemberInfoResponseDto
 import com.tkppp.myjournylife.member.exception.MemberNotFoundException
 import org.springframework.stereotype.Service
 
@@ -10,7 +10,7 @@ class MemberService(
     private val memberRepository: MemberRepository
 ) {
 
-    fun getMemberInfo(emailAddress: String): MemberInfoResponseDto{
+    fun getMemberInfo(emailAddress: String): MemberInfoResponseDto {
         return when(val member = memberRepository.findByEmailAddress(emailAddress)){
             null -> throw MemberNotFoundException()
             else -> MemberInfoResponseDto(

@@ -3,12 +3,10 @@ package com.tkppp.myjournylife.member.service
 import com.tkppp.myjournylife.member.domain.Member
 import com.tkppp.myjournylife.member.domain.MemberRepository
 import com.tkppp.myjournylife.member.util.RegisterType
-import com.tkppp.myjournylife.member.dto.register.LocalRegisterRequestDto
+import com.tkppp.myjournylife.dto.member.register.LocalRegisterRequestDto
 import com.tkppp.myjournylife.member.exception.DuplicatedEmailAddressException
 import com.tkppp.myjournylife.member.exception.DuplicatedNicknameException
 import org.junit.jupiter.api.extension.ExtendWith
-import org.mockito.InjectMocks
-import org.mockito.Mock
 import org.mockito.Mockito
 import org.mockito.junit.jupiter.MockitoExtension
 import org.assertj.core.api.Assertions.assertThat

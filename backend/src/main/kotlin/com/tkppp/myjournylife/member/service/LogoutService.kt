@@ -1,7 +1,7 @@
 package com.tkppp.myjournylife.member.service
 
 import com.tkppp.myjournylife.auth.util.JwtTokenProvider
-import com.tkppp.myjournylife.member.dto.logout.LogoutRequestDto
+import com.tkppp.myjournylife.dto.member.logout.LogoutRequestDto
 import org.springframework.data.redis.core.RedisTemplate
 import org.springframework.stereotype.Service
 
