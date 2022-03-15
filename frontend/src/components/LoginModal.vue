@@ -62,9 +62,10 @@
 import BaseModal from './BaseModal.vue';
 import CustomInput from './CustomInput.vue';
 import CustomButton from './CustomButton.vue';
-import axios from 'axios'
-import _axios from '../util/_axios'
-import qs from 'qs'
+import axios from 'axios';
+import _axios from '../util/_axios';
+import qs from 'qs';
+import errorCode from '../util/errorCode';
 
 export default {
   components: { BaseModal, CustomInput, CustomButton },
@@ -76,7 +77,7 @@ export default {
       form: {
         emailAddress: '',
         password: '',
-      }
+      },
     };
   },
   methods: {
@@ -84,40 +85,40 @@ export default {
       this.form.emailAddress = val;
     },
     setPassword(val) {
-      this.form.password = val
+      this.form.password = val;
     },
     async submitForm() {
-      if(!/^([\w.\-]+@\w+\.[a-zA-Z]+$)/.test(this.form.emailAddress)){
-        alert("이메일 형식이 올바르지 않습니다")
-      }
-      else if(!/^[\w!@#$%^&*+,.\?\-]{6,15}$/.test(this.form.password)){
-        alert("비밀번호 형식이 올바르지 않습니다")
-      }
-      else {
-        try{
-          const res = await axios.post("/api/login", qs.stringify(this.form), {
+      if (!/^([\w.\-]+@\w+\.[a-zA-Z]+$)/.test(this.form.emailAddress)) {
+        alert('이메일 형식이 올바르지 않습니다');
+      } else if (!/^[\w!@#$%^&*+,.\?\-]{6,15}$/.test(this.form.password)) {
+        alert('비밀번호 형식이 올바르지 않습니다');
+      } else {
+        try {
+          const res = await axios.post('/api/login', qs.stringify(this.form), {
             headers: {
-              "Content-Type": "application/x-www-form-urlencoded"
-            }
-          })
+              'Content-Type': 'application/x-www-form-urlencoded',
+            },
+          });
 
-          if(res.status === 200){
-            // vuex에 auth token 저장
-            this.$store.commit('performLogin',{
-              accessToken: res.data.accessToken,
-              refreshToken: res.data.refreshToken
-            })
+          // vuex에 auth token 저장
+          this.$store.commit('performLogin', {
+            accessToken: res.data.accessToken,
+            refreshToken: res.data.refreshToken,
+          });
 
-            // 로그인 사용자 정보 로드
-            const response = await _axios.get(`/api/member/${this.form.emailAddress}`)
-            this.$store.commit('setUserInfo', response.data)
+          // 로그인 사용자 정보 로드
+          const response = await _axios.get(
+            `/api/member/${this.form.emailAddress}`
+          );
+          this.$store.commit('setUserInfo', response.data);
 
-            this.$emit('close')
-          } else {
+          this.$emit('close');
+        } catch (e) {
+          if(e.response.status === 401 && e.response.data.errorCode === errorCode.LOGIN_FAIL){
             alert('이메일 또는 비밀번호가 일치하지 않습니다')
+          } else {
+            alert('예상치 못한 문제가 발생했습니다. 다시 시도해주세요')
           }
-        } catch(e){
-          alert('예상치 못한 문제가 발생했습니다. 다시 시도해주세요')
         }
       }
     },

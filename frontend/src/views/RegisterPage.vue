@@ -81,6 +81,7 @@ import Navbar from '../components/Navbar.vue';
 import CustomButton from '../components/CustomButton.vue';
 import CustomInput from '../components/CustomInput.vue';
 import _axios from '../util/_axios';
+import errorCode from '../util/errorCode';
 
 export default {
   name: 'RegisterPage',
@@ -117,30 +118,32 @@ export default {
   methods: {
     async register() {
       try {
-        const email = this.form.emailAddress
-        const password = this.form.password
-        const nickname = this.form.nickname
-        const res = await _axios.post('/api/register', {
+        const email = this.form.emailAddress;
+        const password = this.form.password;
+        const nickname = this.form.nickname;
+
+        await _axios.post('/api/register', {
           emailAddress: email,
           password: password,
-          nickname: nickname === "" ? null : nickname,
+          nickname: nickname === '' ? null : nickname,
         });
 
-        if(res.status === 204){
-          alert('회원가입 성공')
-          this.$router.push('/')
-        }
-        else {
-          if(res.data.errorCode === 'DUPLICATION_EMAIL'){
-            alert('이미 가입된 이메일 주소입니다')
-          }
-          else if(res.data.errorCode === '') {
-            alert('중복된 별명입니다. 다른 별명을 입력해 주세요')
-          }
-        }
+        this.$router.push('/');
+
       } catch (e) {
-        alert('예기치 못한 문제가 발생했습니다. 다시 시도해주세요')
-        console.log(e.message)
+        if (e.response.status === 409) {
+          if (
+            e.response.data.errorCode === errorCode.DUPLICATED_EMAIL_ADDRESS
+          ) {
+            alert('이미 가입된 이메일 주소입니다');
+          } else if (
+            e.response.data.errorCode === errorCode.DUPLICATED_NICKNAME
+          ) {
+            alert('중복된 별명입니다. 다른 별명을 입력해 주세요');
+          }
+        } else {
+          alert('예상치 못한 에러가 발생했습니다. 다시 시도해주세요')
+        }
       }
     },
     setEmail(val) {

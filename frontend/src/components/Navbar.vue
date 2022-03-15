@@ -37,7 +37,7 @@ import SearchIcon from 'vue-material-design-icons/Magnify.vue';
 import NotificationIcon from 'vue-material-design-icons/BellOutline.vue';
 import UserIcon from 'vue-material-design-icons/AccountCircle.vue';
 import LoginModal from './LoginModal.vue';
-import _axios from '../util/_axios'
+import _axios from '../util/_axios';
 
 export default {
   name: 'Navbar',
@@ -67,28 +67,28 @@ export default {
     closeLoginModal() {
       this.loginModalVisible = false;
     },
-    async logout(){
-      const res = await _axios.post('/api/logout', {
-        accessToken: this.$store.state.user.accessToken
-      })
+    async logout() {
+      try {
+        const res = await _axios.post('/api/logout', {
+          accessToken: this.$store.state.user.accessToken,
+        });
 
-      if(res.status === 204){
-        this.$store.commit('performLogout')
-        this.$router.push('/')
-      } else {
-        alert('로그아웃에 실패했습니다. 다시 시도해주세요')
+        this.$store.commit('performLogout');
+        this.$router.push('/');
+      } catch (e) {
+        alert('로그아웃에 실패했습니다. 다시 시도해주세요');
       }
     },
-    logoutForce(){
-      this.$store.commit('performLogout')
-    }
+    logoutForce() {
+      this.$store.commit('performLogout');
+    },
   },
   computed: {
-    isLogin(){
-      if(this.$store.state.user.isLogin === true) return true
-      else return false
-    }
-  }
+    isLogin() {
+      if (this.$store.state.user.isLogin === true) return true;
+      else return false;
+    },
+  },
 };
 </script>
 
