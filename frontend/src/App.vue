@@ -3,17 +3,27 @@
 </template>
 
 <script>
-export default {
-};
+export default {};
 </script>
+
+<style lang="sass">
+@import './sass/main.scss'
+</style>
 
 <style>
 @font-face {
-    font-family: 'multicolore_regular';
-    src: url('./assets/fonts/multicolore-webfont.woff2') format('woff2'),
-         url('./assets/fonts/multicolore-webfont.woff') format('woff');
-    font-weight: normal;
-    font-style: normal;
+  font-family: 'nanum_gothic';
+  src: url('./assets/fonts/nanum-gothic-regular.ttf') format('ttf');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'multicolore_regular';
+  src: url('./assets/fonts/multicolore-webfont.woff2') format('woff2'),
+    url('./assets/fonts/multicolore-webfont.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
 }
 
 button {

@@ -9,6 +9,10 @@
     "test:e2e": "vue-cli-service test:e2e"
   },
   "dependencies": {
+    "@tiptap/extension-placeholder": "^2.0.0-beta.48",
+    "@tiptap/extension-underline": "^2.0.0-beta.23",
+    "@tiptap/starter-kit": "^2.0.0-beta.183",
+    "@tiptap/vue-3": "^2.0.0-beta.90",
     "axios": "^0.26.0",
     "core-js": "^3.6.5",
     "path": "^0.12.7",
