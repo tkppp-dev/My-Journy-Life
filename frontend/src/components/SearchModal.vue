@@ -51,7 +51,7 @@ export default {
   justify-content: center;
   align-items: center;
   width: 800px;
-  height: 200px;
+  height: 150px;
   border-radius: 12px;
   background-color: rgba(226, 216,190,0.6);
 
@@ -64,7 +64,7 @@ export default {
 
 .search-bar {
   width: 640px;
-  height: 50px;
+  height: 30px;
   padding: 12px 12px 12px 56px;
   border: 0px;
   border-radius: 6px;
