@@ -3,6 +3,7 @@ package com.tkppp.myjournylife.member.controller
 import com.tkppp.myjournylife.dto.ResponseDto
 import com.tkppp.myjournylife.dto.error.ErrorResponseDto
 import com.tkppp.myjournylife.dto.member.member.MemberInfoResponseDto
+import com.tkppp.myjournylife.error_code.ErrorCode
 import com.tkppp.myjournylife.member.exception.MemberNotFoundException
 import com.tkppp.myjournylife.member.service.MemberService
 import org.springframework.http.HttpStatus
@@ -22,7 +23,7 @@ class MemberApiController(
         } catch (e: MemberNotFoundException) {
             ResponseEntity(
                 ErrorResponseDto(
-                    "MEMBER_NOT_FOUND", e.message
+                    ErrorCode.MEMBER_NOT_FOUND.name, e.message
                 ), HttpStatus.NOT_FOUND
             )
         }

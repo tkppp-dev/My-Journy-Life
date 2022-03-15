@@ -101,7 +101,7 @@ export default {
             }
           })
 
-          if(res.data.success){
+          if(res.status === 200){
             // vuex에 auth token 저장
             this.$store.commit('performLogin',{
               accessToken: res.data.accessToken,

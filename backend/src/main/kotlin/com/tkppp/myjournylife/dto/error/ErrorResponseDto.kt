@@ -5,4 +5,4 @@ import com.tkppp.myjournylife.dto.ResponseDto
 data class ErrorResponseDto(
     val errorCode: String,
     val message: String?
-) : ResponseDto()
+) : ResponseDto

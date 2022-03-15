@@ -126,7 +126,7 @@ export default {
           nickname: nickname === "" ? null : nickname,
         });
 
-        if(res.data.success){
+        if(res.status === 204){
           alert('회원가입 성공')
           this.$router.push('/')
         }

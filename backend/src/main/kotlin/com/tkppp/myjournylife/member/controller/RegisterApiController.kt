@@ -4,6 +4,7 @@ import com.tkppp.myjournylife.dto.ResponseDto
 import com.tkppp.myjournylife.dto.error.ErrorResponseDto
 import com.tkppp.myjournylife.dto.member.register.LocalRegisterRequestDto
 import com.tkppp.myjournylife.dto.member.register.LocalRegisterResponseDto
+import com.tkppp.myjournylife.error_code.ErrorCode
 import com.tkppp.myjournylife.member.exception.DuplicatedEmailAddressException
 import com.tkppp.myjournylife.member.exception.DuplicatedNicknameException
 import com.tkppp.myjournylife.member.service.RegisterService
@@ -24,13 +25,13 @@ class RegisterApiController(
         } catch (e: DuplicatedEmailAddressException) {
             ResponseEntity(
                 ErrorResponseDto(
-                    "DUPLICATED_EMAIL_ADDRESS", e.message
+                    ErrorCode.DUPLICATED_EMAIL_ADDRESS.name, e.message
                 ), HttpStatus.CONFLICT
             )
         } catch (e: DuplicatedNicknameException) {
             ResponseEntity(
                 ErrorResponseDto(
-                    "DUPLICATED_NICKNAME", e.message
+                    ErrorCode.DUPLICATED_NICKNAME.name, e.message
                 ), HttpStatus.CONFLICT
             )
         }

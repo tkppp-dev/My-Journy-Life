@@ -6,6 +6,7 @@ import com.tkppp.myjournylife.dto.error.ErrorResponseDto
 import com.tkppp.myjournylife.dto.member.login.LoginResponseDto
 import com.tkppp.myjournylife.dto.member.login.ReissueAuthTokenRequestDto
 import com.tkppp.myjournylife.dto.member.login.ReissueAuthTokenResponseDto
+import com.tkppp.myjournylife.error_code.ErrorCode
 import com.tkppp.myjournylife.member.exception.ExpiredRefreshTokenException
 import com.tkppp.myjournylife.member.exception.InvalidAccessTokenException
 import com.tkppp.myjournylife.member.service.LoginService
@@ -29,7 +30,7 @@ class LoginApiController(
     @GetMapping("/fail")
     fun loginFail(): ResponseEntity<ResponseDto?>{
         return ResponseEntity(ErrorResponseDto(
-            "LOGIN_FAIL", "Login Fail"
+            ErrorCode.LOGIN_FAIL.name, "Login Fail"
         ), HttpStatus.UNAUTHORIZED)
     }
 
@@ -42,13 +43,13 @@ class LoginApiController(
         } catch (e: ExpiredRefreshTokenException) {
             ResponseEntity(
                 ErrorResponseDto(
-                    "REFRESH_TOKEN_EXPIRED", e.message
+                    ErrorCode.REFRESH_TOKEN_EXPIRED.name, e.message
                 ), HttpStatus.FORBIDDEN
             )
         } catch (e: InvalidAccessTokenException) {
             ResponseEntity(
                 ErrorResponseDto(
-                    "INVALID_ACCESS_TOKEN", e.message
+                    ErrorCode.INVALID_ACCESS_TOKEN.name, e.message
                 ), HttpStatus.FORBIDDEN
             )
         } catch (e: Exception) {

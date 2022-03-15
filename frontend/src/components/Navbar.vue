@@ -72,7 +72,7 @@ export default {
         accessToken: this.$store.state.user.accessToken
       })
 
-      if(res.data.success){
+      if(res.status === 204){
         this.$store.commit('performLogout')
         this.$router.push('/')
       } else {
