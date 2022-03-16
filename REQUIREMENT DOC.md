@@ -28,36 +28,13 @@
 
 ## 사용자
 
-**회원가입** : 게스트는 여러 기능 이용을 위해 소셜 아이디(구글, 네이버, 카카오) 혹은 이메일, 비밀번호, 별명, 핸드폰 번호를 통해 가입할 수 있다.(2/27 수정. 단순히 본인확인 용도가 아닌 다계정을 막기 위한 조치이므로 이름은 불필요한 개인정보라 생각해 제외)
- 
-	 제약 조건
-	  - 이메일은 이메일 형식으로 이루어져야 한다.
-	  - 비밀번호는 영문, 특수문자, 숫자로만 이루어져야 하며 이중 두가지 이상 포함되어야 하고 6자에서 15자 사이여야 한다.
-	  - 별명은 한글과 영문으로 이루어져야하고 한글은 최대 8자, 영문은 최대 16자이하여야 한다. 별명을 설정하지 않을 경우 익명으로 설정된다.
-	  
-	  이름과 핸드폰번호로 실명인증을 수행하여 1인당 하나의 아이디를 가지는 이유는 리뷰의 투명성(바이럴, 댓글조작 등)을 지키기 위해서이다.
-	 
-
-	 세부 구현 사항
-	 
-	  백엔드
-	  - 이메일 중복 체크
-	   1. ~~RequestBody { emailAddress }~~ Get(PathVariable = emailAddress) 를 받아 이미 회원으로 등록된 이메일인지 체크
-	   2. 중복되지 않는다면 ResponseBody { isDuplicated: false }, ResponseBody { isDuplicated: true } 를 클라이언트로 보냄
-	 
-	  - 휴대폰 인증
-	   1. ReqestBody { phoneNumber } 를 받아 이미 인증된 번호인지 체크
-	   2. 이미 인증된 번호일 경우 ResponseBody { alreadyAuthenticated : true } 를 클라이언트로 보내고 종료
-	   3. 인증되지 않은 번호인 경우 메세지서비스(미정)를 통해 전달받은 번호로 인증 메세지를 전송
-	   4. 클라이언트가 인증 번호를 RequestBody { phoneNumber, authenticateNumber } 에 담아 보내면 인증 번호가 맞는지 확인
-	   5. 인증번호가 맞을 경우 ResponseBody { alreadyAuthenticated : false, authenticationSuccess : true, message : '' } 를 클라이언트로 전송
-	   6. 인증번호가 맞지 않을 경우 ResponseBody { alreadyAuthenticated : false, authenticationSuccess : false, message : '인증 번호가 일치하지 않습니다' } 를 클라이언트로 전송
-	  
-	  - 회원 가입 완료
-	   1. RequestBody { emailAddress, password, nickname, phoneNumber } 를 받아 각 필드의 유효성 체크
-	   2. 유효성 체크를 통과할 경우 ResponseBody { registerSuccess : true }, 통과하지 못할 경우 { registerSuccess: false } 를 클라이언트로 전송
+**회원가입** : 게스트는 여러 기능 이용을 위해 소셜 아이디(구글, 네이버, 카카오) 혹은 이메일, 비밀번호, 별명, ~~이름, 핸드폰 번호~~를 통해 가입할 수 있다.
+	
+	(2/27 수정. 단순히 본인확인 용도가 아닌 다계정을 막기 위한 조치이므로 이름은 불필요한 개인정보라 생각해 제외)
+	(3/13 수정. 핸드폰 인증은 폐기. 추후 이메일을 통한 본인 인증을 구현할 예정)
 	    
 **로그인** : 게스트는 회원 전용 기능 이용을 위해 소셜아이디(구글, 네이버, 카카오) 또는 이메일과 비밀번호를 통해 로그인 할 수 있다. 
+	(3/13 구현. 스프링 시큐리티와 JWT를 이용해 로컬 로그인만 구현. 추후 OAuth2를 활용해 소셜 로그인 구현 예정)
 
 **개인 메신저** : 회원은 다른 회원에게 개인적으로 메세지를 보낼 수 있다.
 
