@@ -130,7 +130,6 @@ export default {
 .login-container {
   display: flex;
   justify-content: center;
-  margin-top: 200px;
 }
 
 .login-wrapper {
@@ -138,7 +137,11 @@ export default {
   flex-direction: column;
   justify-content: center;
   width: 350px;
+
+  margin-top: 150px;
   padding: 0 65px;
+
+  background-color:  white;
 
   box-shadow: 0px 0px 2px rgba(0, 0, 0, 0.3);
 }
