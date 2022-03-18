@@ -20,8 +20,15 @@
             </div>
           </div>
           <div class="upload-body" v-if="isUploadActive">
-            <input class="upload-input" type="file" accept="image/*" />
-            <button class="upload-button">업로드</button>
+            <input
+              class="upload-input"
+              ref="image"
+              type="file"
+              accept="image/*"
+            />
+            <button class="upload-button" @click="uploadImageFile">
+              업로드
+            </button>
           </div>
           <div class="upload-body" v-if="isLinkActive">
             <link-icon fillColor="grey" style="paddingtop: 3px" />
@@ -30,7 +37,9 @@
               type="text"
               placeholder="이미지 링크를 입력하세요"
             />
-            <button class="upload-button">업로드</button>
+            <button class="upload-button" @click="insertImageLink">
+              업로드
+            </button>
           </div>
         </div>
       </div>
@@ -41,6 +50,7 @@
 <script>
 import BaseModal from './BaseModal.vue';
 import LinkIcon from 'vue-material-design-icons/Link.vue';
+import _axios from '../util/_axios';
 
 export default {
   name: 'ImageUploadModal',
@@ -65,6 +75,30 @@ export default {
     activateLink() {
       this.isLinkActive = true;
       this.isUploadActive = false;
+    },
+    async uploadImageFile() {
+      const imageData = this.$refs.image.files;
+
+      if (imageData.length === 0) {
+        alert('먼저 파일을 업로드해주세요');
+      } else {
+        const formData = new FormData();
+
+        formData.append('imageFiles', imageData[0]);
+        
+        try{
+          const res = await _axios.post('/api/upload/image/review', formData, {
+            headers: {
+              'Content-type': 'multipart/form-data',
+            },
+          });
+  
+          this.$emit('insertImage', res.data)
+          this.$emit('close')
+        } catch(e) {
+          alert('예상치 못한 문제가 발생했습니다. 다시 시도해주세요')
+        }
+      }
     },
   },
 };

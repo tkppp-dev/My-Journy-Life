@@ -64,6 +64,10 @@
         <h3-icon name="h3" />
       </button>
 
+      <button class="menubar__button" @click="showImageUploadModal">
+        <image-icon name="image" />
+      </button>
+
       <button
         class="menubar__button"
         :class="{ 'is-active': editor.isActive('bulletList') }"
@@ -91,7 +95,7 @@
       <button
         class="menubar__button"
         :class="{ 'is-active': editor.isActive('codeBlock') }"
-        @click="editor.chain().focus().toggleCodeBlock().run()"
+        @click="showImageUploadModal"
       >
         <code-icon name="code" />
       </button>
@@ -128,49 +132,31 @@
         @click.stop
       />
     </div>
+    <teleport to="body">
+      <image-upload-modal
+        :show="imageUploadModalVisible"
+        @insertImage="insertImageAtContent"
+        @close="closeImageUploadModal"
+      />
+    </teleport>
   </div>
 </template>
 
 <script>
+import ImageUploadModal from './ImageUploadModal.vue';
 import { Editor, EditorContent } from '@tiptap/vue-3';
 import StarterKit from '@tiptap/starter-kit';
 import Underline from '@tiptap/extension-underline';
-import Placeholder from '@tiptap/extension-placeholder'
-import BoldIcon from 'vue-material-design-icons/FormatBold.vue';
-import ItalicIcon from 'vue-material-design-icons/FormatItalic.vue';
-import StrikeIcon from 'vue-material-design-icons/FormatStrikethrough.vue';
-import UnderlineIcon from 'vue-material-design-icons/FormatUnderline.vue';
-import TextWrappingIcon from 'vue-material-design-icons/FormatTextWrappingOverflow.vue';
-import H1Icon from 'vue-material-design-icons/FormatHeader1.vue';
-import H2Icon from 'vue-material-design-icons/FormatHeader2.vue';
-import H3Icon from 'vue-material-design-icons/FormatHeader3.vue';
-import UlIcon from 'vue-material-design-icons/FormatListBulleted.vue';
-import OlIcon from 'vue-material-design-icons/FormatListNumbered.vue';
-import QuoteIcon from 'vue-material-design-icons/FormatQuoteClose.vue';
-import CodeIcon from 'vue-material-design-icons/CodeTags.vue';
-import HrIcon from 'vue-material-design-icons/Minus.vue';
-import UndoIcon from 'vue-material-design-icons/Undo.vue';
-import RedoIcon from 'vue-material-design-icons/Redo.vue';
+import Placeholder from '@tiptap/extension-placeholder';
+import Image from '@tiptap/extension-image';
+import menubarIcons from '../util/menubarIcons';
 
 export default {
   name: 'Editor',
   components: {
     EditorContent,
-    BoldIcon,
-    ItalicIcon,
-    StrikeIcon,
-    UnderlineIcon,
-    TextWrappingIcon,
-    H1Icon,
-    H2Icon,
-    H3Icon,
-    UlIcon,
-    OlIcon,
-    QuoteIcon,
-    CodeIcon,
-    HrIcon,
-    UndoIcon,
-    RedoIcon,
+    ImageUploadModal,
+    ...menubarIcons,
   },
   props: {
     initialContent: {
@@ -204,14 +190,20 @@ export default {
       html: '',
       json: '',
       editor: null,
+      imageUploadModalVisible: false,
     };
   },
   created() {
     this.editor = new Editor({
       content: this.initialContent,
-      extensions: [StarterKit, Underline, Placeholder.configure({
-        placeholder: '내용을 입력하세요'
-      })],
+      extensions: [
+        StarterKit,
+        Underline,
+        Image,
+        Placeholder.configure({
+          placeholder: '내용을 입력하세요',
+        }),
+      ],
     });
 
     this.html = this.editor.getHTML();
@@ -227,18 +219,33 @@ export default {
     this.editor.destroy();
   },
   methods: {
-    focusEditerContent(){
-      
-      this.editor.commands.focus('end')
-    }
-  }
+    focusEditerContent() {
+      this.editor.commands.focus('end');
+    },
+    showImageUploadModal() {
+      this.imageUploadModalVisible = true;
+    },
+    closeImageUploadModal() {
+      this.imageUploadModalVisible = false;
+    },
+    insertImageAtContent(images) {
+      for (let imageUrl of images) {
+        this.editor.commands.setImage({ src: `../../${imageUrl}`});
+      }
+    },
+  },
 };
 </script>
 
 <style scoped>
 .editor-wrapper {
-  margin: 0 auto;
-  width: 80%;
+  width: 960px;
   box-shadow: 0px 0px 2px rgba(0, 0, 0, 0.3);
+}
+
+@media (max-width: 960px) {
+  .editor-wrapper {
+    width: 98%;
+  }
 }
 </style>
