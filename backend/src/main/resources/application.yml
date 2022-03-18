@@ -4,6 +4,10 @@
 server:
   port: 8080
 
+firebase:
+  account-path: ./firebase-service-account-key.json
+  bucket-name: my-journy-life.appspot.com/
+
 # 실행할 환경 지정 spring:profiles:active 옵션
 spring:
   profiles:

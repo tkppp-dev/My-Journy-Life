@@ -5,6 +5,7 @@ import com.tkppp.myjournylife.auth.auth_handler.CustomAuthenticationSuccessHandl
 import com.tkppp.myjournylife.auth.filter.JwtAuthorizationFilter
 import com.tkppp.myjournylife.auth.service.CustomUserDetailsService
 import com.tkppp.myjournylife.auth.filter.RestAuthenticationEntryPoint
+import org.springframework.boot.autoconfigure.security.servlet.PathRequest
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.security.authentication.AuthenticationManager
@@ -50,8 +51,8 @@ class WebSecurityConfig(
     }
 
     override fun configure(web: WebSecurity) {
-        web.ignoring().antMatchers("/h2-console/**");
-        super.configure(web)
+        web.ignoring()
+            .antMatchers("/h2-console/**")
     }
 
     override fun configure(http: HttpSecurity) {
@@ -75,9 +76,8 @@ class WebSecurityConfig(
         http.authorizeRequests()
             .requestMatchers(CorsUtils::isPreFlightRequest).permitAll()
             .antMatchers("/h2-console/**").permitAll()
-            .antMatchers("/api/login/**").permitAll()
-            .antMatchers("/api/register").permitAll()
-            .anyRequest().hasRole("MEMBER")
+            .antMatchers("/api/login/**", "/api/register/**", "/api/upload/image/**").permitAll()
+            .anyRequest().hasRole("Member")
 
     }
 
