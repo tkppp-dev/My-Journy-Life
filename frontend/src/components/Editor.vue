@@ -136,6 +136,7 @@
       <image-upload-modal
         :show="imageUploadModalVisible"
         @insertImage="insertImageAtContent"
+        @insertImageLink="insertImageLinkAtContent"
         @close="closeImageUploadModal"
       />
     </teleport>
@@ -189,7 +190,7 @@ export default {
     return {
       html: '',
       json: '',
-      imageNames: [],
+      contentImages: [],
       editor: null,
       imageUploadModalVisible: false,
     };
@@ -200,7 +201,11 @@ export default {
       extensions: [
         StarterKit,
         Underline,
-        Image,
+        Image.configure({
+          config: {
+            inline: false,
+          },
+        }),
         Placeholder.configure({
           placeholder: '내용을 입력하세요',
         }),
@@ -213,6 +218,16 @@ export default {
     this.editor.on('update', () => {
       this.html = this.editor.getHTML();
       this.json = this.editor.getJSON();
+      this.contentImages = [];
+
+      this.json.content.forEach((node) => {
+        if (node.type === 'image' && node.attrs.title != undefined) {
+          this.contentImages.push(node.attrs.title);
+        }
+      });
+
+      console.log(this.contentImages);
+
       this.$emit('update', this.html);
     });
   },
@@ -231,10 +246,27 @@ export default {
     },
     insertImageAtContent(images) {
       for (let imageData of images) {
-        if(this.imageNames.length < 10){
-          this.editor.commands.setImage({ src: imageData.url});
-          this.images.push(imageData.filename)
+        if (this.contentImages.length < 10) {
+          this.editor.commands.insertContent(
+            `<img src="${imageData.url}" title="${imageData.filename}"/><br/>`
+          );
+        } else {
+          alert('이미지 업로드는 최대 10개까지 가능합니다');
         }
+      }
+    },
+    insertImageLinkAtContent(link) {
+      const ext = link.substring(link.lastIndexOf('.') + 1);
+      const extensions = ['png', 'jpg', 'jpeg', 'gif', 'webp'];
+      const result = extensions.filter((el) => {
+        if (el.match(ext)) {
+          return ext;
+        }
+      });
+      if (result.length > 0) {
+        this.editor.commands.insertContent(`<img src="${link}" /><br/>`);
+      } else {
+        alert('유효하지 않은 이미지 링크입니다.');
       }
     },
   },

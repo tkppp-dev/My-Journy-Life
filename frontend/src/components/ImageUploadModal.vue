@@ -34,10 +34,11 @@
             <link-icon fillColor="grey" style="paddingtop: 3px" />
             <input
               class="link-input"
+              v-model="imageLink"
               type="text"
               placeholder="이미지 링크를 입력하세요"
             />
-            <button class="upload-button" @click="insertImageLink">
+            <button class="upload-button" @click="uploadImageLink">
               업로드
             </button>
           </div>
@@ -65,6 +66,7 @@ export default {
     return {
       isUploadActive: true,
       isLinkActive: false,
+      imageLink: ''
     };
   },
   methods: {
@@ -100,6 +102,10 @@ export default {
         }
       }
     },
+    uploadImageLink() {
+      this.$emit('insertImageLink', this.imageLink)
+      this.$emit('close')
+    }
   },
 };
 </script>
