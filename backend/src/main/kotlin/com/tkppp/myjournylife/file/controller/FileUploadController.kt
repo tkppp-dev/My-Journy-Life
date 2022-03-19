@@ -1,6 +1,7 @@
 package com.tkppp.myjournylife.file.controller
 
 import com.tkppp.myjournylife.file.service.FileUploadService
+import com.tkppp.myjournylife.file.util.ImageType
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.PostMapping
@@ -16,8 +17,8 @@ class FileUploadController(
 ) {
 
     @PostMapping("/image/review")
-    fun uploadImageFile(@RequestParam imageFiles: List<MultipartFile>): ResponseEntity<String> {
-        val imageLink = fileUploadService.uploadImageAtFirebase(imageFiles)
-        return ResponseEntity(imageLink, HttpStatus.OK)
+    fun uploadContentImageFile(@RequestParam imageFiles: List<MultipartFile>): ResponseEntity<List<HashMap<String, String>>> {
+        val imageData = fileUploadService.uploadImageAtAwsS3(imageFiles, ImageType.CONTENT)
+        return ResponseEntity(imageData, HttpStatus.OK)
     }
 }
