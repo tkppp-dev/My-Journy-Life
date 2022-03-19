@@ -2,11 +2,9 @@ package com.tkppp.myjournylife.member.service
 
 import com.tkppp.myjournylife.auth.util.JwtTokenProvider
 import com.tkppp.myjournylife.auth.util.TokenType
-import com.tkppp.myjournylife.member.exception.ExpiredRefreshTokenException
-import com.tkppp.myjournylife.member.exception.InvalidAccessTokenException
-import io.jsonwebtoken.Jwt
+import com.tkppp.myjournylife.error.CustomException
+import com.tkppp.myjournylife.error.ErrorCode
 import org.junit.jupiter.api.extension.ExtendWith
-import org.mockito.Mock
 import org.mockito.junit.jupiter.MockitoExtension
 import org.springframework.data.redis.core.RedisTemplate
 import org.assertj.core.api.Assertions.*
@@ -75,27 +73,33 @@ class LoginServiceTest(
         }
 
         @Test
-        @DisplayName("저장된 RefreshToken 이 만료되었다면 ExpiredRefreshTokenException 을 던져야 한다.")
-        fun validateAccessToken_shouldThrowExpiredRefreshTokenException(){
+        @DisplayName("저장된 RefreshToken 이 만료되었다면 CustomException 을 던져야 한다.")
+        fun validateAccessToken_shouldThrowException_WithRefreshTokenExpiredErrorCode(){
             // stubbing
             Mockito.`when`(jwtTokenProvider.validateToken(refreshToken)).thenReturn(false)
 
-            // when, then
-            assertThrows<ExpiredRefreshTokenException> {
+            // when
+            val exception = assertThrows<CustomException> {
                 loginService.validateAccessToken(accessToken, refreshToken, key)
             }
+
+            // then
+            assertThat(exception.errorCode).isEqualTo(ErrorCode.REFRESH_TOKEN_EXPIRED)
         }
 
         @Test
-        @DisplayName("AccessToken 이 저장된 AccessToken 과 다르면 InvalidAccessTokenException 을 던져야 한다.")
-        fun validateAccessToken_shouldThrowExpiredInvalidAccessTokenException(){
+        @DisplayName("AccessToken 이 저장된 AccessToken 과 다르면 CustomException 을 던져야 한다.")
+        fun validateAccessToken_shouldThrowException_WithInvalidAccessTokenErrorCode(){
             // stubbing
             Mockito.`when`(jwtTokenProvider.validateToken(refreshToken)).thenReturn(true)
 
-            // when, then
-            assertThrows<InvalidAccessTokenException> {
+            // when
+            val exception = assertThrows<CustomException> {
                 loginService.validateAccessToken(invalidAccessToken, refreshToken, key)
             }
+
+            // then
+            assertThat(exception.errorCode).isEqualTo(ErrorCode.INVALID_ACCESS_TOKEN)
         }
     }
 

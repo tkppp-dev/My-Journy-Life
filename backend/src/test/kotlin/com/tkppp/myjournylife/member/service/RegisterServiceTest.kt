@@ -4,6 +4,8 @@ import com.tkppp.myjournylife.member.domain.Member
 import com.tkppp.myjournylife.member.domain.MemberRepository
 import com.tkppp.myjournylife.member.util.RegisterType
 import com.tkppp.myjournylife.dto.member.register.LocalRegisterRequestDto
+import com.tkppp.myjournylife.error.CustomException
+import com.tkppp.myjournylife.error.ErrorCode
 import com.tkppp.myjournylife.member.exception.DuplicatedEmailAddressException
 import com.tkppp.myjournylife.member.exception.DuplicatedNicknameException
 import org.junit.jupiter.api.extension.ExtendWith
@@ -82,9 +84,12 @@ class RegisterServiceTest {
             Mockito.`when`(memberRepository.save(Mockito.any(Member::class.java))).thenThrow(DataIntegrityViolationException::class.java)
 
             // when, then
-            assertThrows<DuplicatedEmailAddressException> {
+            val exception = assertThrows<CustomException> {
                 registerService.localRegister(registerFailureDtoWithExistedEmail)
             }
+
+            // then
+            assertThat(exception.errorCode).isEqualTo(ErrorCode.DUPLICATED_EMAIL_ADDRESS)
         }
 
         @Test
@@ -93,10 +98,13 @@ class RegisterServiceTest {
             // stubbing
             Mockito.`when`(memberRepository.findByNickname(existedNickname)).thenReturn(successReturnMember)
 
-            // when, then
-            assertThrows<DuplicatedNicknameException> {
+            // when
+            val exception = assertThrows<CustomException> {
                 registerService.localRegister(registerFailureDtoWithExistedNickname)
             }
+
+            // then
+            assertThat(exception.errorCode).isEqualTo(ErrorCode.DUPLICATED_NICKNAME)
         }
     }
 }

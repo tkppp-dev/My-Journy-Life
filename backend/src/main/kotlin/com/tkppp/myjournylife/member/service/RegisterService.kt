@@ -2,6 +2,8 @@ package com.tkppp.myjournylife.member.service
 
 import com.tkppp.myjournylife.member.domain.MemberRepository
 import com.tkppp.myjournylife.dto.member.register.LocalRegisterRequestDto
+import com.tkppp.myjournylife.error.CustomException
+import com.tkppp.myjournylife.error.ErrorCode
 import com.tkppp.myjournylife.member.exception.DuplicatedEmailAddressException
 import com.tkppp.myjournylife.member.exception.DuplicatedNicknameException
 import org.springframework.stereotype.Service
@@ -24,7 +26,7 @@ class RegisterService(
     fun localRegister(localRegisterRequestDto: LocalRegisterRequestDto): Long? {
         if(localRegisterRequestDto.nickname != null){
             when(isDuplicateNickname(localRegisterRequestDto.nickname!!)){
-                true -> throw DuplicatedNicknameException()
+                true -> throw CustomException(ErrorCode.DUPLICATED_NICKNAME)
                 false -> {}
             }
         }
@@ -33,7 +35,7 @@ class RegisterService(
         return try {
             memberRepository.save(localRegisterRequestDto.toEntity(encodedPassword)).id
         } catch (e: DataIntegrityViolationException){
-            throw DuplicatedEmailAddressException()
+            throw CustomException(ErrorCode.DUPLICATED_EMAIL_ADDRESS)
         }
     }
 }

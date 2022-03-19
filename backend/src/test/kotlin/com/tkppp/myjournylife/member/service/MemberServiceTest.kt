@@ -1,5 +1,7 @@
 package com.tkppp.myjournylife.member.service
 
+import com.tkppp.myjournylife.error.CustomException
+import com.tkppp.myjournylife.error.ErrorCode
 import com.tkppp.myjournylife.member.domain.Member
 import com.tkppp.myjournylife.member.domain.MemberRepository
 import com.tkppp.myjournylife.member.exception.MemberNotFoundException
@@ -55,15 +57,18 @@ class MemberServiceTest {
         }
 
         @Test
-        @DisplayName("이메일이 일치하는 회원이 없다면 MemberNotFoundException 을 던진다.")
-        fun getMemberInfo_shouldThrowMemberNotFoundException() {
+        @DisplayName("이메일이 일치하는 회원이 없다면 CustomException 을 던진다.")
+        fun getMemberInfo_shouldThrowException_WithMemberNotFoundErrorCode() {
             // stubbing
             Mockito.`when`(memberRepository.findByEmailAddress(notExistEmail)).thenReturn(null)
 
-            // when, then
-            assertThrows<MemberNotFoundException> {
+            // when
+            val exception = assertThrows<CustomException> {
                 memberService.getMemberInfo(notExistEmail)
             }
+
+            // then
+            assertThat(exception.errorCode).isEqualTo(ErrorCode.MEMBER_NOT_FOUND)
         }
     }
 

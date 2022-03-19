@@ -2,6 +2,8 @@ package com.tkppp.myjournylife.member.service
 
 import com.tkppp.myjournylife.auth.util.JwtTokenProvider
 import com.tkppp.myjournylife.auth.util.TokenType
+import com.tkppp.myjournylife.error.CustomException
+import com.tkppp.myjournylife.error.ErrorCode
 import com.tkppp.myjournylife.member.exception.ExpiredRefreshTokenException
 import com.tkppp.myjournylife.member.exception.InvalidAccessTokenException
 import org.springframework.data.redis.core.RedisTemplate
@@ -32,15 +34,15 @@ class LoginService(
         val storedRefreshToken = hashOps.get(key, "refreshToken")
 
         if (!jwtTokenProvider.validateToken(storedRefreshToken ?: "")) {
-            throw ExpiredRefreshTokenException()
+            throw CustomException(ErrorCode.REFRESH_TOKEN_EXPIRED)
         }
 
         if (accessToken != storedAccessToken) {
-            throw InvalidAccessTokenException()
+            throw CustomException(ErrorCode.INVALID_ACCESS_TOKEN)
         }
     }
 
-    fun reissueAccessToken(accessToken: String, refreshToken: String): String? {
+    fun reissueAccessToken(accessToken: String, refreshToken: String): String {
         val key = "auth:login:${jwtTokenProvider.getEmailAddress(accessToken)}"
         validateAccessToken(accessToken, refreshToken, key)
         val authentication = jwtTokenProvider.getAuthentication(accessToken)

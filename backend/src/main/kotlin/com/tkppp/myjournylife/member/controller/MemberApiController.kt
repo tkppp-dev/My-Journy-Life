@@ -1,10 +1,6 @@
 package com.tkppp.myjournylife.member.controller
 
-import com.tkppp.myjournylife.dto.ResponseDto
-import com.tkppp.myjournylife.dto.error.ErrorResponseDto
 import com.tkppp.myjournylife.dto.member.member.MemberInfoResponseDto
-import com.tkppp.myjournylife.error_code.ErrorCode
-import com.tkppp.myjournylife.member.exception.MemberNotFoundException
 import com.tkppp.myjournylife.member.service.MemberService
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
@@ -17,15 +13,7 @@ class MemberApiController(
 ) {
 
     @GetMapping("/{emailAddress}")
-    fun returnMemberInfo(@PathVariable emailAddress: String): ResponseEntity<ResponseDto?> {
-        return try {
-            ResponseEntity.ok(memberService.getMemberInfo(emailAddress))
-        } catch (e: MemberNotFoundException) {
-            ResponseEntity(
-                ErrorResponseDto(
-                    ErrorCode.MEMBER_NOT_FOUND.name, e.message
-                ), HttpStatus.NOT_FOUND
-            )
-        }
+    fun returnMemberInfo(@PathVariable emailAddress: String): ResponseEntity<MemberInfoResponseDto> {
+        return ResponseEntity(memberService.getMemberInfo(emailAddress), HttpStatus.OK)
     }
 }
