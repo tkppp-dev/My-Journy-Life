@@ -2,7 +2,7 @@
   <div class="nav-container">
     <div class="nav-content-container">
       <router-link class="title-anker" to="/"
-        ><div class="title">My Journy Life</div></router-link
+        ><div class="title">My Journey Life</div></router-link
       >
       <div class="right-side-container" v-if="$route.path != '/register'">
         <button class="icon-wrapper" @click="openSearchModal">

@@ -4,7 +4,7 @@ import Home from '@/views/Home.vue'
 import RegisterPage from '@/views/RegisterPage.vue'
 import DayReviewWritingPage from '../views/DayReviewWritingPage'
 
-const serviceName = 'My Journy Life'
+const serviceName = 'My Journey Life'
 
 const routes = [
   {
