@@ -189,6 +189,7 @@ export default {
     return {
       html: '',
       json: '',
+      imageNames: [],
       editor: null,
       imageUploadModalVisible: false,
     };
@@ -229,8 +230,11 @@ export default {
       this.imageUploadModalVisible = false;
     },
     insertImageAtContent(images) {
-      for (let imageUrl of images) {
-        this.editor.commands.setImage({ src: `../../${imageUrl}`});
+      for (let imageData of images) {
+        if(this.imageNames.length < 10){
+          this.editor.commands.setImage({ src: imageData.url});
+          this.images.push(imageData.filename)
+        }
       }
     },
   },
