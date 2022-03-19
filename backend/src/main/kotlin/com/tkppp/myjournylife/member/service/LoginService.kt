@@ -4,8 +4,6 @@ import com.tkppp.myjournylife.auth.util.JwtTokenProvider
 import com.tkppp.myjournylife.auth.util.TokenType
 import com.tkppp.myjournylife.error.CustomException
 import com.tkppp.myjournylife.error.ErrorCode
-import com.tkppp.myjournylife.member.exception.ExpiredRefreshTokenException
-import com.tkppp.myjournylife.member.exception.InvalidAccessTokenException
 import org.springframework.data.redis.core.RedisTemplate
 import org.springframework.stereotype.Service
 import java.util.concurrent.TimeUnit

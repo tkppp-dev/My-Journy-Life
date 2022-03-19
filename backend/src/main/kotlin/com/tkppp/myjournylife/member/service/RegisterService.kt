@@ -4,8 +4,6 @@ import com.tkppp.myjournylife.member.domain.MemberRepository
 import com.tkppp.myjournylife.dto.member.register.LocalRegisterRequestDto
 import com.tkppp.myjournylife.error.CustomException
 import com.tkppp.myjournylife.error.ErrorCode
-import com.tkppp.myjournylife.member.exception.DuplicatedEmailAddressException
-import com.tkppp.myjournylife.member.exception.DuplicatedNicknameException
 import org.springframework.stereotype.Service
 import org.springframework.dao.DataIntegrityViolationException
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder

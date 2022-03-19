@@ -6,8 +6,6 @@ import com.tkppp.myjournylife.member.util.RegisterType
 import com.tkppp.myjournylife.dto.member.register.LocalRegisterRequestDto
 import com.tkppp.myjournylife.error.CustomException
 import com.tkppp.myjournylife.error.ErrorCode
-import com.tkppp.myjournylife.member.exception.DuplicatedEmailAddressException
-import com.tkppp.myjournylife.member.exception.DuplicatedNicknameException
 import org.junit.jupiter.api.extension.ExtendWith
 import org.mockito.Mockito
 import org.mockito.junit.jupiter.MockitoExtension

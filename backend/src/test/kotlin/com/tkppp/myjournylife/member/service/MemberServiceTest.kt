@@ -4,12 +4,9 @@ import com.tkppp.myjournylife.error.CustomException
 import com.tkppp.myjournylife.error.ErrorCode
 import com.tkppp.myjournylife.member.domain.Member
 import com.tkppp.myjournylife.member.domain.MemberRepository
-import com.tkppp.myjournylife.member.exception.MemberNotFoundException
 import com.tkppp.myjournylife.member.util.RegisterType
 import com.tkppp.myjournylife.member.util.RoleType
 import org.junit.jupiter.api.Test
-
-import org.junit.jupiter.api.Assertions.assertThrows
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.extension.ExtendWith
