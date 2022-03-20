@@ -54,12 +54,18 @@ class JwtTokenProvider(
             UsernamePasswordAuthenticationToken(it, it.password, it.authorities)
         }
 
-    fun getEmailAddress(token: String): String =
-        Jwts.parser()
+    fun getEmailAddress(token: String): String {
+        val prefix = "Bearer "
+        var accessToken = token
+        if(token.startsWith(prefix)) {
+            accessToken = token.substring(prefix.length)
+        }
+        return Jwts.parser()
             .setSigningKey(secretKey)
-            .parseClaimsJws(token)
+            .parseClaimsJws(accessToken)
             .body
             .subject
+    }
 
     fun resolveToken(req: HttpServletRequest): String?{
         val token = req.getHeader("Authorization") ?: ""

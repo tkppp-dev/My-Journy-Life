@@ -18,8 +18,7 @@ class ReviewService(
 ) {
 
     @Transactional
-    fun saveDayReview(requestDto: DayReviewSaveRequestDto, token: String): Member {
-        val accessToken = token.substring("Bearer ".length)
+    fun saveDayReview(requestDto: DayReviewSaveRequestDto, accessToken: String): Member {
         val email = jwtTokenProvider.getEmailAddress(accessToken)
         val member = memberRepository.findByEmailAddress(email)
         val entity = requestDto.toEntity()
