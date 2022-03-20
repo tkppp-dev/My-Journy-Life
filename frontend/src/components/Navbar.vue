@@ -18,7 +18,7 @@
           <button class="login-btn" @click="openLoginModal">로그인</button>
         </div>
         <div v-if="isLogin" class="login-btn-wrapper">
-          <button class="logout-btn" @click="logout">로그아웃</button>
+          <button class="logout-btn" @click="logoutForce">로그아웃</button>
         </div>
       </div>
     </div>

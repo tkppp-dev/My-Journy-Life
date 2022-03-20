@@ -226,9 +226,7 @@ export default {
         }
       });
 
-      console.log(this.contentImages);
-
-      this.$emit('update', this.html);
+      this.$emit('update', this.html, this.contentImages);
     });
   },
   beforeUnmount() {

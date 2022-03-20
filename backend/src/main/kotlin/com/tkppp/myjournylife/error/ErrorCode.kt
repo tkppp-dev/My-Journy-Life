@@ -5,6 +5,7 @@ import org.springframework.http.HttpStatus
 enum class ErrorCode(val status: HttpStatus, val message: String) {
     // 400 - Bad Request
     INVALID_FILE_EXTENSION(HttpStatus.BAD_REQUEST, "업로드한 파일의 확장자가 올바르지 않습니다"),
+    INVALID_DATA(HttpStatus.BAD_REQUEST, "전달받은 데이터가 올바르지 않습니다."),
 
     // 401 - Unauthorized
     LOGIN_FAIL(HttpStatus.UNAUTHORIZED, "로그인에 실패했습니다"),

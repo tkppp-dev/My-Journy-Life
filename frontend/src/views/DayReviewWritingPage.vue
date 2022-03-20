@@ -11,7 +11,7 @@
           <input
             class="title-input"
             type="text"
-            v-model="title"
+            v-model="form.title"
             maxlength="50"
             placeholder="제목을 입력하세요"
           />
@@ -20,7 +20,7 @@
           <input
             class="journy-detail country-select"
             type="search"
-            v-model="country"
+            v-model="form.country"
             list="countrys"
             placeholder="나라"
           />
@@ -36,14 +36,14 @@
           <input
             class="journy-detail city-input"
             type="text"
-            v-model="city"
+            v-model="form.city"
             placeholder="지역"
             maxlength="20"
           />
           <input
             class="journy-detail major-travel-spot"
             type="text"
-            v-model="majorSpot"
+            v-model="form.majorSpot"
             placeholder="주요 여행지 (예: 광안리, 해운대)"
           />
         </div>
@@ -61,6 +61,7 @@
 import Navbar from '../components/Navbar.vue';
 import Editor from '../components/Editor.vue';
 import ImageUploadModal from '../components/ImageUploadModal.vue'
+import _axios from '../util/_axios'
 
 export default {
   components: {
@@ -70,18 +71,46 @@ export default {
   },
   data() {
     return {
-      title: '',
-      country: '한국',
+      form: {
+        title: '',
+        country: '한국',
+        city: '',
+        majorSpot: '',
+        content: '',
+        images: [],
+      },
       countrys: ['한국', '일본', '미국', '프랑스', '독일', '영국'],
-      city: '',
-      majorSpot: '',
-      content: '',
     };
   },
   methods: {
-    updateContent(val) {
-      this.content = val;
+    updateContent(content, images) {
+      this.form.content = content;
+      this.form.images = images
     },
+    async saveReview(){
+      if(this.validateForm()){
+        try {
+          await _axios.post('/api/review/day', this.form)
+
+          this.$router.push('/')
+        } catch(error) {
+          console.log(error)
+          alert('예상치 못한 문제로 리뷰 등록에 실패했습니다. 다시 시도해주세요')
+        }
+      } else {
+        alert('작성되지 않은 부분을 채워주세요')
+      }
+    },
+    validateForm() {
+      for (let key in this.form) {
+        if(key !== 'images'){
+          if(this.form[key].length === 0){
+            return false
+          }
+        }
+      }
+      return true
+    }
   },
 };
 </script>

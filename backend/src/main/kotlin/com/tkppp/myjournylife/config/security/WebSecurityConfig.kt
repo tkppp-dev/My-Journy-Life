@@ -76,9 +76,8 @@ class WebSecurityConfig(
         http.authorizeRequests()
             .requestMatchers(CorsUtils::isPreFlightRequest).permitAll()
             .antMatchers("/h2-console/**").permitAll()
-            .antMatchers("/api/login/**", "/api/register/**", "/api/upload/image/**").permitAll()
-            .anyRequest().hasRole("Member")
-
+            .antMatchers("/api/login/**", "/api/register/**").permitAll()
+            .anyRequest().hasRole("MEMBER")
     }
 
     override fun configure(auth: AuthenticationManagerBuilder) {
