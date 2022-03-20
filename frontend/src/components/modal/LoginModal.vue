@@ -30,19 +30,19 @@
             <button>
               <img
                 class="sns-login-icon"
-                src="../assets/icons/google-icon.png"
+                src="../../assets/icons/google-icon.png"
               />
             </button>
             <button>
               <img
                 class="sns-login-icon"
-                src="../assets/icons/naver-icon.png"
+                src="../../assets/icons/naver-icon.png"
               />
             </button>
             <button>
               <img
                 class="sns-login-icon"
-                src="../assets/icons/kakao-icon.png"
+                src="../../assets/icons/kakao-icon.png"
               />
             </button>
           </div>
@@ -60,12 +60,12 @@
 
 <script>
 import BaseModal from './BaseModal.vue';
-import CustomInput from './CustomInput.vue';
-import CustomButton from './CustomButton.vue';
+import CustomInput from '../CustomInput.vue';
+import CustomButton from '../CustomButton.vue';
 import axios from 'axios';
-import _axios from '../util/_axios';
+import _axios from '../../util/_axios';
 import qs from 'qs';
-import errorCode from '../util/errorCode';
+import errorCode from '../../util/errorCode';
 
 export default {
   components: { BaseModal, CustomInput, CustomButton },

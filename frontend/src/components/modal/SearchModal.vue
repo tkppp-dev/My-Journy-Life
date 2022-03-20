@@ -72,7 +72,7 @@ export default {
   box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.3);
 
   /* search icon */
-  background-image: url('../assets/search_icon.png');
+  background-image: url('../../assets/icons/search_icon.png');
   background-repeat: no-repeat;
   background-position: 16px center;
   background-size: 27px;

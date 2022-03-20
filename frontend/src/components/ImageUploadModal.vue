@@ -49,7 +49,7 @@
 </template>
 
 <script>
-import BaseModal from './BaseModal.vue';
+import BaseModal from './modal/BaseModal.vue';
 import LinkIcon from 'vue-material-design-icons/Link.vue';
 import _axios from '../util/_axios';
 

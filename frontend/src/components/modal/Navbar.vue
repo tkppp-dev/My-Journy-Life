@@ -18,7 +18,7 @@
           <button class="login-btn" @click="openLoginModal">로그인</button>
         </div>
         <div v-if="isLogin" class="login-btn-wrapper">
-          <button class="logout-btn" @click="logoutForce">로그아웃</button>
+          <button class="logout-btn" @click="logout">로그아웃</button>
         </div>
       </div>
     </div>
@@ -32,12 +32,12 @@
 </template>
 
 <script>
-import SearchModal from '@/components/SearchModal';
+import SearchModal from './SearchModal';
 import SearchIcon from 'vue-material-design-icons/Magnify.vue';
 import NotificationIcon from 'vue-material-design-icons/BellOutline.vue';
 import UserIcon from 'vue-material-design-icons/AccountCircle.vue';
 import LoginModal from './LoginModal.vue';
-import _axios from '../util/_axios';
+import _axios from '../../util/_axios';
 
 export default {
   name: 'Navbar',

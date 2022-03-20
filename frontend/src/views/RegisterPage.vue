@@ -77,7 +77,7 @@
 </template>
 
 <script>
-import Navbar from '../components/Navbar.vue';
+import Navbar from '../components/modal/Navbar.vue';
 import CustomButton from '../components/CustomButton.vue';
 import CustomInput from '../components/CustomInput.vue';
 import _axios from '../util/_axios';

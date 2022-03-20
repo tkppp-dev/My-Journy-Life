@@ -58,7 +58,7 @@
 </template>
 
 <script>
-import Navbar from '../components/Navbar.vue';
+import Navbar from '../components/modal/Navbar.vue';
 import Editor from '../components/Editor.vue';
 import ImageUploadModal from '../components/ImageUploadModal.vue'
 import _axios from '../util/_axios'
