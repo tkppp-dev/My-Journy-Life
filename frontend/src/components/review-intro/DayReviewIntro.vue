@@ -1,0 +1,85 @@
+<template>
+  <div class="day-review-intro-wrapper">
+    <div class="day-review-intro-header">
+      <div class="day-review-header-title">여정 일기</div>
+      <div class="day-review-milestone">더 많은 일기 보기 ></div>
+    </div>
+    <div class="day-review-intro-items">
+      <review-intro-item class="day-review-intro-item" />
+      <review-intro-item class="day-review-intro-item" />
+      <review-intro-item class="day-review-intro-item" />
+      <review-intro-item class="day-review-intro-item" />
+    </div>
+  </div>
+</template>
+
+<script>
+import ReviewIntroItem from './ReviewIntroItem.vue';
+
+export default {
+  components: { ReviewIntroItem },
+  name: 'DayReviewIntro',
+};
+</script>
+
+<style>
+.day-review-intro-wrapper {
+  width: 960px;
+  margin-top: 18px;
+}
+
+.day-review-intro-header {
+  display: flex;
+  align-items: center;
+  padding: 6px 12px;
+  color: #a02525;
+  border-bottom: 2px solid #e2d8be;
+}
+
+.day-review-header-title {
+  flex: 1;
+
+  font-family: 'nanum-gothic', 'sans-serif';
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.day-review-milestone {
+  font-family: 'nanum-gothic', 'sans-serif';
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.day-review-intro-items {
+  display: flex;
+
+  justify-content: space-around;
+  padding: 18px 0px;
+}
+
+@media (max-width: 960px) {
+  .day-review-intro-item:nth-child(4) {
+    display: none;
+  }
+  .day-review-intro-wrapper {
+    width: 90%;
+  }
+}
+
+@media (max-width: 790px){
+  .day-review-intro-item:nth-child(3) {
+    display: none;
+  }
+}
+
+@media (max-width: 520px){
+  .day-review-intro-items {
+    flex-direction: column;
+    align-items: center;
+  }
+  .day-review-intro-item:nth-child(n) {
+    display: block;
+    margin-bottom: 16px;
+  }
+}
+</style>
