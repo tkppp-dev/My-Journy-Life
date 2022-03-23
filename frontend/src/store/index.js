@@ -1,16 +1,14 @@
 import { createStore } from 'vuex';
 import createPersistedState from 'vuex-persistedstate'
 
-const defaultUserData = {
-  isLogin: false,
-  accessToken: null,
-  refreshToken: null,
-  info: null,
-};
-
 export default createStore({
   state: {
-    user: defaultUserData,
+    user: {
+      isLogin: false,
+      accessToken: null,
+      refreshToken: null,
+      info: null,
+    },
   },
   mutations: {
     performLogin(state, payload) {
@@ -19,7 +17,12 @@ export default createStore({
       state.user.refreshToken = payload.refreshToken;
     },
     performLogout(state) {
-      state.user = defaultUserData
+      state.user = {
+        isLogin: false,
+        accessToken: null,
+        refreshToken: null,
+        info: null,
+      }
     },
     setUserInfo(state, payload) {
       state.user.info = payload

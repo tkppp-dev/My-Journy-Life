@@ -1,24 +1,52 @@
 <template>
   <div class="nav-container">
     <div class="nav-content-container">
-      <router-link class="title-anker" to="/"
-        ><div class="title">My Journey Life</div></router-link
-      >
+      <router-link class="title-anker" to="/">
+        <div class="title">My Journey Life</div>
+      </router-link>
       <div class="right-side-container" v-if="$route.path != '/register'">
         <button class="icon-wrapper" @click="openSearchModal">
-          <search-icon class="icon" fillColor="#a02525" :size="27" />
+          <search-icon class="icon" fillColor="#a02525" :size="28" />
         </button>
-        <button v-if="isLogin" class="icon-wrapper">
-          <notification-icon class="icon" fillColor="#a02525" :size="27" />
-        </button>
-        <button v-if="isLogin" class="user-icon" @click="mockLogin">
+        <div v-if="isLogin" class="nav-btn-wrapper">
+          <button
+            class="write-btn"
+            @click="clickWriteDropdownBtn"
+            @blur="closeWriteDropdown"
+          >
+            새 리뷰 쓰기
+          </button>
+        </div>
+        <div v-if="isFocusOnWriteDropdown" class="nav-dropdown-wrapper">
+          <div class="nav-dropdown write-dropdown">
+            <div class="nav-dropdown-item" @mousedown="onClickWrite('diary')">
+              여정 일기
+            </div>
+            <div class="nav-dropdown-item">교통편 리뷰</div>
+            <div class="nav-dropdown-item">여행지 리뷰</div>
+          </div>
+        </div>
+        <button
+          v-if="isLogin"
+          class="user-icon"
+          @click="clickUserDropdownBtn"
+          @blur="closeUserDropdown"
+        >
           <user-icon fillColor="#a02525" :size="29" />
         </button>
-        <div v-if="!isLogin" class="login-btn-wrapper">
-          <button class="login-btn" @click="openLoginModal">로그인</button>
+        <div v-if="isFocusOnUserDropdown" class="nav-dropdown-wrapper">
+          <div class="nav-dropdown user-dropdown">
+            <div class="nav-dropdown-item">마이페이지</div>
+            <div class="nav-dropdown-item">임시글</div>
+            <div class="nav-dropdown-item">메세지</div>
+            <div class="nav-dropdown-item">알림</div>
+            <div class="nav-dropdown-item" @mousedown.stop="logoutForce">
+              로그아웃
+            </div>
+          </div>
         </div>
-        <div v-if="isLogin" class="login-btn-wrapper">
-          <button class="logout-btn" @click="logout">로그아웃</button>
+        <div v-if="!isLogin" class="nav-btn-wrapper">
+          <button class="login-btn" @click="loginForce">로그인</button>
         </div>
       </div>
     </div>
@@ -52,6 +80,8 @@ export default {
     return {
       searchModalVisible: false,
       loginModalVisible: false,
+      isFocusOnWriteDropdown: false,
+      isFocusOnUserDropdown: false,
     };
   },
   methods: {
@@ -67,6 +97,19 @@ export default {
     closeLoginModal() {
       this.loginModalVisible = false;
     },
+    clickWriteDropdownBtn() {
+      this.isFocusOnWriteDropdown = !this.isFocusOnWriteDropdown;
+    },
+    closeWriteDropdown() {
+      this.isFocusOnWriteDropdown = false;
+    },
+    clickUserDropdownBtn() {
+      this.isFocusOnUserDropdown = !this.isFocusOnUserDropdown;
+    },
+    closeUserDropdown() {
+      this.isFocusOnUserDropdown = false;
+    },
+
     async logout() {
       try {
         const res = await _axios.post('/api/logout', {
@@ -79,8 +122,22 @@ export default {
         alert('로그아웃에 실패했습니다. 다시 시도해주세요');
       }
     },
+    loginForce() {
+      this.$store.commit('performLogin', {
+        accessToken: 'accessToken',
+        refreshToken: 'refreshToken',
+      });
+    },
     logoutForce() {
       this.$store.commit('performLogout');
+    },
+
+    onClickWrite(type) {
+      if (type === 'diary') {
+        this.$router.push('/review/day/write');
+      } else if (type === 'transportation') {
+      } else if (type === 'spot') {
+      }
     },
   },
   computed: {
@@ -110,6 +167,28 @@ export default {
   padding: 0 8px;
 }
 
+@media (max-width: 500px) {
+  .nav-container {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    height: 96px;
+    background-color: #e2d8be;
+  }
+  .nav-content-container {
+    flex-wrap: wrap;
+  }
+  .title-anker {
+    width: 100%;
+    text-align: center;
+    margin: 6px 0px;
+  }
+  .right-side-container {
+    width: 100%;
+    justify-content: flex-end;
+  }
+}
+
 .title-anker {
   text-decoration: none;
 }
@@ -127,7 +206,7 @@ export default {
 .icon-wrapper {
   text-decoration: none;
   padding: 5px;
-  margin-right: 10px;
+  margin-right: 8px;
   border-radius: 50%;
 }
 .icon-wrapper:hover {
@@ -137,7 +216,7 @@ export default {
   opacity: 0.5;
 }
 
-.login-btn-wrapper {
+.nav-btn-wrapper {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -156,8 +235,8 @@ export default {
   text-align: center;
 }
 
-.logout-btn {
-  width: 80px;
+.write-btn {
+  width: 100px;
   height: 30px;
   padding: 2px 0;
   background-color: rgba(255, 255, 255, 0.6);
@@ -170,7 +249,42 @@ export default {
 }
 
 .user-icon {
-  padding-top: 3px;
-  margin-right: 10px;
+  margin-left: 8px;
+  padding: 5px;
+}
+
+.nav-dropdown-wrapper {
+  position: relative;
+}
+
+.nav-dropdown {
+  z-index: 999;
+  position: absolute;
+  margin-top: 54px;
+  right: 0px;
+
+  background-color: white;
+  box-shadow: 0px 0px 3px rgba(0, 0, 0, 0.3);
+}
+
+.write-dropdown {
+  width: 150px;
+}
+
+.user-dropdown {
+  width: 120px;
+}
+
+.nav-dropdown-item {
+  padding: 15px;
+  font-size: 16px;
+  font-weight: bold;
+  color: #a02525;
+
+  cursor: pointer;
+}
+
+.nav-dropdown-item:hover {
+  background-color: rgba(0, 0, 0, 0.05);
 }
 </style>
