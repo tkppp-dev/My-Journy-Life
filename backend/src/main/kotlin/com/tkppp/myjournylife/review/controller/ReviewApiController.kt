@@ -1,10 +1,13 @@
 package com.tkppp.myjournylife.review.controller
 
+import com.tkppp.myjournylife.dto.review.DayReviewResponseDto
 import com.tkppp.myjournylife.dto.review.DayReviewSaveRequestDto
 import com.tkppp.myjournylife.file.service.FileSaveService
+import com.tkppp.myjournylife.member.domain.Member
 import com.tkppp.myjournylife.review.service.ReviewService
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
+import org.springframework.security.access.annotation.Secured
 import org.springframework.web.bind.annotation.*
 
 @RestController
@@ -14,10 +17,17 @@ class ReviewApiController(
     private val fileSaveService: FileSaveService
 ) {
 
+    @GetMapping("/day")
+    fun returnDayReview(@RequestParam reviewId: Long, @RequestParam title: String): ResponseEntity<DayReviewResponseDto>{
+        val result = reviewService.getDayReview(reviewId, title)
+        return ResponseEntity(result, HttpStatus.OK)
+    }
+
+    @Secured("ROLE_MEMBER")
     @PostMapping("/day")
-    fun saveDayReview(@RequestHeader header: Map<String, Any> ,@RequestBody requestDto: DayReviewSaveRequestDto): ResponseEntity<Unit?>{
-        val member = reviewService.saveDayReview(requestDto, header["authorization"] as String)
-        fileSaveService.saveFileDataAtDatabase(requestDto.images, member)
-        return ResponseEntity(HttpStatus.NO_CONTENT)
+    fun saveDayReview(@RequestHeader header: Map<String, Any>, @RequestBody requestDto: DayReviewSaveRequestDto): ResponseEntity<Long>{
+        val result = reviewService.saveDayReview(requestDto, header["authorization"] as String)
+        fileSaveService.saveFileDataAtDatabase(requestDto.images, result["member"] as Member)
+        return ResponseEntity(result["reviewId"] as Long, HttpStatus.OK)
     }
 }
