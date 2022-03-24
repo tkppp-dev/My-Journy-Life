@@ -2,7 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router';
 import { nextTick } from 'vue'
 import Home from '@/views/Home.vue'
 import RegisterPage from '@/views/RegisterPage.vue'
-import DayReviewWritingPage from '../views/DayReviewWritingPage'
+import DayReviewWritingPage from '../views/write/DayReviewWritingPage'
 
 const serviceName = 'My Journey Life'
 

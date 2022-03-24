@@ -58,10 +58,10 @@
 </template>
 
 <script>
-import Navbar from '../components/modal/Navbar.vue';
-import Editor from '../components/Editor.vue';
-import ImageUploadModal from '../components/ImageUploadModal.vue'
-import _axios from '../util/_axios'
+import Navbar from '../../components/modal/Navbar.vue';
+import Editor from '../../components/Editor.vue';
+import ImageUploadModal from '../../components/ImageUploadModal.vue'
+import _axios from '../../util/_axios'
 
 export default {
   components: {
