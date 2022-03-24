@@ -29,10 +29,11 @@ export default {
   width: 220px;
   box-shadow: 0px 0px 2px rgba(0, 0, 0, 0.2);
   border-radius: 3px;
+  cursor: pointer;
 }
 
 .review-intro-item-container:hover {
-  width: 240px;
+  box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);
 }
 
 .thumbnail-wrappper {
@@ -85,26 +86,19 @@ export default {
   .review-intro-item-container {
     width: 30%;
   }
-  .review-intro-item-container:hover {
-    width: 33%;
-  }
+
 }
 
 @media (max-width: 790px) {
   .review-intro-item-container {
     width: 45%;
   }
-  .review-intro-item-container:hover {
-    width: 48%;
-  }
+
 }
 
 @media (max-width: 520px) {
   .review-intro-item-container {
     width: 90%;
-  }
-  .review-intro-item-container:hover {
-    width: 95%;
   }
 }
 </style>

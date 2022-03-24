@@ -4,11 +4,14 @@
       <div class="spot-review-header-title">여행지 리뷰</div>
       <div class="spot-review-milestone">더 많은 여행지 리뷰 보기 ></div>
     </div>
-    <div class="spot-review-intro-items">
+    <div v-if="isDataExist" class="spot-review-intro-items">
       <review-intro-item class="spot-review-intro-item" />
       <review-intro-item class="spot-review-intro-item" />
       <review-intro-item class="spot-review-intro-item" />
       <review-intro-item class="spot-review-intro-item" />
+    </div>
+    <div v-if="!isDataExist" class="spot-review-blank-wrapper">
+      Commgin Soon
     </div>
   </div>
 </template>
@@ -19,6 +22,17 @@ import ReviewIntroItem from './ReviewIntroItem.vue';
 export default {
   components: { ReviewIntroItem },
   name: 'SpotReviewIntro',
+  data() {
+    return {
+      reviewList: [],
+      isDataExist: false
+    }
+  },
+  mounted() {
+    if(this.reviewList.length !== 0) {
+      this.isDataExist = true
+    }
+  }
 };
 </script>
 
@@ -48,6 +62,17 @@ export default {
   font-family: 'nanum-gothic', 'sans-serif';
   font-weight: bold;
   cursor: pointer;
+}
+
+.spot-review-blank-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 200px;
+
+  font-size: 18px;
+  font-weight: bold;
 }
 
 .spot-review-intro-items {

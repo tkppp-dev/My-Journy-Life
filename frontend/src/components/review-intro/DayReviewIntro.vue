@@ -4,11 +4,14 @@
       <div class="day-review-header-title">여정 일기</div>
       <div class="day-review-milestone">더 많은 일기 보기 ></div>
     </div>
-    <div class="day-review-intro-items">
+    <div v-if="isDataExist" class="day-review-intro-items">
       <review-intro-item class="day-review-intro-item" />
       <review-intro-item class="day-review-intro-item" />
       <review-intro-item class="day-review-intro-item" />
       <review-intro-item class="day-review-intro-item" />
+    </div>
+    <div v-if="!isDataExist" class="day-review-blank-wrapper">
+      Commgin Soon
     </div>
   </div>
 </template>
@@ -19,6 +22,17 @@ import ReviewIntroItem from './ReviewIntroItem.vue';
 export default {
   components: { ReviewIntroItem },
   name: 'DayReviewIntro',
+  data() {
+    return {
+      reviewList: [],
+      isDataExist: false,
+    };
+  },
+  mounted() {
+    if (this.reviewList.length !== 0) {
+      this.isDataExist = true;
+    }
+  },
 };
 </script>
 
@@ -48,6 +62,17 @@ export default {
   font-family: 'nanum-gothic', 'sans-serif';
   font-weight: bold;
   cursor: pointer;
+}
+
+.day-review-blank-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 200px;
+
+  font-size: 18px;
+  font-weight: bold;
 }
 
 .day-review-intro-items {
