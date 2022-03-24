@@ -4,6 +4,7 @@ import com.tkppp.myjournylife.dto.member.logout.LogoutRequestDto
 import com.tkppp.myjournylife.member.service.LogoutService
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
+import org.springframework.security.access.annotation.Secured
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
@@ -16,6 +17,7 @@ class LogoutApiController(
 ) {
 
     @PostMapping
+    @Secured("Member")
     fun performLogout(@RequestBody logoutRequestDto: LogoutRequestDto): ResponseEntity<Unit?> {
         logoutService.deleteTokenAtCache(logoutRequestDto)
         return ResponseEntity(HttpStatus.NO_CONTENT)
