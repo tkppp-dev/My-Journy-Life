@@ -144,7 +144,7 @@
 </template>
 
 <script>
-import ImageUploadModal from './ImageUploadModal.vue';
+import ImageUploadModal from './modal/ImageUploadModal.vue';
 import { Editor, EditorContent } from '@tiptap/vue-3';
 import StarterKit from '@tiptap/starter-kit';
 import Underline from '@tiptap/extension-underline';

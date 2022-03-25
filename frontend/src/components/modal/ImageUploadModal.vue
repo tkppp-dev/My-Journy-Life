@@ -49,9 +49,9 @@
 </template>
 
 <script>
-import BaseModal from './modal/BaseModal.vue';
+import BaseModal from './BaseModal.vue';
 import LinkIcon from 'vue-material-design-icons/Link.vue';
-import _axios from '../util/_axios';
+import _axios from '../../util/_axios';
 
 export default {
   name: 'ImageUploadModal',

@@ -60,12 +60,12 @@
 </template>
 
 <script>
-import SearchModal from './SearchModal';
+import SearchModal from './modal/SearchModal';
 import SearchIcon from 'vue-material-design-icons/Magnify.vue';
 import NotificationIcon from 'vue-material-design-icons/BellOutline.vue';
 import UserIcon from 'vue-material-design-icons/AccountCircle.vue';
-import LoginModal from './LoginModal.vue';
-import _axios from '../../util/_axios';
+import LoginModal from './modal/LoginModal.vue';
+import _axios from '../util/_axios';
 
 export default {
   name: 'Navbar',
