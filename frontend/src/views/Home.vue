@@ -11,7 +11,7 @@
 </template>
 
 <script>
-import Navbar from '../components/modal/Navbar.vue';
+import Navbar from '../components/Navbar.vue';
 import DayReviewIntro from '../components/review-intro/DayReviewIntro.vue';
 import TransportationReviewIntro from '../components/review-intro/TransportationReviewIntro.vue'
 import SpotReviewIntro from '../components/review-intro/SpotReviewIntro.vue'

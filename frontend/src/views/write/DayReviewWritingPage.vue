@@ -3,7 +3,7 @@
     <navbar />
     <main class="main-container">
       <div class="main-wrapper">
-        <div class="review-type">여정 일기 작성</div>
+        <div class="review-write-type">여정 일기 작성</div>
         <div class="division-line">
           <hr />
         </div>
@@ -58,9 +58,9 @@
 </template>
 
 <script>
-import Navbar from '../../components/modal/Navbar.vue';
+import Navbar from '../../components/Navbar.vue';
 import Editor from '../../components/Editor.vue';
-import ImageUploadModal from '../../components/ImageUploadModal.vue'
+import ImageUploadModal from '../../components/modal/ImageUploadModal.vue'
 import _axios from '../../util/_axios'
 
 export default {
@@ -129,7 +129,7 @@ export default {
   width: 960px;
 }
 
-.review-type {
+.review-write-type {
   display: flex;
 
   width: 100%;
