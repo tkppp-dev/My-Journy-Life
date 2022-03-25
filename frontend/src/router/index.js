@@ -3,6 +3,7 @@ import { nextTick } from 'vue'
 import Home from '@/views/Home.vue'
 import RegisterPage from '@/views/RegisterPage.vue'
 import DayReviewWritingPage from '../views/write/DayReviewWritingPage'
+import DayReviewPage from '../views/review/DayReviewPage'
 
 const serviceName = 'My Journey Life'
 
@@ -21,6 +22,14 @@ const routes = [
     component: RegisterPage,
     meta: {
       title: `회원가입 : ${serviceName}`
+    }
+  },
+  {
+    path: '/review/day',
+    name: 'DayReviewPage',
+    component: DayReviewPage,
+    meta: {
+      title: `여정 일기 : ${serviceName}`
     }
   },
   {
