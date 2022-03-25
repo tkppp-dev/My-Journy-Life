@@ -12,6 +12,14 @@ export default {};
 
 <style>
 @font-face {
+  font-family: 'apple_sd_gothic_neo';
+  src: url('./assets/fonts/AppleSDGothicNeoL.woff') format('woff')
+    url('./assets/fonts/AppleSDGothicNeoL.woff2') format('woff2');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
   font-family: 'nanum_gothic';
   src: url('./assets/fonts/nanum-gothic-regular.ttf') format('ttf');
   font-weight: normal;
