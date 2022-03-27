@@ -14,7 +14,7 @@ class MemberApiController(
 ) {
 
     @GetMapping("/{emailAddress}")
-    @Secured("MEMBER")
+    @Secured("ROLE_MEMBER")
     fun returnMemberInfo(@PathVariable emailAddress: String): ResponseEntity<MemberInfoResponseDto> {
         return ResponseEntity(memberService.getMemberInfo(emailAddress), HttpStatus.OK)
     }
