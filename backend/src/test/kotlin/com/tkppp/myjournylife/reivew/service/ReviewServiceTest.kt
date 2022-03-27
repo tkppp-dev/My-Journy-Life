@@ -86,13 +86,22 @@ class ReviewServiceTest {
             // given
             val id = 1L
             val title = URLEncoder.encode("제목", "UTF-8")
+            val email = "test@test.com"
+            val nickname = "nickname"
             val entity = DayReview(
                 id = 1L,
                 title = "제목",
                 content = "내용",
                 country = "국가",
                 city = "도시",
-                majorSpot = "여행지"
+                majorSpot = "여행지",
+            )
+            entity.member = Member(
+                id = 1,
+                emailAddress = email,
+                password = "password",
+                nickname = nickname,
+                registerType = RegisterType.LOCAL
             )
             val responseDto = DayReviewResponseDto(entity)
 
@@ -103,7 +112,15 @@ class ReviewServiceTest {
             val result = reviewService.getDayReview(id, title)
 
             // then
-            assertThat(result).isEqualTo(responseDto)
+            assertThat(result.id).isEqualTo(responseDto.id)
+            assertThat(result.title).isEqualTo(responseDto.title)
+            assertThat(result.content).isEqualTo(responseDto.content)
+            assertThat(result.country).isEqualTo(responseDto.country)
+            assertThat(result.city).isEqualTo(entity.city)
+            assertThat(result.majorSpot).isEqualTo(responseDto.majorSpot)
+            assertThat(result.createdDate).isEqualTo(responseDto.createdDate)
+            assertThat(result.member!!["emailAddress"]).isEqualTo(email)
+            assertThat(result.member!!["nickname"]).isEqualTo(nickname)
         }
 
         @Test

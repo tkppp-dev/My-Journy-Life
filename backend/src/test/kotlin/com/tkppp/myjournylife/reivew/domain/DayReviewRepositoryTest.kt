@@ -41,8 +41,8 @@ class DayReviewRepositoryTest(
             city = city,
             majorSpot = majorSpot,
             content = content,
-            member = joinMember
         )
+        dayReview.member = joinMember
 
         // when
         val result = dayReviewRepository.save(dayReview)
@@ -54,6 +54,7 @@ class DayReviewRepositoryTest(
         assertThat(result.city).isEqualTo(city)
         assertThat(result.majorSpot).isEqualTo(majorSpot)
         assertThat(result.content).isEqualTo(content)
+        assertThat(result.views).isEqualTo(0)
         assertThat(result.member).isEqualTo(joinMember)
     }
 }

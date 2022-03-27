@@ -21,10 +21,13 @@ class ReviewService(
 ) {
 
     fun getDayReview(id: Long, title: String): DayReviewResponseDto{
-        return when(val result = dayReviewRepository.findByIdOrNull(id)) {
+        var result = dayReviewRepository.findByIdOrNull(id)
+        return when(result) {
             null -> throw CustomException(ErrorCode.INVALID_DATA)
             else -> {
                 if(result.title == URLDecoder.decode(title, "UTF-8")){
+                    result.views += 1
+                    dayReviewRepository.save(result)
                     DayReviewResponseDto(result)
                 } else {
                     throw CustomException(ErrorCode.INVALID_DATA)
