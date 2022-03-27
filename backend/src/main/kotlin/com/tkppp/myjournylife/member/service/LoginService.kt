@@ -40,8 +40,8 @@ class LoginService(
         }
     }
 
-    fun reissueAccessToken(accessToken: String, refreshToken: String): String {
-        val key = "auth:login:${jwtTokenProvider.getEmailAddress(accessToken)}"
+    fun reissueAccessToken(emailAddress:String, accessToken: String, refreshToken: String): String {
+        val key = "auth:login:${emailAddress}"
         validateAccessToken(accessToken, refreshToken, key)
         val authentication = jwtTokenProvider.getAuthentication(accessToken)
         val newAccessToken = jwtTokenProvider.createToken(authentication, TokenType.ACCESS_TOKEN)

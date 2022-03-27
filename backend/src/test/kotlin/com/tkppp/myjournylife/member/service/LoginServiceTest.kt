@@ -113,8 +113,6 @@ class LoginServiceTest(
                 "refreshToken" to refreshToken
             ))
 
-            // stubbing
-            Mockito.`when`(jwtTokenProvider.getEmailAddress(Mockito.anyString())).thenReturn(email)
         }
 
         @AfterEach
@@ -134,7 +132,7 @@ class LoginServiceTest(
             Mockito.`when`(jwtTokenProvider.createToken(authentication, TokenType.ACCESS_TOKEN)).thenReturn(reissuedAccessToken)
 
             // when
-            val result = loginService.reissueAccessToken(accessToken, refreshToken)
+            val result = loginService.reissueAccessToken(email, accessToken, refreshToken)
             assertThat(result).isEqualTo(reissuedAccessToken)
             assertThat(hashOps.get(key, "accessToken")).isEqualTo(reissuedAccessToken)
         }

@@ -35,7 +35,7 @@ class LoginApiController(
 
     @PostMapping("/auth/reissue")
     fun reissueAuthenticationToken(@RequestBody requestBody: ReissueAuthTokenRequestDto): ResponseEntity<ReissueAuthTokenResponseDto> {
-        val result = loginService.reissueAccessToken(requestBody.accessToken, requestBody.refreshToken)
+        val result = loginService.reissueAccessToken(requestBody.emailAddress, requestBody.accessToken, requestBody.refreshToken)
         return ResponseEntity(ReissueAuthTokenResponseDto(result), HttpStatus.OK)
     }
 
