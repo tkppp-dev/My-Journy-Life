@@ -25,7 +25,11 @@
           @updateLikeCount="updateLikeCount"
           @updateDislikeCount="updateDislikeCount"
         />
-        <review-comment class="review-comment" />
+        <review-comment
+          class="review-comment"
+          :comments="comments"
+          @registerComment="registerComment"
+        />
       </div>
     </main>
   </div>
@@ -64,7 +68,6 @@ export default {
         nickname: '',
         createdDate: '',
         pageViews: '',
-        likeCount: 10,
       },
       details: {
         country: '',
@@ -75,7 +78,8 @@ export default {
         like: '',
         dislike: '',
       },
-      content: '',
+      content: [],
+      comments: null,
       loaded: false,
     };
   },
@@ -84,7 +88,7 @@ export default {
       try {
         const res = await _axios.patch(`/api/review/day/like/${this.reviewId}`);
 
-        this.recommendCount.like = res.data
+        this.recommendCount.like = res.data;
       } catch (e) {
         console.log(e);
         alert('좋아요 갱신 중 오류가 발생했습니다');
@@ -96,10 +100,31 @@ export default {
           `/api/review/day/dislike/${this.reviewId}`
         );
 
-        this.recommendCount.dislike = res.data
+        this.recommendCount.dislike = res.data;
       } catch (e) {
         console.log(e);
         alert('싫어요 갱신 중 오류가 발생했습니다');
+      }
+    },
+    setComments(comments) {
+      this.comments = comments.map((comment) => {
+        comment.createdDate = format(
+          new Date(comment.createdDate),
+          'yyyy.MM.dd hh:mm:ss'
+        );
+        return comment;
+      });
+    },
+    async registerComment(comment) {
+      try {
+        const res = await _axios.post(`/api/comment/review/day`, {
+          reviewId: this.reviewId,
+          comment,
+        });
+
+        this.setComments(res.data);
+      } catch (e) {
+        alert('댓글 등록 중 오류가 발생했습니다.');
       }
     },
   },
@@ -128,6 +153,12 @@ export default {
       this.recommendCount.dislike = res.data.dislikeCount;
 
       this.content = res.data.content;
+
+      const commentRes = await _axios.get(
+        `/api/comment/review/day/${this.reviewId}`
+      );
+      this.setComments(commentRes.data);
+
       this.loaded = true;
     } catch (e) {
       console.log(e);

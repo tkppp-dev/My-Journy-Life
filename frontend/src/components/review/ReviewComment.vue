@@ -2,8 +2,8 @@
   <div class="review-comment-container">
     <div v-for="(comment, index) in comments" :key="index">
       <div class="review-comment-wrapper">
-        <div class="review-comment-nickname">{{ comment.nickname }}</div>
-        <div class="review-comment-content">{{ comment.content }}</div>
+        <div class="review-comment-nickname">{{ comment.nickname === null ? '익명 사용자' : comment.nickname }}</div>
+        <div class="review-comment-content">{{ comment.comment }}</div>
         <div class="reviwe-comment-created-date">{{ comment.createdDate }}</div>
       </div>
     </div>
@@ -15,7 +15,7 @@
         v-model="inputComment"
       ></textarea>
       <div class="review-comment-submit-wrapper">
-        <button class="review-comment-submit">등록</button>
+        <button class="review-comment-submit" @click="registerComment">등록</button>
       </div>
     </div>
   </div>
@@ -54,6 +54,11 @@ export default {
   data(){
     return {
       inputComment: ''
+    }
+  },
+  methods: {
+    registerComment(){
+      this.$emit('registerComment', this.inputComment)
     }
   }
 };
