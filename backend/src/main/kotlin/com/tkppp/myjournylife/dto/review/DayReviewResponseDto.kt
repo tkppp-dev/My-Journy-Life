@@ -11,6 +11,8 @@ data class DayReviewResponseDto(
     val majorSpot: String,
     val content: String,
     val views: Long,
+    val likeCount: Long,
+    val dislikeCount: Long,
     val createdDate: LocalDateTime,
     var member: Map<String, String?>? = null
 ) {
@@ -23,7 +25,9 @@ data class DayReviewResponseDto(
         majorSpot = dayReview.majorSpot,
         content = dayReview.content,
         createdDate = dayReview.createdDate,
-        views = dayReview.views
+        views = dayReview.views,
+        likeCount = dayReview.likeCount,
+        dislikeCount = dayReview.dislikeCount
     ){
         member = hashMapOf(
             "emailAddress" to dayReview.member!!.emailAddress,

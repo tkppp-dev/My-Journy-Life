@@ -37,7 +37,7 @@ export default {
       required: true
     },
     pageViews: {
-      type: String,
+      type: [String, Number],
       required: true,
     },
     likeCount: {

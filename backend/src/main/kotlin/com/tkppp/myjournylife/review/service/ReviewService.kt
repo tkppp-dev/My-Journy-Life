@@ -5,7 +5,6 @@ import com.tkppp.myjournylife.dto.review.DayReviewResponseDto
 import com.tkppp.myjournylife.dto.review.DayReviewSaveRequestDto
 import com.tkppp.myjournylife.error.CustomException
 import com.tkppp.myjournylife.error.ErrorCode
-import com.tkppp.myjournylife.member.domain.Member
 import com.tkppp.myjournylife.member.domain.MemberRepository
 import com.tkppp.myjournylife.review.domain.day.DayReviewRepository
 import org.springframework.data.repository.findByIdOrNull
@@ -17,15 +16,14 @@ import java.net.URLDecoder
 class ReviewService(
     private val dayReviewRepository: DayReviewRepository,
     private val memberRepository: MemberRepository,
-    private val jwtTokenProvider: JwtTokenProvider
+    private val jwtTokenProvider: JwtTokenProvider,
 ) {
 
-    fun getDayReview(id: Long, title: String): DayReviewResponseDto{
-        var result = dayReviewRepository.findByIdOrNull(id)
-        return when(result) {
+    fun getDayReview(id: Long, title: String): DayReviewResponseDto {
+        return when (val result = dayReviewRepository.findByIdOrNull(id)) {
             null -> throw CustomException(ErrorCode.INVALID_DATA)
             else -> {
-                if(result.title == URLDecoder.decode(title, "UTF-8")){
+                if (result.title == URLDecoder.decode(title, "UTF-8")) {
                     result.views += 1
                     dayReviewRepository.save(result)
                     DayReviewResponseDto(result)

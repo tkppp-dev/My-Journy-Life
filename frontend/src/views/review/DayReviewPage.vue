@@ -10,16 +10,21 @@
           :nickname="header.nickname"
           :createdDate="header.createdDate"
           :pageViews="header.pageViews"
-          :likeCount="header.likeCount"
+          :likeCount="recommendCount.like"
         />
-        <day-review-details 
+        <day-review-details
           class="day-review-details-wrapper"
           :country="details.country"
           :city="details.city"
           :spot="details.majorSpot"
         />
         <review-content class="review-content" :content="content" />
-        <review-like />
+        <review-like
+          :likeCnt="recommendCount.like"
+          :dislikeCnt="recommendCount.dislike"
+          @updateLikeCount="updateLikeCount"
+          @updateDislikeCount="updateDislikeCount"
+        />
         <review-comment class="review-comment" />
       </div>
     </main>
@@ -29,58 +34,105 @@
 <script>
 import Navbar from '../../components/Navbar.vue';
 import ReviewHeader from '../../components/review/ReviewHeader.vue';
-import DayReviewDetails from '../../components/review/DayReviewDetails.vue'
+import DayReviewDetails from '../../components/review/DayReviewDetails.vue';
 import ReviewContent from '../../components/review/ReviewContent.vue';
 import ReviewLike from '../../components/review/ReviewLike.vue';
 import ReviewComment from '../../components/review/ReviewComment.vue';
 import _axios from '../../util/_axios';
-import { format } from 'date-fns'
+import { format } from 'date-fns';
 
 export default {
-  components: { Navbar, ReviewHeader, DayReviewDetails, ReviewContent, ReviewLike, ReviewComment },
+  components: {
+    Navbar,
+    ReviewHeader,
+    DayReviewDetails,
+    ReviewContent,
+    ReviewLike,
+    ReviewComment,
+  },
   name: 'DayReviewPage',
   component: {
     Navbar,
     ReviewHeader,
-    DayReviewDetails
+    DayReviewDetails,
   },
   data() {
     return {
+      reviewId: '',
       header: {
         title: '',
         nickname: '',
         createdDate: '',
         pageViews: '',
-        likeCount: 10
+        likeCount: 10,
       },
       details: {
         country: '',
         city: '',
-        majorSpot: ''
+        majorSpot: '',
+      },
+      recommendCount: {
+        like: '',
+        dislike: '',
       },
       content: '',
-      loaded: false
-    }
+      loaded: false,
+    };
+  },
+  methods: {
+    async updateLikeCount() {
+      try {
+        const res = await _axios.patch(`/api/review/day/like/${this.reviewId}`);
+
+        this.recommendCount.like = res.data
+      } catch (e) {
+        console.log(e);
+        alert('좋아요 갱신 중 오류가 발생했습니다');
+      }
+    },
+    async updateDislikeCount() {
+      try {
+        const res = await _axios.patch(
+          `/api/review/day/dislike/${this.reviewId}`
+        );
+
+        this.recommendCount.dislike = res.data
+      } catch (e) {
+        console.log(e);
+        alert('싫어요 갱신 중 오류가 발생했습니다');
+      }
+    },
   },
   async created() {
     try {
-      const res = await _axios.get('/api' + this.$route.fullPath)
+      const res = await _axios.get('/api' + this.$route.fullPath);
 
-      this.header.title = res.data.title
-      this.header.nickname = res.data.member.nickname !== null ? res.data.member.nickname : '익명 사용자'
-      this.header.createdDate = format(new Date(res.data.createdDate), 'yyyy.MM.dd hh:mm:ss')
-      this.header.pageViews = res.data.views
+      this.reviewId = res.data.id;
 
-      this.details.country = res.data.country
-      this.details.city = res.data.city
-      this.details.majorSpot = res.data.majorSpot
+      this.header.title = res.data.title;
+      this.header.nickname =
+        res.data.member.nickname !== null
+          ? res.data.member.nickname
+          : '익명 사용자';
+      this.header.createdDate = format(
+        new Date(res.data.createdDate),
+        'yyyy.MM.dd hh:mm:ss'
+      );
+      this.header.pageViews = res.data.views;
 
-      this.content = res.data.content
-      this.loaded = true
-    } catch(e){
-      console.log(e)
-      alert('존재하지 않는 리뷰입니다')
-      this.$router.go(-1)
+      this.details.country = res.data.country;
+      this.details.city = res.data.city;
+      this.details.majorSpot = res.data.majorSpot;
+
+      this.recommendCount.like = res.data.likeCount;
+      this.recommendCount.dislike = res.data.dislikeCount;
+
+      this.content = res.data.content;
+      this.loaded = true;
+    } catch (e) {
+      console.log(e);
+      alert('존재하지 않는 리뷰입니다');
+      this.$router.go(-1);
     }
   },
 };

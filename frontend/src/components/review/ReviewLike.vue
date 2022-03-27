@@ -1,36 +1,45 @@
 <template>
   <div class="review-like-wrapper">
-    <div class="like-button-wrapper">
+    <div class="like-button-wrapper" @click="updateLikeCount">
       <like-icon fillColor="#a02525" />
       <div class="like-count">{{ likeCnt }}</div>
     </div>
-    <div class="unlike-button-wrapper">
-      <div class="unlike-count">{{ unlikeCnt }}</div>
-      <unlike-icon fillColor="#808080" />
+    <div class="unlike-button-wrapper" @click="updateDislikeCount">
+      <div class="unlike-count">{{ dislikeCnt }}</div>
+      <dislike-icon fillColor="#808080" />
     </div>
   </div>
 </template>
 
 <script>
 import LikeIcon from 'vue-material-design-icons/ThumbUpOutline.vue';
-import UnlikeIcon from 'vue-material-design-icons/ThumbDownOutline.vue';
+import DislikeIcon from 'vue-material-design-icons/ThumbDownOutline.vue';
 
 export default {
   name: 'ReviewLike',
   components: {
     LikeIcon,
-    UnlikeIcon,
+    DislikeIcon,
   },
   props: {
     likeCnt: {
-      type: [String, Number],
+      type: [Number, String],
       default: 0,
     },
-    unlikeCnt: {
-      type: [String, Number],
+    dislikeCnt: {
+      type: [Number, String],
       default: 0,
     },
   },
+  methods: {
+    updateLikeCount(){
+      this.$emit('updateLikeCount')
+    },
+    updateDislikeCount(){
+      this.$emit('updateDislikeCount')
+    }
+  },
+
 };
 </script>
 

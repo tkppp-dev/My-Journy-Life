@@ -47,9 +47,11 @@
             placeholder="주요 여행지 (예: 광안리, 해운대)"
           />
         </div>
-        <editor @update="updateContent"/>
+        <editor @update="updateContent" />
         <div class="button-wrapper">
-          <button class="save-button complete-button" @click="saveReview">등록</button>
+          <button class="save-button complete-button" @click="saveReview">
+            등록
+          </button>
           <button class="save-button temporary-save-button">임시 저장</button>
         </div>
       </div>
@@ -60,14 +62,14 @@
 <script>
 import Navbar from '../../components/Navbar.vue';
 import Editor from '../../components/Editor.vue';
-import ImageUploadModal from '../../components/modal/ImageUploadModal.vue'
-import _axios from '../../util/_axios'
+import ImageUploadModal from '../../components/modal/ImageUploadModal.vue';
+import _axios from '../../util/_axios';
 
 export default {
   components: {
     Navbar,
     Editor,
-    ImageUploadModal
+    ImageUploadModal,
   },
   data() {
     return {
@@ -85,32 +87,37 @@ export default {
   methods: {
     updateContent(content, images) {
       this.form.content = content;
-      this.form.images = images
+      this.form.images = images;
     },
-    async saveReview(){
-      if(this.validateForm()){
+    async saveReview() {
+      if (this.validateForm()) {
         try {
-          await _axios.post('/api/review/day', this.form)
+          const res = await _axios.post('/api/review/day', this.form);
+          console.log();
 
-          this.$router.push('/')
-        } catch(error) {
-          console.log(error)
-          alert('예상치 못한 문제로 리뷰 등록에 실패했습니다. 다시 시도해주세요')
+          this.$router.push(
+            `/review/day?reviewId=${res.data}&title=${this.form.title}`
+          );
+        } catch (error) {
+          console.log(error);
+          alert(
+            '예상치 못한 문제로 리뷰 등록에 실패했습니다. 다시 시도해주세요'
+          );
         }
       } else {
-        alert('작성되지 않은 부분을 채워주세요')
+        alert('작성되지 않은 부분을 채워주세요');
       }
     },
     validateForm() {
       for (let key in this.form) {
-        if(key !== 'images'){
-          if(this.form[key].length === 0){
-            return false
+        if (key !== 'images') {
+          if (this.form[key].length === 0) {
+            return false;
           }
         }
       }
-      return true
-    }
+      return true;
+    },
   },
 };
 </script>
@@ -224,8 +231,7 @@ export default {
 }
 
 .temporary-save-button {
-
-  background-color: rgba(0, 0, 0, 0.1)
+  background-color: rgba(0, 0, 0, 0.1);
 }
 
 @media (max-width: 960px) {
