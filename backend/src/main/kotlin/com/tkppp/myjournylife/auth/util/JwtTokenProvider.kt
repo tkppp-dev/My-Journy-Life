@@ -8,6 +8,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication
 import org.springframework.stereotype.Component
 import java.lang.Exception
+import java.lang.NullPointerException
 import java.util.*
 import javax.annotation.PostConstruct
 import javax.servlet.http.HttpServletRequest
@@ -84,7 +85,7 @@ class JwtTokenProvider(
                 .let {
                     !it.body.expiration.before(Date())
                 }
-        } catch (e: Exception){
+        } catch (e: RuntimeException){
             false
         }
     }
