@@ -84,7 +84,7 @@ class JwtTokenProvider(
                 .let {
                     !it.body.expiration.before(Date())
                 }
-        } catch (e: NullPointerException){
+        } catch (e: Exception){
             false
         }
     }
