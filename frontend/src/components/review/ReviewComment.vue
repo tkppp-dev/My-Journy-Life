@@ -64,7 +64,6 @@ export default {
   display: flex;
   padding: 9px 3px;
   font-size: 14px;
-  font-family: 'apple_sd_gothic_neo', 'sans-serif';
   border-bottom: 1px solid rgba(160, 37, 37, 0.2);
 }
 
@@ -86,7 +85,6 @@ export default {
 }
 
 .review-comment-input {
-  font-family: 'apple_sd_gothic_neo';
   width: 100%;
   height: 90px;
   padding: 13px 10px;
@@ -94,8 +92,7 @@ export default {
   box-sizing: border-box;
 }
 .review-comment-input:focus {
-  border-radius: 4px;
-  border: 0.15em solid rgba(160, 37, 37, 0.5);
+  border: 1px solid rgb(160, 37, 37);
 }
 
 .review-comment-submit-wrapper {
@@ -105,7 +102,8 @@ export default {
 }
 
 .review-comment-submit {
-  padding: 6px 24px;
+  padding: 7px 24px;
   background-color: #e2d8be;
+  font-weight: bold;
 }
 </style>

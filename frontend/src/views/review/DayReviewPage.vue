@@ -1,22 +1,22 @@
 <template>
   <div>
     <navbar />
-    <main class="day-review-container">
+    <main v-if="loaded" class="day-review-container">
       <div class="day-review-wrapper">
         <div class="review-type">여정 일기</div>
         <review-header
           class="review-header"
-          title="부산 여행 1일차"
-          nickname="타타고"
-          createdDate="2022-03-25 13:20"
-          pageViews="11"
-          likeCount="123"
+          :title="header.title"
+          :nickname="header.nickname"
+          :createdDate="header.createdDate"
+          :pageViews="header.pageViews"
+          :likeCount="header.likeCount"
         />
         <day-review-details 
           class="day-review-details-wrapper"
-          country="한국"
-          city="부산"
-          spot="광안리, 민락회센터"
+          :country="details.country"
+          :city="details.city"
+          :spot="details.majorSpot"
         />
         <review-content class="review-content" :content="content" />
         <review-like />
@@ -31,9 +31,10 @@ import Navbar from '../../components/Navbar.vue';
 import ReviewHeader from '../../components/review/ReviewHeader.vue';
 import DayReviewDetails from '../../components/review/DayReviewDetails.vue'
 import ReviewContent from '../../components/review/ReviewContent.vue';
-import _axios from '../../util/_axios';
 import ReviewLike from '../../components/review/ReviewLike.vue';
 import ReviewComment from '../../components/review/ReviewComment.vue';
+import _axios from '../../util/_axios';
+import { format } from 'date-fns'
 
 export default {
   components: { Navbar, ReviewHeader, DayReviewDetails, ReviewContent, ReviewLike, ReviewComment },
@@ -45,15 +46,43 @@ export default {
   },
   data() {
     return {
-      content : `
-        <h2>What is Lorem Ipsum?</h2>
-        <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p>
-        <h2>Why do we use it?</h2>
-        <p>It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like).</p>
-      `
+      header: {
+        title: '',
+        nickname: '',
+        createdDate: '',
+        pageViews: '',
+        likeCount: 10
+      },
+      details: {
+        country: '',
+        city: '',
+        majorSpot: ''
+      },
+      content: '',
+      loaded: false
     }
   },
-  created() {},
+  async created() {
+    try {
+      const res = await _axios.get('/api' + this.$route.fullPath)
+
+      this.header.title = res.data.title
+      this.header.nickname = res.data.member.nickname !== null ? res.data.member.nickname : '익명 사용자'
+      this.header.createdDate = format(new Date(res.data.createdDate), 'yyyy.MM.dd hh:mm:ss')
+      this.header.pageViews = res.data.views
+
+      this.details.country = res.data.country
+      this.details.city = res.data.city
+      this.details.majorSpot = res.data.majorSpot
+
+      this.content = res.data.content
+      this.loaded = true
+    } catch(e){
+      console.log(e)
+      alert('존재하지 않는 리뷰입니다')
+      this.$router.go(-1)
+    }
+  },
 };
 </script>
 
@@ -61,6 +90,7 @@ export default {
 .day-review-container {
   display: flex;
   justify-content: center;
+  font-family: 'apple_sd_gothic_neo', 'sans-serif';
 }
 .day-review-wrapper {
   width: 960px;

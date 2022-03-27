@@ -1,5 +1,5 @@
 <template>
-  <div v-html="content" />
+  <div class="review-content-wrapper" v-html="content" />
 </template>
 
 <script>
@@ -15,5 +15,7 @@ export default {
 </script>
 
 <style>
-
+.review-content-wrapper {
+  box-sizing: border-box;
+}
 </style>

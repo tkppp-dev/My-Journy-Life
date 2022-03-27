@@ -46,7 +46,7 @@
           </div>
         </div>
         <div v-if="!isLogin" class="nav-btn-wrapper">
-          <button class="login-btn" @click="loginForce">로그인</button>
+          <button class="login-btn" @click="openLoginModal">로그인</button>
         </div>
       </div>
     </div>
