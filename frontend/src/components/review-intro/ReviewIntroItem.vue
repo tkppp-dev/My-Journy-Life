@@ -1,5 +1,5 @@
 <template>
-  <div class="review-intro-item-container">
+  <div class="review-intro-item-container" @click="moveToPost">
     <div class="thumbnail-wrapper">
       <div class="thumbnail-placeholder">
         <img
@@ -10,17 +10,39 @@
     </div>
     <div class="review-intro-item-desc-wrapper">
       <div class="review-intro-item-title">
-        [XX의 우당탕탕 서울여행] 서울은 복잡해 - 1일차
+        {{ title }}
       </div>
-      <div class="review-intro-item-meta">2022년 3월 12일 · 9개의 댓글</div>
-      <div class="review-intro-item-writer">by <strong>익명</strong></div>
+      <div class="review-intro-item-meta">
+        {{ formatedDate }} · 조회수 {{ views }}
+      </div>
+      <div class="review-intro-item-writer">
+        by <strong>{{ nickname === null ? '익명 사용자' : nickname }}</strong>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
+import { format } from 'date-fns';
 export default {
   name: 'ReviewIntroItem',
+  props: {
+    reviewId: [Number, String],
+    title: String,
+    nickname: [String, null],
+    createdDate: [String],
+    views: [Number, String],
+  },
+  methods: {
+    moveToPost(){
+      this.$router.push(`/review/day?reviewId=${this.reviewId}&title=${this.title}`)
+    }
+  },
+  computed: {
+    formatedDate() {
+      return format(new Date(this.createdDate), 'yyyy년 MM월 dd일');
+    },
+  },
 };
 </script>
 
@@ -86,14 +108,12 @@ export default {
   .review-intro-item-container {
     width: 30%;
   }
-
 }
 
 @media (max-width: 790px) {
   .review-intro-item-container {
     width: 45%;
   }
-
 }
 
 @media (max-width: 520px) {

@@ -47,7 +47,7 @@ export default {
 .review-like-wrapper {
   display: flex;
   justify-content: center;
-  margin: 40px 0;
+  margin: 50px 0;
 }
 
 .like-button-wrapper,
@@ -55,14 +55,14 @@ export default {
   display: flex;
   align-items: center;
 
-  padding: 6px 16px;
+  padding: 8px 16px;
   border-radius: 6px;
 
   cursor: pointer;
 }
 
 .like-button-wrapper {
-  margin-right: 12px;
+  margin-right: 18px;
   box-shadow: 0 0 1px #a02525;
   border: 2px solid #a02525;
 }
@@ -78,6 +78,11 @@ export default {
 
 .unlike-button-wrapper:hover {
   background-color: rgba(128, 128, 128, 0.1);
+}
+
+.like-count, .unlike-count {
+  width: 24px;
+  text-align: center;
 }
 
 .like-count {
