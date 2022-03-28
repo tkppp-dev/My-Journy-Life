@@ -3,9 +3,11 @@ package com.tkppp.myjournylife.review.service
 import com.tkppp.myjournylife.auth.util.JwtTokenProvider
 import com.tkppp.myjournylife.dto.review.DayReviewResponseDto
 import com.tkppp.myjournylife.dto.review.DayReviewSaveRequestDto
+import com.tkppp.myjournylife.dto.review.ReviewIntroListResponseDto
 import com.tkppp.myjournylife.error.CustomException
 import com.tkppp.myjournylife.error.ErrorCode
 import com.tkppp.myjournylife.member.domain.MemberRepository
+import com.tkppp.myjournylife.review.domain.day.DayReview
 import com.tkppp.myjournylife.review.domain.day.DayReviewRepository
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
@@ -32,6 +34,16 @@ class ReviewService(
                 }
             }
         }
+    }
+
+    fun getDayReviewList(): List<ReviewIntroListResponseDto> {
+        val responseDto = mutableListOf<ReviewIntroListResponseDto>()
+        dayReviewRepository.findFirst4ByOrderByIdDesc()?.map {
+            responseDto.add(ReviewIntroListResponseDto(
+                it.id!!, it.title, it.member!!.nickname, it.createdDate, it.views
+            ))
+        }
+        return responseDto
     }
 
     @Transactional

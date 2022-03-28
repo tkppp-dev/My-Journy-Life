@@ -2,6 +2,7 @@ package com.tkppp.myjournylife.review.controller
 
 import com.tkppp.myjournylife.dto.review.DayReviewResponseDto
 import com.tkppp.myjournylife.dto.review.DayReviewSaveRequestDto
+import com.tkppp.myjournylife.dto.review.ReviewIntroListResponseDto
 import com.tkppp.myjournylife.file.service.FileSaveService
 import com.tkppp.myjournylife.member.domain.Member
 import com.tkppp.myjournylife.review.service.ReviewLikeService
@@ -27,6 +28,12 @@ class ReviewApiController(
         val result = reviewService.getDayReview(reviewId, title)
         return ResponseEntity(result, HttpStatus.OK)
     }
+
+    @GetMapping("/day/list")
+    fun returnDayReviewIntro(): ResponseEntity<List<ReviewIntroListResponseDto>> {
+        return ResponseEntity(reviewService.getDayReviewList(), HttpStatus.OK)
+    }
+
 
     @Secured("ROLE_MEMBER")
     @PostMapping("/day")
