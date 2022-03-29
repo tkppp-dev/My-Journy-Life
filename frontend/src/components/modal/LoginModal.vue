@@ -94,7 +94,7 @@ export default {
         alert('비밀번호 형식이 올바르지 않습니다');
       } else {
         try {
-          const res = await axios.post('/api/login', qs.stringify(this.form), {
+          const res = await axios.post('/login', qs.stringify(this.form), {
             headers: {
               'Content-Type': 'application/x-www-form-urlencoded',
             },
