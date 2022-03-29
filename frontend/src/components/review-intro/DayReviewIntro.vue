@@ -2,7 +2,7 @@
   <div class="day-review-intro-wrapper">
     <div class="day-review-intro-header">
       <div class="day-review-header-title">여정 일기</div>
-      <div class="day-review-milestone">더 많은 일기 보기 ></div>
+      <div class="day-review-milestone" @click="moveToReviewListPage">더 많은 일기 보기 ></div>
     </div>
     <div v-if="isDataExist" class="day-review-intro-items">
       <review-intro-item
@@ -33,9 +33,14 @@ export default {
       isDataExist: false,
     };
   },
+  methods: {
+    moveToReviewListPage(){
+      this.$router.push('/review/day/list')
+    }
+  },
   async created() {
     try {
-      const res = await _axios.get('api/review/day/list');
+      const res = await _axios.get('api/review/day/list/intro');
 
       this.reviewList = res.data;
       if(this.reviewList.length > 0) this.isDataExist = true;

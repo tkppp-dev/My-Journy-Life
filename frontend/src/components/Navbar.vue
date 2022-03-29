@@ -40,7 +40,7 @@
             <div class="nav-dropdown-item">임시글</div>
             <div class="nav-dropdown-item">메세지</div>
             <div class="nav-dropdown-item">알림</div>
-            <div class="nav-dropdown-item" @mousedown.stop="logoutForce">
+            <div class="nav-dropdown-item" @mousedown.stop="logout">
               로그아웃
             </div>
           </div>
@@ -128,8 +128,8 @@ export default {
         refreshToken: 'refreshToken',
       });
     },
-    logoutForce() {
-      this.$store.commit('performLogout');
+    async logoutForce() {
+      await this.$store.commit('performLogout');
     },
 
     onClickWrite(type) {

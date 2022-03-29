@@ -4,6 +4,7 @@ import Home from '@/views/Home.vue'
 import RegisterPage from '@/views/RegisterPage.vue'
 import DayReviewWritingPage from '../views/write/DayReviewWritingPage'
 import DayReviewPage from '../views/review/DayReviewPage'
+import DayReviewListPage from '../views/review-list/DayReviewListPage'
 
 const serviceName = 'My Journey Life'
 
@@ -38,6 +39,14 @@ const routes = [
     component: DayReviewWritingPage,
     meta: {
       title: `새 여정 일기 작성 : ${serviceName}`
+    }
+  },
+  {
+    path: '/review/day/list',
+    name: 'DayReviewListPage',
+    component: DayReviewListPage,
+    meta: {
+      title: `여정 일기 : ${serviceName}`
     }
   }
 ]
