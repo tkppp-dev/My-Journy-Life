@@ -114,6 +114,7 @@ export default {
 
           this.$emit('close');
         } catch (e) {
+          console.log(e)
           if(e.response.status === 401 && e.response.data.errorCode === errorCode.LOGIN_FAIL){
             alert('이메일 또는 비밀번호가 일치하지 않습니다')
           } else {
