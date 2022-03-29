@@ -3,6 +3,7 @@ package com.tkppp.myjournylife.review.controller
 import com.tkppp.myjournylife.dto.review.DayReviewResponseDto
 import com.tkppp.myjournylife.dto.review.DayReviewSaveRequestDto
 import com.tkppp.myjournylife.dto.review.ReviewIntroListResponseDto
+import com.tkppp.myjournylife.dto.review.ReviewListResponseDto
 import com.tkppp.myjournylife.file.service.FileSaveService
 import com.tkppp.myjournylife.member.domain.Member
 import com.tkppp.myjournylife.review.service.ReviewLikeService
@@ -29,11 +30,15 @@ class ReviewApiController(
         return ResponseEntity(result, HttpStatus.OK)
     }
 
-    @GetMapping("/day/list")
+    @GetMapping("/day/list/intro")
     fun returnDayReviewIntro(): ResponseEntity<List<ReviewIntroListResponseDto>> {
-        return ResponseEntity(reviewService.getDayReviewList(), HttpStatus.OK)
+        return ResponseEntity(reviewService.getDayReviewIntroList(), HttpStatus.OK)
     }
 
+    @GetMapping("/day/list")
+    fun returnDayReviewList(@RequestParam currentPage: Int): ResponseEntity<ReviewListResponseDto> {
+        return ResponseEntity(reviewService.getDayReviewListWithPaging(currentPage), HttpStatus.OK)
+    }
 
     @Secured("ROLE_MEMBER")
     @PostMapping("/day")

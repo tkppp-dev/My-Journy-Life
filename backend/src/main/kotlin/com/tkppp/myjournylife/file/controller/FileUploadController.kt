@@ -18,7 +18,7 @@ class FileUploadController(
 ) {
 
     @PostMapping("/image/review")
-    @Secured("MEMBER")
+    @Secured("ROLE_MEMBER")
     fun uploadContentImageFile(@RequestParam imageFiles: List<MultipartFile>): ResponseEntity<List<HashMap<String, String>>> {
         val imageData = fileUploadService.uploadImageAtAwsS3(imageFiles, ImageType.CONTENT)
         return ResponseEntity(imageData, HttpStatus.OK)

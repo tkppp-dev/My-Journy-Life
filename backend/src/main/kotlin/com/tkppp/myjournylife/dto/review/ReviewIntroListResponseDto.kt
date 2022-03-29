@@ -8,4 +8,5 @@ data class ReviewIntroListResponseDto(
     val nickname: String?,
     val createdDate: LocalDateTime,
     val views: Long,
+    val likeCount: Long,
 )

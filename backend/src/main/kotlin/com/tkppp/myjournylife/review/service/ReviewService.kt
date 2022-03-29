@@ -4,11 +4,12 @@ import com.tkppp.myjournylife.auth.util.JwtTokenProvider
 import com.tkppp.myjournylife.dto.review.DayReviewResponseDto
 import com.tkppp.myjournylife.dto.review.DayReviewSaveRequestDto
 import com.tkppp.myjournylife.dto.review.ReviewIntroListResponseDto
+import com.tkppp.myjournylife.dto.review.ReviewListResponseDto
 import com.tkppp.myjournylife.error.CustomException
 import com.tkppp.myjournylife.error.ErrorCode
 import com.tkppp.myjournylife.member.domain.MemberRepository
-import com.tkppp.myjournylife.review.domain.day.DayReview
 import com.tkppp.myjournylife.review.domain.day.DayReviewRepository
+import org.springframework.data.domain.PageRequest
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -36,14 +37,23 @@ class ReviewService(
         }
     }
 
-    fun getDayReviewList(): List<ReviewIntroListResponseDto> {
-        val responseDto = mutableListOf<ReviewIntroListResponseDto>()
-        dayReviewRepository.findFirst4ByOrderByIdDesc()?.map {
-            responseDto.add(ReviewIntroListResponseDto(
-                it.id!!, it.title, it.member!!.nickname, it.createdDate, it.views
-            ))
+    fun getDayReviewIntroList(): List<ReviewIntroListResponseDto> {
+        return dayReviewRepository.findFirst4ByOrderByIdDesc()?.map {
+            ReviewIntroListResponseDto(
+                it.id!!, it.title, it.member!!.nickname, it.createdDate, it.views, it.likeCount
+            )
+        } ?: mutableListOf()
+    }
+
+    fun getDayReviewListWithPaging(currentPage: Int): ReviewListResponseDto {
+        val pageSize = 10
+        val page = dayReviewRepository.findAllByOrderByIdDesc(PageRequest.of(currentPage, pageSize))
+        val responseDto = page.content.map {
+            ReviewIntroListResponseDto(
+                it.id!!, it.title, it.member!!.nickname, it.createdDate, it.views, it.likeCount
+            )
         }
-        return responseDto
+        return ReviewListResponseDto(page.totalPages, page.number, responseDto)
     }
 
     @Transactional
