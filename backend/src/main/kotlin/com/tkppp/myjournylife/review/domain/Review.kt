@@ -14,7 +14,7 @@ class Review(
     @Column(nullable = false, length = 100)
     var title: String,
 
-    @Column(columnDefinition = "TEXT" ,nullable = false)
+    @Column(columnDefinition = "TEXT", nullable = false)
     var content: String,
 
     @Column(nullable = false)

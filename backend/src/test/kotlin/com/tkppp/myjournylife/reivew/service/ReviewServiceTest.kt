@@ -62,7 +62,7 @@ class ReviewServiceTest {
             // stubbing
             every { jwtTokenProvider.getEmailAddress(accessToken) } returns email
             every { memberRepository.findByEmailAddress(any()) } returns member
-            every { dayReviewRepository.save(any()) } returns DayReview(1, "", "", "", "", "")
+            every { dayReviewRepository.save(any()) } returns DayReview(id = 1, country = "", city = "", majorSpot = "", title = "", content = "")
 
             // when
             val result = reviewService.saveDayReview(saveRequestDto, accessToken)
@@ -107,6 +107,7 @@ class ReviewServiceTest {
 
             // stubbing
             every { dayReviewRepository.findByIdOrNull(id) } returns entity
+            every { dayReviewRepository.save(any()) } returns DayReview(id = 1, country = "", city = "", majorSpot = "", title = "", content = "")
 
             // when
             val result = reviewService.getDayReview(id, title)
