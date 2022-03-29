@@ -33,6 +33,7 @@ dependencies {
 
     implementation("io.jsonwebtoken:jjwt:0.9.1")
     implementation("io.awspring.cloud:spring-cloud-starter-aws:2.4.0")
+    implementation("mysql:mysql-connector-java")
 
     developmentOnly("org.springframework.boot:spring-boot-devtools")
     runtimeOnly("com.h2database:h2")
