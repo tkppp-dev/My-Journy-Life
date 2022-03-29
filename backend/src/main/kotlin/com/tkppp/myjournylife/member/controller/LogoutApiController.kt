@@ -17,7 +17,7 @@ class LogoutApiController(
 ) {
 
     @PostMapping
-    @Secured("Member")
+    @Secured("ROLE_MEMBER")
     fun performLogout(@RequestBody logoutRequestDto: LogoutRequestDto): ResponseEntity<Unit?> {
         logoutService.deleteTokenAtCache(logoutRequestDto)
         return ResponseEntity(HttpStatus.NO_CONTENT)
