@@ -12,7 +12,6 @@ class CustomUserDetailsService(
     private val memberRepository: MemberRepository
 ) : UserDetailsService {
     override fun loadUserByUsername(username: String): UserDetails {
-        println("User Details Service")
         val member = memberRepository.findByEmailAddress(username) ?: throw UsernameNotFoundException("Cannot found username.")
         return UserPrinciple(member)
     }

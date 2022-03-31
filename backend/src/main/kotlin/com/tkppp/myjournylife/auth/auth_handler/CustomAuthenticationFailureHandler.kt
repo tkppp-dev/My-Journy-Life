@@ -14,6 +14,6 @@ class CustomAuthenticationFailureHandler : AuthenticationFailureHandler{
         exception: AuthenticationException?
     ) {
         println(exception?.message)
-        response?.sendRedirect("http://localhost:8080/api/login/fail")
+        response?.sendRedirect("http://13.209.36.27:8080/api/login/fail")
     }
 }

@@ -19,7 +19,7 @@ class CustomAuthenticationSuccessHandler(
     ) {
         val accessToken = jwtTokenProvider.createToken(authentication, TokenType.ACCESS_TOKEN)
         val refreshToken = jwtTokenProvider.createToken(authentication, TokenType.REFRESH_TOKEN)
-        val redirectUrl = "http://localhost:8080/api/login/success?access=$accessToken&refresh=$refreshToken"
+        val redirectUrl = "http://13.209.36.27:8080/api/login/success?access=$accessToken&refresh=$refreshToken"
         response?.sendRedirect(redirectUrl)
     }
 }
