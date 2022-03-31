@@ -15,10 +15,11 @@ class MemberApiController(
     private val redisTemplate: RedisTemplate<String, String>
 ) {
 
-    @GetMapping("/test")
-    fun testRedisAtEc2(){
+    @PostMapping("/test")
+    fun testRedisAtEc2(): ResponseEntity<Unit>{
         val valueOps = redisTemplate.opsForValue()
         valueOps.set("test", "test")
+        return ResponseEntity(HttpStatus.NO_CONTENT)
     }
 
     @GetMapping("/{emailAddress}")
