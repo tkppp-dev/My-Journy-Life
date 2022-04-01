@@ -31,7 +31,7 @@ instance.interceptors.response.use(
       orignalRequest._retry = true;
       try {
         const resp = await axios.post('/api/login/auth/reissue', {
-          emailAddress: store.state.user.emailAddress,
+          emailAddress: store.state.user.info.emailAddress,
           accessToken: store.state.user.accessToken,
           refreshToken: store.state.user.refreshToken,
         });
