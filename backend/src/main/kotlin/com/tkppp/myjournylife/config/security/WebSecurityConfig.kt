@@ -61,7 +61,7 @@ class WebSecurityConfig(
     override fun configure(http: HttpSecurity) {
         http.httpBasic().disable()
             .cors().and()
-            .csrf().ignoringAntMatchers("/h2-console/**").disable()
+            .csrf().disable()
             .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
 
         http.formLogin()

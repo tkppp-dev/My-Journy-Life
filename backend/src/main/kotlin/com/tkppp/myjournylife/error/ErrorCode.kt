@@ -9,6 +9,7 @@ enum class ErrorCode(val status: HttpStatus, val message: String) {
 
     // 401 - Unauthorized
     LOGIN_FAIL(HttpStatus.UNAUTHORIZED, "로그인에 실패했습니다"),
+    INSUFFICIENT_AUTHENTICATION(HttpStatus.UNAUTHORIZED, "권한이 없거나 로그인이 만료되었습니다."),
 
     // 403 - Forbidden
     REFRESH_TOKEN_EXPIRED(HttpStatus.FORBIDDEN, "리프레시 토큰이 만료되었습니다"),
@@ -22,5 +23,6 @@ enum class ErrorCode(val status: HttpStatus, val message: String) {
     DUPLICATED_NICKNAME(HttpStatus.CONFLICT,"이미 존재하는 별명입니다"),
 
     // 500 - Internal Server Error
-    FILE_UPLOAD_FAIL(HttpStatus.INTERNAL_SERVER_ERROR,"파일 업로드에 실패했습니다")
+    FILE_UPLOAD_FAIL(HttpStatus.INTERNAL_SERVER_ERROR,"파일 업로드에 실패했습니다"),
+    INTERNAL_SERVER_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "예상치 못한 에러가 발생했습니다")
 }

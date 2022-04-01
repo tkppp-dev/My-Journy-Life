@@ -17,18 +17,16 @@ instance.interceptors.request.use(
     return config;
   },
   (error) => {
-    console.log(error)
+    console.log(error);
     Promise.reject(error);
   }
 );
 
 instance.interceptors.response.use(
-  (response) => response, async (error) => {
+  (response) => response,
+  async (error) => {
     const orignalRequest = error.config;
-    if (
-      error.response.status === 401 &&
-      !orignalRequest._retry
-    ) {
+    if (error.response.status === 401 && !orignalRequest._retry) {
       console.log('AccessToken Expired.');
       orignalRequest._retry = true;
       try {
@@ -38,21 +36,16 @@ instance.interceptors.response.use(
           refreshToken: store.state.user.refreshToken,
         });
 
-        if (resp.status === 403 || resp.status === 500) {
-          store.commit('performLogout');
-          return resp.data;
-        }
-
         store.commit('setReissuedAccessToken', resp.data.accessToken);
         orignalRequest.headers['Authorization'] =
           prefix + resp.data.accessToken;
         return axios(orignalRequest);
       } catch (error) {
         console.log(error);
+        store.commit('performLogout');
       }
-    }
-    else{
-      console.log(error)
+    } else {
+      console.log(error);
     }
     return Promise.reject(error);
   }

@@ -11,6 +11,7 @@ import com.tkppp.myjournylife.review.domain.like.ReviewLikeRepository
 import com.tkppp.myjournylife.review.util.ReviewType
 import com.tkppp.myjournylife.review.util.ReviewType.*
 import org.springframework.data.repository.findByIdOrNull
+import org.springframework.security.access.annotation.Secured
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
